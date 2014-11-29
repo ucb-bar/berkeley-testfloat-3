@@ -1,5 +1,6 @@
 
 SOURCE_DIR = ../../source
+SUBJ_SOURCE_DIR = $(SOURCE_DIR)/subj-C
 SOFTFLOAT_DIR = ../../../berkeley-softfloat-rc3
 SOFTFLOAT_INCLUDE_DIR = $(SOFTFLOAT_DIR)/source/include
 PLATFORM = Linux-386-GCC
@@ -12,7 +13,8 @@ SOFTFLOAT_LIB = $(SOFTFLOAT_DIR)/build/$(PLATFORM)/softfloat$(LIB)
 TYPE_OPTS = -DEXTFLOAT80 -DFLOAT128
 
 DELETE = rm -f
-C_INCLUDES = -I. -I$(SOURCE_DIR) -I$(SOFTFLOAT_INCLUDE_DIR)
+C_INCLUDES = \
+  -I. -I$(SUBJ_SOURCE_DIR) -I$(SOURCE_DIR) -I$(SOFTFLOAT_INCLUDE_DIR)
 COMPILE_C = \
   gcc -c -Werror-implicit-function-declaration $(TYPE_OPTS) $(C_INCLUDES) -O2 \
     -o $@
@@ -153,7 +155,6 @@ OBJS_LIB = \
   fail$(OBJ) \
   functions_common$(OBJ) \
   functionInfos$(OBJ) \
-  standardFunctionInfos$(OBJ) \
   random$(OBJ) \
   genCases_common$(OBJ) \
   $(OBJS_GENCASES) \
@@ -165,11 +166,15 @@ OBJS_LIB = \
   $(OBJS_WRITECASE) \
   testLoops_common$(OBJ) \
   $(OBJS_TEST) \
+  standardFunctionInfos$(OBJ) \
+
+#*** EVERYBODY SHOULD INCLUDE "platform.h", RIGHT?
 
 uint128$(OBJ): platform.h $(SOURCE_DIR)/uint128.h
 fail$(OBJ): $(SOURCE_DIR)/fail.h
 functions_common$(OBJ): $(SOFTFLOAT_H) $(SOURCE_DIR)/functions.h
 functionInfos$(OBJ): $(SOURCE_DIR)/functions.h
+standardFunctionInfos$(OBJ): $(SOURCE_DIR)/functions.h
 random$(OBJ): $(SOURCE_DIR)/random.h
 genCases_common$(OBJ): $(SOURCE_DIR)/fail.h $(SOURCE_DIR)/genCases.h
 $(OBJS_GENCASES): \
@@ -186,20 +191,19 @@ $(OBJS_WRITECASE): \
   $(SOFTFLOAT_H) $(SOURCE_DIR)/writeHex.h $(SOURCE_DIR)/writeCase.h
 testLoops_common$(OBJ): $(SOURCE_DIR)/testLoops.h
 $(OBJS_TEST): \
-  platform.h $(SOURCE_DIR)/uint128.h $(SOFTFLOAT_H) $(SOURCE_DIR)/genCases.h \
-  $(SOURCE_DIR)/verCases.h $(SOURCE_DIR)/writeCase.h $(SOURCE_DIR)/testLoops.h
+  platform.h $(SOURCE_DIR)/uint128.h $(SOFTFLOAT_H) \
+  $(SOURCE_DIR)/genCases.h $(SOURCE_DIR)/verCases.h $(SOURCE_DIR)/writeCase.h \
+  $(SOURCE_DIR)/testLoops.h
 $(OBJS_LIB): %$(OBJ): $(SOURCE_DIR)/%.c
 	$(COMPILE_C) $(SOURCE_DIR)/$*.c
 testfloat$(LIB): $(OBJS_LIB)
 	$(MAKELIB) $^
-#*** RESTORE:
-# standardFunctionInfos$(OBJ): $(SOURCE_DIR)/functions.h
 
 OBJS_TESTSOFTFLOAT = slowfloat$(OBJ) testsoftfloat$(OBJ)
 
 slowfloat$(OBJ): \
-  platform.h $(SOURCE_DIR)/uint128.h $(SOFTFLOAT_H) $(SOURCE_DIR)/slowfloat.h \
-  $(SOURCE_DIR)/slowfloat.c
+  platform.h $(SOURCE_DIR)/uint128.h $(SOFTFLOAT_H) \
+  $(SOURCE_DIR)/slowfloat.h $(SOURCE_DIR)/slowfloat.c
 	$(COMPILE_SLOWFLOAT_C) $(SOURCE_DIR)/slowfloat.c
 testsoftfloat$(OBJ): \
   platform.h $(SOURCE_DIR)/uint128.h $(SOURCE_DIR)/fail.h $(SOFTFLOAT_H) \
@@ -254,21 +258,21 @@ testfloat_ver$(OBJ): \
 testfloat_ver$(EXE): $(OBJS_TESTFLOAT_VER) testfloat$(LIB) $(SOFTFLOAT_LIB)
 	$(LINK) $^
 
-OBJS_TESTFLOAT = systfloat$(OBJ) systfloat_functions$(OBJ) testfloat$(OBJ)
+OBJS_TESTFLOAT = subjfloat$(OBJ) subjfloat_functions$(OBJ) testfloat$(OBJ)
 
-systfloat$(OBJ): \
-  $(SOFTFLOAT_H) $(SOURCE_DIR)/systfloat_config.h $(SOURCE_DIR)/systfloat.h \
-  $(SOURCE_DIR)/systfloat.c
-	$(COMPILE_C) $(SOURCE_DIR)/systfloat.c
-systfloat_functions$(OBJ): \
-  $(SOURCE_DIR)/systfloat_config.h $(SOURCE_DIR)/systfloat.h \
-  $(SOURCE_DIR)/functions.h $(SOURCE_DIR)/systfloat_functions.c
-	$(COMPILE_C) $(SOURCE_DIR)/systfloat_functions.c
+subjfloat$(OBJ): \
+  $(SOFTFLOAT_H) $(SUBJ_SOURCE_DIR)/subjfloat_config.h \
+  $(SOURCE_DIR)/subjfloat.h $(SUBJ_SOURCE_DIR)/subjfloat.c
+	$(COMPILE_C) $(SUBJ_SOURCE_DIR)/subjfloat.c
+subjfloat_functions$(OBJ): \
+  $(SUBJ_SOURCE_DIR)/subjfloat_config.h $(SOURCE_DIR)/subjfloat.h \
+  $(SOURCE_DIR)/functions.h $(SOURCE_DIR)/subjfloat_functions.c
+	$(COMPILE_C) $(SOURCE_DIR)/subjfloat_functions.c
 testfloat$(OBJ): \
   platform.h $(SOURCE_DIR)/uint128.h $(SOURCE_DIR)/fail.h $(SOFTFLOAT_H) \
-  $(SOURCE_DIR)/systfloat_config.h $(SOURCE_DIR)/systfloat.h \
+  $(SUBJ_SOURCE_DIR)/subjfloat_config.h $(SOURCE_DIR)/subjfloat.h \
   $(SOURCE_DIR)/functions.h $(SOURCE_DIR)/genCases.h $(SOURCE_DIR)/verCases.h \
-  $(SOURCE_DIR)/writeCase.h $(SOURCE_DIR)/testLoops.h $(SOURCE_DIR)/testfloat.c
+  $(SOURCE_DIR)/testLoops.h $(SOURCE_DIR)/testfloat.c
 	$(COMPILE_C) $(SOURCE_DIR)/testfloat.c
 
 testfloat$(EXE): $(OBJS_TESTFLOAT) testfloat$(LIB) $(SOFTFLOAT_LIB)
