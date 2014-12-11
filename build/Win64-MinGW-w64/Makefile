@@ -36,7 +36,7 @@ SOURCE_DIR = ../../source
 SUBJ_SOURCE_DIR = $(SOURCE_DIR)/subj-C
 SOFTFLOAT_DIR = ../../../berkeley-softfloat-rc3
 SOFTFLOAT_INCLUDE_DIR = $(SOFTFLOAT_DIR)/source/include
-PLATFORM = Linux-386-GCC
+PLATFORM = Win64-MinGW-w64
 
 SOFTFLOAT_H = \
   $(SOFTFLOAT_INCLUDE_DIR)/softfloat_types.h \
@@ -49,17 +49,17 @@ DELETE = rm -f
 C_INCLUDES = \
   -I. -I$(SUBJ_SOURCE_DIR) -I$(SOURCE_DIR) -I$(SOFTFLOAT_INCLUDE_DIR)
 COMPILE_C = \
-  gcc -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
-    $(C_INCLUDES) -O2 -o $@
+  x86_64-w64-mingw32-gcc -c -Werror-implicit-function-declaration \
+    $(TESTFLOAT_OPTS) $(C_INCLUDES) -O2 -o $@
 COMPILE_SLOWFLOAT_C = \
-  gcc -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
-    $(C_INCLUDES) -O3 -o $@
-MAKELIB = ar crs $@
-LINK = gcc -lm -o $@
+  x86_64-w64-mingw32-gcc -c -Werror-implicit-function-declaration \
+    $(TESTFLOAT_OPTS) $(C_INCLUDES) -O3 -o $@
+MAKELIB = x86_64-w64-mingw32-ar crs $@
+LINK = x86_64-w64-mingw32-gcc -lm -o $@
 
 OBJ = .o
 LIB = .a
-EXE =
+EXE = .exe
 
 .PHONY: all
 all: \

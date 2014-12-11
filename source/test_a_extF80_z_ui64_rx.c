@@ -92,7 +92,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_extF80M( &genCases_extF80_a, "  " );
+                writeCase_a_extF80M( &genCases_extF80_a, "\n\t" );
                 writeCase_z_ui64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }

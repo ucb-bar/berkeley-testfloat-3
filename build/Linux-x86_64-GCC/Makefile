@@ -36,7 +36,7 @@ SOURCE_DIR = ../../source
 SUBJ_SOURCE_DIR = $(SOURCE_DIR)/subj-C
 SOFTFLOAT_DIR = ../../../berkeley-softfloat-rc3
 SOFTFLOAT_INCLUDE_DIR = $(SOFTFLOAT_DIR)/source/include
-PLATFORM = Linux-386-GCC
+PLATFORM = Linux-x86_64-GCC
 
 SOFTFLOAT_H = \
   $(SOFTFLOAT_INCLUDE_DIR)/softfloat_types.h \

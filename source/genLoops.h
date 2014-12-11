@@ -64,37 +64,37 @@ void gen_ab_f128( void );
 void gen_abc_f128( void );
 #endif
 
-void gen_a_ui32_z_f32( float32_t ( uint_fast32_t ) );
-void gen_a_ui32_z_f64( float64_t ( uint_fast32_t ) );
+void gen_a_ui32_z_f32( float32_t ( uint32_t ) );
+void gen_a_ui32_z_f64( float64_t ( uint32_t ) );
 #ifdef EXTFLOAT80
-void gen_a_ui32_z_extF80( void ( uint_fast32_t, extFloat80_t * ) );
+void gen_a_ui32_z_extF80( void ( uint32_t, extFloat80_t * ) );
 #endif
 #ifdef FLOAT128
-void gen_a_ui32_z_f128( void ( uint_fast32_t, float128_t * ) );
+void gen_a_ui32_z_f128( void ( uint32_t, float128_t * ) );
 #endif
-void gen_a_ui64_z_f32( float32_t ( uint_fast64_t ) );
-void gen_a_ui64_z_f64( float64_t ( uint_fast64_t ) );
+void gen_a_ui64_z_f32( float32_t ( uint64_t ) );
+void gen_a_ui64_z_f64( float64_t ( uint64_t ) );
 #ifdef EXTFLOAT80
-void gen_a_ui64_z_extF80( void ( uint_fast64_t, extFloat80_t * ) );
+void gen_a_ui64_z_extF80( void ( uint64_t, extFloat80_t * ) );
 #endif
 #ifdef FLOAT128
-void gen_a_ui64_z_f128( void ( uint_fast64_t, float128_t * ) );
+void gen_a_ui64_z_f128( void ( uint64_t, float128_t * ) );
 #endif
-void gen_a_i32_z_f32( float32_t ( int_fast32_t ) );
-void gen_a_i32_z_f64( float64_t ( int_fast32_t ) );
+void gen_a_i32_z_f32( float32_t ( int32_t ) );
+void gen_a_i32_z_f64( float64_t ( int32_t ) );
 #ifdef EXTFLOAT80
-void gen_a_i32_z_extF80( void ( int_fast32_t, extFloat80_t * ) );
+void gen_a_i32_z_extF80( void ( int32_t, extFloat80_t * ) );
 #endif
 #ifdef FLOAT128
-void gen_a_i32_z_f128( void ( int_fast32_t, float128_t * ) );
+void gen_a_i32_z_f128( void ( int32_t, float128_t * ) );
 #endif
-void gen_a_i64_z_f32( float32_t ( int_fast64_t ) );
-void gen_a_i64_z_f64( float64_t ( int_fast64_t ) );
+void gen_a_i64_z_f32( float32_t ( int64_t ) );
+void gen_a_i64_z_f64( float64_t ( int64_t ) );
 #ifdef EXTFLOAT80
-void gen_a_i64_z_extF80( void ( int_fast64_t, extFloat80_t * ) );
+void gen_a_i64_z_extF80( void ( int64_t, extFloat80_t * ) );
 #endif
 #ifdef FLOAT128
-void gen_a_i64_z_f128( void ( int_fast64_t, float128_t * ) );
+void gen_a_i64_z_f128( void ( int64_t, float128_t * ) );
 #endif
 
 void

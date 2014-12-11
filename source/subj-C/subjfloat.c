@@ -94,7 +94,7 @@ uint_fast8_t subjfloat_clearExceptionFlags( void )
 union f32_f { float32_t f32; float f; };
 union f64_d { float64_t f64; double d; };
 
-float32_t subj_ui32_to_f32( uint_fast32_t a )
+float32_t subj_ui32_to_f32( uint32_t a )
 {
     union f32_f uZ;
 
@@ -103,7 +103,7 @@ float32_t subj_ui32_to_f32( uint_fast32_t a )
 
 }
 
-float64_t subj_ui32_to_f64( uint_fast32_t a )
+float64_t subj_ui32_to_f64( uint32_t a )
 {
     union f64_d uZ;
 
@@ -112,7 +112,7 @@ float64_t subj_ui32_to_f64( uint_fast32_t a )
 
 }
 
-float32_t subj_ui64_to_f32( uint_fast64_t a )
+float32_t subj_ui64_to_f32( uint64_t a )
 {
     union f32_f uZ;
 
@@ -121,7 +121,7 @@ float32_t subj_ui64_to_f32( uint_fast64_t a )
 
 }
 
-float64_t subj_ui64_to_f64( uint_fast64_t a )
+float64_t subj_ui64_to_f64( uint64_t a )
 {
     union f64_d uZ;
 
@@ -130,7 +130,7 @@ float64_t subj_ui64_to_f64( uint_fast64_t a )
 
 }
 
-float32_t subj_i32_to_f32( int_fast32_t a )
+float32_t subj_i32_to_f32( int32_t a )
 {
     union f32_f uZ;
 
@@ -139,7 +139,7 @@ float32_t subj_i32_to_f32( int_fast32_t a )
 
 }
 
-float64_t subj_i32_to_f64( int_fast32_t a )
+float64_t subj_i32_to_f64( int32_t a )
 {
     union f64_d uZ;
 
@@ -148,7 +148,7 @@ float64_t subj_i32_to_f64( int_fast32_t a )
 
 }
 
-float32_t subj_i64_to_f32( int_fast64_t a )
+float32_t subj_i64_to_f32( int64_t a )
 {
     union f32_f uZ;
 
@@ -157,7 +157,7 @@ float32_t subj_i64_to_f32( int_fast64_t a )
 
 }
 
-float64_t subj_i64_to_f64( int_fast64_t a )
+float64_t subj_i64_to_f64( int64_t a )
 {
     union f64_d uZ;
 
@@ -420,28 +420,28 @@ bool subj_f64_lt( float64_t a, float64_t b )
 
 #if defined EXTFLOAT80 && defined LONG_DOUBLE_IS_EXTFLOAT80
 
-void subj_ui32_to_extF80M( uint_fast32_t a, extFloat80_t *zPtr )
+void subj_ui32_to_extF80M( uint32_t a, extFloat80_t *zPtr )
 {
 
     *((long double *) zPtr) = a;
 
 }
 
-void subj_ui64_to_extF80M( uint_fast64_t a, extFloat80_t *zPtr )
+void subj_ui64_to_extF80M( uint64_t a, extFloat80_t *zPtr )
 {
 
     *((long double *) zPtr) = a;
 
 }
 
-void subj_i32_to_extF80M( int_fast32_t a, extFloat80_t *zPtr )
+void subj_i32_to_extF80M( int32_t a, extFloat80_t *zPtr )
 {
 
     *((long double *) zPtr) = a;
 
 }
 
-void subj_i64_to_extF80M( int_fast64_t a, extFloat80_t *zPtr )
+void subj_i64_to_extF80M( int64_t a, extFloat80_t *zPtr )
 {
 
     *((long double *) zPtr) = a;
@@ -577,28 +577,28 @@ bool subj_extF80M_lt( const extFloat80_t *aPtr, const extFloat80_t *bPtr )
 
 #if defined FLOAT128 && defined LONG_DOUBLE_IS_FLOAT128
 
-void subj_ui32_to_f128M( uint_fast32_t a, float128_t *zPtr )
+void subj_ui32_to_f128M( uint32_t a, float128_t *zPtr )
 {
 
     *((long double *) zPtr) = a;
 
 }
 
-void subj_ui64_to_f128M( uint_fast64_t a, float128_t *zPtr )
+void subj_ui64_to_f128M( uint64_t a, float128_t *zPtr )
 {
 
     *((long double *) zPtr) = a;
 
 }
 
-void subj_i32_to_f128M( int_fast32_t a, float128_t *zPtr )
+void subj_i32_to_f128M( int32_t a, float128_t *zPtr )
 {
 
     *((long double *) zPtr) = a;
 
 }
 
-void subj_i64_to_f128M( int_fast64_t a, float128_t *zPtr )
+void subj_i64_to_f128M( int64_t a, float128_t *zPtr )
 {
 
     *((long double *) zPtr) = a;

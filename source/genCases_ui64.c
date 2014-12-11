@@ -299,10 +299,10 @@ static const uint64_t ui64P1[ui64NumP1] = {
     UINT64_C( 0x0000000000000003 )
 };
 
-static uint_fast64_t ui64NextP1( struct sequence *sequencePtr )
+static uint64_t ui64NextP1( struct sequence *sequencePtr )
 {
     int termNum;
-    uint_fast64_t z;
+    uint64_t z;
 
     termNum = sequencePtr->term1Num;
     z = ui64P1[termNum];
@@ -318,10 +318,10 @@ static uint_fast64_t ui64NextP1( struct sequence *sequencePtr )
 
 static const uint_fast64_t ui64NumP2 = (ui64NumP1 * ui64NumP1 + ui64NumP1) / 2;
 
-static uint_fast64_t ui64NextP2( struct sequence *sequencePtr )
+static uint64_t ui64NextP2( struct sequence *sequencePtr )
 {
     int term1Num, term2Num;
-    uint_fast64_t z;
+    uint64_t z;
 
     term2Num = sequencePtr->term2Num;
     term1Num = sequencePtr->term1Num;
@@ -341,7 +341,7 @@ static uint_fast64_t ui64NextP2( struct sequence *sequencePtr )
 
 }
 
-static uint_fast64_t ui64RandomP3( void )
+static uint64_t ui64RandomP3( void )
 {
 
     return
@@ -415,7 +415,7 @@ static const uint64_t ui64PInfWeightMasks[ui64NumPInfWeightMasks] = {
     UINT64_C( 0x000000000000000F )
 };
 
-static uint_fast64_t ui64RandomPInf( void )
+static uint64_t ui64RandomPInf( void )
 {
     int weightMaskNum;
 
@@ -427,7 +427,7 @@ static uint_fast64_t ui64RandomPInf( void )
 static struct sequence sequenceA;
 static int subcase;
 
-uint_fast64_t genCases_ui64_a;
+uint64_t genCases_ui64_a;
 
 void genCases_ui64_a_init( void )
 {

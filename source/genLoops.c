@@ -474,7 +474,7 @@ void gen_abc_f128( void )
 
 #endif
 
-void gen_a_ui32_z_f32( float32_t trueFunction( uint_fast32_t ) )
+void gen_a_ui32_z_f32( float32_t trueFunction( uint32_t ) )
 {
     union ui32_f32 uTrueZ;
     uint_fast8_t trueFlags;
@@ -492,7 +492,7 @@ void gen_a_ui32_z_f32( float32_t trueFunction( uint_fast32_t ) )
 
 }
 
-void gen_a_ui32_z_f64( float64_t trueFunction( uint_fast32_t ) )
+void gen_a_ui32_z_f64( float64_t trueFunction( uint32_t ) )
 {
     union ui64_f64 uTrueZ;
     uint_fast8_t trueFlags;
@@ -512,7 +512,7 @@ void gen_a_ui32_z_f64( float64_t trueFunction( uint_fast32_t ) )
 
 #ifdef EXTFLOAT80
 
-void gen_a_ui32_z_extF80( void trueFunction( uint_fast32_t, extFloat80_t * ) )
+void gen_a_ui32_z_extF80( void trueFunction( uint32_t, extFloat80_t * ) )
 {
     extFloat80_t trueZ;
     uint_fast8_t trueFlags;
@@ -534,7 +534,7 @@ void gen_a_ui32_z_extF80( void trueFunction( uint_fast32_t, extFloat80_t * ) )
 
 #ifdef FLOAT128
 
-void gen_a_ui32_z_f128( void trueFunction( uint_fast32_t, float128_t * ) )
+void gen_a_ui32_z_f128( void trueFunction( uint32_t, float128_t * ) )
 {
     float128_t trueZ;
     uint_fast8_t trueFlags;
@@ -554,7 +554,7 @@ void gen_a_ui32_z_f128( void trueFunction( uint_fast32_t, float128_t * ) )
 
 #endif
 
-void gen_a_ui64_z_f32( float32_t trueFunction( uint_fast64_t ) )
+void gen_a_ui64_z_f32( float32_t trueFunction( uint64_t ) )
 {
     union ui32_f32 uTrueZ;
     uint_fast8_t trueFlags;
@@ -572,7 +572,7 @@ void gen_a_ui64_z_f32( float32_t trueFunction( uint_fast64_t ) )
 
 }
 
-void gen_a_ui64_z_f64( float64_t trueFunction( uint_fast64_t ) )
+void gen_a_ui64_z_f64( float64_t trueFunction( uint64_t ) )
 {
     union ui64_f64 uTrueZ;
     uint_fast8_t trueFlags;
@@ -592,7 +592,7 @@ void gen_a_ui64_z_f64( float64_t trueFunction( uint_fast64_t ) )
 
 #ifdef EXTFLOAT80
 
-void gen_a_ui64_z_extF80( void trueFunction( uint_fast64_t, extFloat80_t * ) )
+void gen_a_ui64_z_extF80( void trueFunction( uint64_t, extFloat80_t * ) )
 {
     extFloat80_t trueZ;
     uint_fast8_t trueFlags;
@@ -614,7 +614,7 @@ void gen_a_ui64_z_extF80( void trueFunction( uint_fast64_t, extFloat80_t * ) )
 
 #ifdef FLOAT128
 
-void gen_a_ui64_z_f128( void trueFunction( uint_fast64_t, float128_t * ) )
+void gen_a_ui64_z_f128( void trueFunction( uint64_t, float128_t * ) )
 {
     float128_t trueZ;
     uint_fast8_t trueFlags;
@@ -634,7 +634,7 @@ void gen_a_ui64_z_f128( void trueFunction( uint_fast64_t, float128_t * ) )
 
 #endif
 
-void gen_a_i32_z_f32( float32_t trueFunction( int_fast32_t ) )
+void gen_a_i32_z_f32( float32_t trueFunction( int32_t ) )
 {
     union ui32_f32 uTrueZ;
     uint_fast8_t trueFlags;
@@ -652,7 +652,7 @@ void gen_a_i32_z_f32( float32_t trueFunction( int_fast32_t ) )
 
 }
 
-void gen_a_i32_z_f64( float64_t trueFunction( int_fast32_t ) )
+void gen_a_i32_z_f64( float64_t trueFunction( int32_t ) )
 {
     union ui64_f64 uTrueZ;
     uint_fast8_t trueFlags;
@@ -672,7 +672,7 @@ void gen_a_i32_z_f64( float64_t trueFunction( int_fast32_t ) )
 
 #ifdef EXTFLOAT80
 
-void gen_a_i32_z_extF80( void trueFunction( int_fast32_t, extFloat80_t * ) )
+void gen_a_i32_z_extF80( void trueFunction( int32_t, extFloat80_t * ) )
 {
     extFloat80_t trueZ;
     uint_fast8_t trueFlags;
@@ -694,7 +694,7 @@ void gen_a_i32_z_extF80( void trueFunction( int_fast32_t, extFloat80_t * ) )
 
 #ifdef FLOAT128
 
-void gen_a_i32_z_f128( void trueFunction( int_fast32_t, float128_t * ) )
+void gen_a_i32_z_f128( void trueFunction( int32_t, float128_t * ) )
 {
     float128_t trueZ;
     uint_fast8_t trueFlags;
@@ -714,7 +714,7 @@ void gen_a_i32_z_f128( void trueFunction( int_fast32_t, float128_t * ) )
 
 #endif
 
-void gen_a_i64_z_f32( float32_t trueFunction( int_fast64_t ) )
+void gen_a_i64_z_f32( float32_t trueFunction( int64_t ) )
 {
     union ui32_f32 uTrueZ;
     uint_fast8_t trueFlags;
@@ -732,7 +732,7 @@ void gen_a_i64_z_f32( float32_t trueFunction( int_fast64_t ) )
 
 }
 
-void gen_a_i64_z_f64( float64_t trueFunction( int_fast64_t ) )
+void gen_a_i64_z_f64( float64_t trueFunction( int64_t ) )
 {
     union ui64_f64 uTrueZ;
     uint_fast8_t trueFlags;
@@ -752,7 +752,7 @@ void gen_a_i64_z_f64( float64_t trueFunction( int_fast64_t ) )
 
 #ifdef EXTFLOAT80
 
-void gen_a_i64_z_extF80( void trueFunction( int_fast64_t, extFloat80_t * ) )
+void gen_a_i64_z_extF80( void trueFunction( int64_t, extFloat80_t * ) )
 {
     extFloat80_t trueZ;
     uint_fast8_t trueFlags;
@@ -774,7 +774,7 @@ void gen_a_i64_z_extF80( void trueFunction( int_fast64_t, extFloat80_t * ) )
 
 #ifdef FLOAT128
 
-void gen_a_i64_z_f128( void trueFunction( int_fast64_t, float128_t * ) )
+void gen_a_i64_z_f128( void trueFunction( int64_t, float128_t * ) )
 {
     float128_t trueZ;
     uint_fast8_t trueFlags;

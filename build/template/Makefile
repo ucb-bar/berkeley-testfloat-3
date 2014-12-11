@@ -1,9 +1,9 @@
 
 #=============================================================================
 #
-# This Makefile is part of TestFloat, Release 3, a package of programs for
-# testing the correctness of floating-point arithmetic complying with the IEEE
-# Standard for Floating-Point, by John R. Hauser.
+# This Makefile template is part of TestFloat, Release 3, a package of
+# programs for testing the correctness of floating-point arithmetic complying
+# with the IEEE Standard for Floating-Point, by John R. Hauser.
 #
 # Copyright 2011, 2012, 2013, 2014 The Regents of the University of California
 # (Regents).  All Rights Reserved.  Redistribution and use in source and
@@ -32,34 +32,32 @@
 #
 #=============================================================================
 
-SOURCE_DIR = ../../source
-SUBJ_SOURCE_DIR = $(SOURCE_DIR)/subj-C
-SOFTFLOAT_DIR = ../../../berkeley-softfloat-rc3
-SOFTFLOAT_INCLUDE_DIR = $(SOFTFLOAT_DIR)/source/include
-PLATFORM = Linux-386-GCC
+# Edit lines marked with `==>'.  See "TestFloat-source.html".
 
-SOFTFLOAT_H = \
-  $(SOFTFLOAT_INCLUDE_DIR)/softfloat_types.h \
-  $(SOFTFLOAT_INCLUDE_DIR)/softfloat.h
-SOFTFLOAT_LIB = $(SOFTFLOAT_DIR)/build/$(PLATFORM)/softfloat$(LIB)
+==> SOURCE_DIR = ../../source
+==> SUBJ_SOURCE_DIR = $(SOURCE_DIR)/subj-C
+==> SOFTFLOAT_DIR = ../../../SoftFloat-3
+==> SOFTFLOAT_INCLUDE_DIR = $(SOFTFLOAT_DIR)/source/include
+==> PLATFORM = Win32-MinGW
 
-TESTFLOAT_OPTS = -DEXTFLOAT80 -DFLOAT128 -DLONG_DOUBLE_IS_EXTFLOAT80
+==> SOFTFLOAT_H = \
+==>   $(SOFTFLOAT_INCLUDE_DIR)/softfloat_types.h \
+==>   $(SOFTFLOAT_INCLUDE_DIR)/softfloat.h
+==> SOFTFLOAT_LIB = $(SOFTFLOAT_DIR)/build/$(PLATFORM)/softfloat$(LIB)
 
-DELETE = rm -f
-C_INCLUDES = \
-  -I. -I$(SUBJ_SOURCE_DIR) -I$(SOURCE_DIR) -I$(SOFTFLOAT_INCLUDE_DIR)
-COMPILE_C = \
-  gcc -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
-    $(C_INCLUDES) -O2 -o $@
-COMPILE_SLOWFLOAT_C = \
-  gcc -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
-    $(C_INCLUDES) -O3 -o $@
-MAKELIB = ar crs $@
-LINK = gcc -lm -o $@
+==> TESTFLOAT_OPTS = -DEXTFLOAT80 -DFLOAT128 -DLONG_DOUBLE_IS_EXTFLOAT80
 
-OBJ = .o
-LIB = .a
-EXE =
+==> DELETE = rm -f
+==> C_INCLUDES = \
+==>   -I. -I$(SUBJ_SOURCE_DIR) -I$(SOURCE_DIR) -I$(SOFTFLOAT_INCLUDE_DIR)
+==> COMPILE_C = cc -c $(TESTFLOAT_OPTS) $(C_INCLUDES) -O2 -o $@
+==> COMPILE_SLOWFLOAT_C = cc -c $(TESTFLOAT_OPTS) $(C_INCLUDES) -O3 -o $@
+==> MAKELIB = ar crs $@
+==> LINK = ld -o $@
+
+==> OBJ = .o
+==> LIB = .a
+==> EXE = .exe
 
 .PHONY: all
 all: \

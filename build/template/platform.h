@@ -1,9 +1,9 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3, a package of programs for
-testing the correctness of floating-point arithmetic complying with the IEEE
-Standard for Floating-Point, by John R. Hauser.
+This C header template is part of TestFloat, Release 3, a package of programs
+for testing the correctness of floating-point arithmetic complying with the
+IEEE Standard for Floating-Point, by John R. Hauser.
 
 Copyright 2011, 2012, 2013, 2014 The Regents of the University of California
 (Regents).  All Rights Reserved.  Redistribution and use in source and binary
@@ -32,11 +32,13 @@ MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 =============================================================================*/
 
-/*----------------------------------------------------------------------------
-*----------------------------------------------------------------------------*/
-#define LITTLEENDIAN 1
+// Edit lines marked with `==>'.  See "TestFloat-source.html".
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
-#define INLINE extern inline
+==> #define LITTLEENDIAN 1
+
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+==> #define INLINE inline
 

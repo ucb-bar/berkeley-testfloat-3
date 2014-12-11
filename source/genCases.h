@@ -45,19 +45,19 @@ extern bool genCases_done;
 
 void genCases_ui32_a_init( void );
 void genCases_ui32_a_next( void );
-extern uint_fast32_t genCases_ui32_a;
+extern uint32_t genCases_ui32_a;
 
 void genCases_ui64_a_init( void );
 void genCases_ui64_a_next( void );
-extern uint_fast64_t genCases_ui64_a;
+extern uint64_t genCases_ui64_a;
 
 void genCases_i32_a_init( void );
 void genCases_i32_a_next( void );
-extern int_fast32_t genCases_i32_a;
+extern int32_t genCases_i32_a;
 
 void genCases_i64_a_init( void );
 void genCases_i64_a_next( void );
-extern int_fast64_t genCases_i64_a;
+extern int64_t genCases_i64_a;
 
 void genCases_f32_a_init( void );
 void genCases_f32_a_next( void );

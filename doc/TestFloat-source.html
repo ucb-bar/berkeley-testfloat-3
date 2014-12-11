@@ -60,7 +60,7 @@ For basic documentation about TestFloat refer to
 <P>
 The source code for TestFloat is intended to be relatively machine-independent.
 Most programs in the TestFloat package should be compilable with any
-ISO-standard C compiler that also supports <NOBR>64-bit</NOBR> integers.
+ISO-Standard C compiler that also supports <NOBR>64-bit</NOBR> integers.
 If the all-in-one <CODE>testfloat</CODE> program will be used to test a new
 floating-point implementation, additional effort will likely be required to
 retarget that program to invoke the new floating-point operations.
@@ -205,8 +205,10 @@ The supplied directory structure is as follows:
          subj-C
      build
          template
-         Win32-MinGW
          Linux-386-GCC
+         Linux-x86_64-GCC
+         Win32-MinGW
+         Win64-MinGW-w64
 </PRE>
 The majority of the TestFloat sources are provided in the <CODE>source</CODE>
 directory.
@@ -240,9 +242,11 @@ Ignoring the <CODE>template</CODE> directory, the supplied target directories
 are intended to follow a naming system of
 <NOBR><CODE>&lt;execution-environment&gt;-&lt;compiler&gt;</CODE></NOBR>.
 For the example targets,
-<NOBR><CODE>&lt;execution-environment&gt;</CODE></NOBR> is <CODE>Win32</CODE>
-and <CODE>Linux-386</CODE>, and <NOBR><CODE>&lt;compiler&gt;</CODE></NOBR> is
-<CODE>MinGW</CODE> and <CODE>GCC</CODE>, respectively.
+<NOBR><CODE>&lt;execution-environment&gt;</CODE></NOBR> is
+<NOBR><CODE>Linux-386</CODE></NOBR>, <NOBR><CODE>Linux-x86_64</CODE></NOBR>,
+<CODE>Win32</CODE>, or <CODE>Win64</CODE>, and
+<NOBR><CODE>&lt;compiler&gt;</CODE></NOBR> is <CODE>GCC</CODE>,
+<CODE>MinGW</CODE>, or <NOBR><CODE>MinGW-w64</CODE></NOBR>.
 </P>
 
 <P>
@@ -311,7 +315,7 @@ are changed.
 <DT><CODE>SOFTFLOAT_LIB</CODE>
 <DD>
 The full path of the compiled SoftFloat library (usually
-<CODE>softfloat.a</CODE>).
+<CODE>softfloat.a</CODE> or <CODE>libsoftfloat.a</CODE>).
 </DL>
 </BLOCKQUOTE>
 </P>
@@ -521,7 +525,7 @@ be, shortening the time before random number sequences repeat, and possibly
 wasting time as well.
 If <CODE>rand</CODE> is better on a given target platform, or if another,
 better random number generator is available (such as <CODE>rand48</CODE> on
-most UNIX-derived systems), TestFloat can be improved by overriding the given
+UNIX-derived systems), TestFloat can be improved by overriding the given
 <CODE>random.c</CODE> with a target-specific one.
 </P>
 

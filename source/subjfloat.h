@@ -51,37 +51,37 @@ uint_fast8_t subjfloat_clearExceptionFlags( void );
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
-float32_t subj_ui32_to_f32( uint_fast32_t );
-float64_t subj_ui32_to_f64( uint_fast32_t );
+float32_t subj_ui32_to_f32( uint32_t );
+float64_t subj_ui32_to_f64( uint32_t );
 #ifdef EXTFLOAT80
-void subj_ui32_to_extF80M( uint_fast32_t, extFloat80_t * );
+void subj_ui32_to_extF80M( uint32_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
-void subj_ui32_to_f128M( uint_fast32_t, float128_t * );
+void subj_ui32_to_f128M( uint32_t, float128_t * );
 #endif
-float32_t subj_ui64_to_f32( uint_fast64_t );
-float64_t subj_ui64_to_f64( uint_fast64_t );
+float32_t subj_ui64_to_f32( uint64_t );
+float64_t subj_ui64_to_f64( uint64_t );
 #ifdef EXTFLOAT80
-void subj_ui64_to_extF80M( uint_fast64_t, extFloat80_t * );
+void subj_ui64_to_extF80M( uint64_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
-void subj_ui64_to_f128M( uint_fast64_t, float128_t * );
+void subj_ui64_to_f128M( uint64_t, float128_t * );
 #endif
-float32_t subj_i32_to_f32( int_fast32_t );
-float64_t subj_i32_to_f64( int_fast32_t );
+float32_t subj_i32_to_f32( int32_t );
+float64_t subj_i32_to_f64( int32_t );
 #ifdef EXTFLOAT80
-void subj_i32_to_extF80M( int_fast32_t, extFloat80_t * );
+void subj_i32_to_extF80M( int32_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
-void subj_i32_to_f128M( int_fast32_t, float128_t * );
+void subj_i32_to_f128M( int32_t, float128_t * );
 #endif
-float32_t subj_i64_to_f32( int_fast64_t );
-float64_t subj_i64_to_f64( int_fast64_t );
+float32_t subj_i64_to_f32( int64_t );
+float64_t subj_i64_to_f64( int64_t );
 #ifdef EXTFLOAT80
-void subj_i64_to_extF80M( int_fast64_t, extFloat80_t * );
+void subj_i64_to_extF80M( int64_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
-void subj_i64_to_f128M( int_fast64_t, float128_t * );
+void subj_i64_to_f128M( int64_t, float128_t * );
 #endif
 
 /*----------------------------------------------------------------------------

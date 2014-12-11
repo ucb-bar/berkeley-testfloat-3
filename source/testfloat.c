@@ -58,37 +58,37 @@ static void catchSIGINT( int signalCode )
 
 static void (*subjFunctionPtr)();
 
-typedef float32_t funcType_a_ui32_z_f32( uint_fast32_t );
-typedef float64_t funcType_a_ui32_z_f64( uint_fast32_t );
+typedef float32_t funcType_a_ui32_z_f32( uint32_t );
+typedef float64_t funcType_a_ui32_z_f64( uint32_t );
 #ifdef EXTFLOAT80
-typedef void funcType_a_ui32_z_extF80( uint_fast32_t, extFloat80_t * );
+typedef void funcType_a_ui32_z_extF80( uint32_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
-typedef void funcType_a_ui32_z_f128( uint_fast32_t, float128_t * );
+typedef void funcType_a_ui32_z_f128( uint32_t, float128_t * );
 #endif
-typedef float32_t funcType_a_ui64_z_f32( uint_fast64_t );
-typedef float64_t funcType_a_ui64_z_f64( uint_fast64_t );
+typedef float32_t funcType_a_ui64_z_f32( uint64_t );
+typedef float64_t funcType_a_ui64_z_f64( uint64_t );
 #ifdef EXTFLOAT80
-typedef void funcType_a_ui64_z_extF80( uint_fast64_t, extFloat80_t * );
+typedef void funcType_a_ui64_z_extF80( uint64_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
-typedef void funcType_a_ui64_z_f128( uint_fast64_t, float128_t * );
+typedef void funcType_a_ui64_z_f128( uint64_t, float128_t * );
 #endif
-typedef float32_t funcType_a_i32_z_f32( int_fast32_t );
-typedef float64_t funcType_a_i32_z_f64( int_fast32_t );
+typedef float32_t funcType_a_i32_z_f32( int32_t );
+typedef float64_t funcType_a_i32_z_f64( int32_t );
 #ifdef EXTFLOAT80
-typedef void funcType_a_i32_z_extF80( int_fast32_t, extFloat80_t * );
+typedef void funcType_a_i32_z_extF80( int32_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
-typedef void funcType_a_i32_z_f128( int_fast32_t, float128_t * );
+typedef void funcType_a_i32_z_f128( int32_t, float128_t * );
 #endif
-typedef float32_t funcType_a_i64_z_f32( int_fast64_t );
-typedef float64_t funcType_a_i64_z_f64( int_fast64_t );
+typedef float32_t funcType_a_i64_z_f32( int64_t );
+typedef float64_t funcType_a_i64_z_f64( int64_t );
 #ifdef EXTFLOAT80
-typedef void funcType_a_i64_z_extF80( int_fast64_t, extFloat80_t * );
+typedef void funcType_a_i64_z_extF80( int64_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
-typedef void funcType_a_i64_z_f128( int_fast64_t, float128_t * );
+typedef void funcType_a_i64_z_f128( int64_t, float128_t * );
 #endif
 
 typedef uint_fast32_t funcType_a_f32_z_ui32( float32_t );
