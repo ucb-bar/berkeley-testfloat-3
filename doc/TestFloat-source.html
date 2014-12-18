@@ -11,38 +11,33 @@
 
 <P>
 John R. Hauser<BR>
-2014 _____<BR>
-</P>
-
-<P>
-*** CONTENT DONE.
-</P>
-
-<P>
-*** REPLACE QUOTATION MARKS.
+2014 Dec 17<BR>
 </P>
 
 
 <H2>Contents</H2>
 
-<P>
-*** CHECK.<BR>
-*** FIX FORMATTING.
-</P>
-
 <BLOCKQUOTE>
-1. Introduction<BR>
-2. Limitations<BR>
-3. Acknowledgments and License<BR>
-4. TestFloat Package Directory Structure<BR>
-5. Dependence on Berkeley SoftFloat<BR>
-6. Issues for Porting TestFloat to a New Target<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;6.1. Standard Headers <CODE>&lt;stdbool.h&gt;</CODE> and <CODE>&lt;stdint.h&gt;</CODE><BR>
-&nbsp;&nbsp;&nbsp;&nbsp;6.2. Standard Header <CODE>&lt;fenv.h&gt;</CODE><BR>
-&nbsp;&nbsp;&nbsp;&nbsp;6.3. Macros for Build Options<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;6.4. Specializing the <CODE>testfloat</CODE> Program<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;6.5. Improving the Random Number Functions<BR>
-7. Contact Information<BR>
+<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0>
+<COL WIDTH=25>
+<COL WIDTH=*>
+<TR><TD COLSPAN=2>1. Introduction</TD></TR>
+<TR><TD COLSPAN=2>2. Limitations</TD></TR>
+<TR><TD COLSPAN=2>3. Acknowledgments and License</TD></TR>
+<TR><TD COLSPAN=2>4. TestFloat Package Directory Structure</TD></TR>
+<TR><TD COLSPAN=2>5. Dependence on Berkeley SoftFloat</TD></TR>
+<TR><TD COLSPAN=2>6. Issues for Porting TestFloat to a New Target</TD></TR>
+<TR>
+  <TD></TD>
+  <TD>6.1. Standard Headers <CODE>&lt;stdbool.h&gt;</CODE> and
+    <CODE>&lt;stdint.h&gt;</CODE></TD>
+</TR>
+<TR><TD></TD><TD>6.2. Standard Header <CODE>&lt;fenv.h&gt;</CODE></TD></TR>
+<TR><TD></TD><TD>6.3. Macros for Build Options</TD></TR>
+<TR><TD></TD><TD>6.4. Specializing the <CODE>testfloat</CODE> Program</TD></TR>
+<TR><TD></TD><TD>6.5. Improving the Random Number Functions</TD></TR>
+<TR><TD COLSPAN=2>7. Contact Information</TD></TR>
+</TABLE>
 </BLOCKQUOTE>
 
 
@@ -112,7 +107,7 @@ strictly required.
 integer types.
 If these headers are not supplied with the C compiler, minimal substitutes must
 be provided.
-TestFloat's dependence on these headers is detailed later in
+TestFloat&rsquo;s dependence on these headers is detailed later in
 <NOBR>section 6.1</NOBR>, <I>Standard Headers <CODE>&lt;stdbool.h&gt;</CODE>
 and <CODE>&lt;stdint.h&gt;</CODE></I>.
 </P>
@@ -124,15 +119,20 @@ and <CODE>&lt;stdint.h&gt;</CODE></I>.
 The TestFloat package was written by me, <NOBR>John R.</NOBR> Hauser.
 <NOBR>Release 3</NOBR> of TestFloat is a completely new implementation
 supplanting earlier releases.
-This project was done in the employ of the University of California, Berkeley,
-within the Department of Electrical Engineering and Computer Sciences, first
-for the Parallel Computing Laboratory (Par Lab) and then for the ASPIRE Lab.
+This project (<NOBR>Release 3</NOBR> only, not earlier releases) was done in
+the employ of the University of California, Berkeley, within the Department of
+Electrical Engineering and Computer Sciences, first for the Parallel Computing
+Laboratory (Par Lab) and then for the ASPIRE Lab.
 The work was officially overseen by Prof. Krste Asanovic, with funding provided
 by these sources:
 <BLOCKQUOTE>
 <TABLE>
+<COL WIDTH=*>
+<COL WIDTH=10>
+<COL WIDTH=*>
 <TR>
-<TD><NOBR>Par Lab:</NOBR></TD>
+<TD VALIGN=TOP><NOBR>Par Lab:</NOBR></TD>
+<TD></TD>
 <TD>
 Microsoft (Award #024263), Intel (Award #024894), and U.C. Discovery
 (Award #DIG07-10227), with additional support from Par Lab affiliates Nokia,
@@ -140,7 +140,8 @@ NVIDIA, Oracle, and Samsung.
 </TD>
 </TR>
 <TR>
-<TD><NOBR>ASPIRE Lab:</NOBR></TD>
+<TD VALIGN=TOP><NOBR>ASPIRE Lab:</NOBR></TD>
+<TD></TD>
 <TD>
 DARPA PERFECT program (Award #HR0011-12-2-0016), with additional support from
 ASPIRE industrial sponsor Intel and ASPIRE affiliates Google, Nokia, NVIDIA,
@@ -199,26 +200,30 @@ Because TestFloat is targeted to multiple platforms, its source code is
 slightly scattered between target-specific and target-independent directories
 and files.
 The supplied directory structure is as follows:
+<BLOCKQUOTE>
 <PRE>
-     doc
-     source
-         subj-C
-     build
-         template
-         Linux-386-GCC
-         Linux-x86_64-GCC
-         Win32-MinGW
-         Win64-MinGW-w64
+doc
+source
+    subj-C
+build
+    template
+    Linux-386-GCC
+    Linux-386-SSE2-GCC
+    Linux-x86_64-GCC
+    Win32-MinGW
+    Win32-SSE2-MinGW
+    Win64-MinGW-w64
 </PRE>
+</BLOCKQUOTE>
 The majority of the TestFloat sources are provided in the <CODE>source</CODE>
 directory.
 The <NOBR><CODE>subj-C</CODE></NOBR> subdirectory contains the sources that
 configure the all-in-one <CODE>testfloat</CODE> program to test the C
-compiler's implementation of the standard C types <CODE>float</CODE>,
+compiler&rsquo;s implementation of the standard C types <CODE>float</CODE>,
 <CODE>double</CODE>, and possibly <CODE>long</CODE> <CODE>double</CODE>.
-The `<CODE>subj</CODE>' in <NOBR><CODE>subj-C</CODE></NOBR> is an abbreviation
-of <I>subject</I>, referring to the floating-point that is the subject of the
-test.
+The &lsquo;<CODE>subj</CODE>&rsquo; in <NOBR><CODE>subj-C</CODE></NOBR> is an
+abbreviation of <I>subject</I>, referring to the floating-point that is the
+subject of the test.
 If <CODE>testfloat</CODE> is retargeted to test other floating-point
 implementations, the corresponding source files would be expected to be in
 other subdirectories alongside <NOBR><CODE>subj-C</CODE></NOBR>, with names of
@@ -231,8 +236,8 @@ Program</I>.
 <P>
 The <CODE>build</CODE> directory is intended to contain a subdirectory for each
 target platform for which builds of the TestFloat programs may be created.
-For each build target, the target's subdirectory is where all derived object
-files and the completed TestFloat executables are created.
+For each build target, the target&rsquo;s subdirectory is where all derived
+object files and the completed TestFloat executables are created.
 The <CODE>template</CODE> subdirectory is not an actual build target but
 contains sample files for creating new target directories.
 </P>
@@ -243,18 +248,21 @@ are intended to follow a naming system of
 <NOBR><CODE>&lt;execution-environment&gt;-&lt;compiler&gt;</CODE></NOBR>.
 For the example targets,
 <NOBR><CODE>&lt;execution-environment&gt;</CODE></NOBR> is
-<NOBR><CODE>Linux-386</CODE></NOBR>, <NOBR><CODE>Linux-x86_64</CODE></NOBR>,
-<CODE>Win32</CODE>, or <CODE>Win64</CODE>, and
+<NOBR><CODE>Linux-386</CODE></NOBR>, <NOBR><CODE>Linux-386-SSE2</CODE></NOBR>,
+<NOBR><CODE>Linux-x86_64</CODE></NOBR>, <CODE>Win32</CODE>,
+<NOBR><CODE>Win32-SSE2</CODE></NOBR>, or <CODE>Win64</CODE>, and
 <NOBR><CODE>&lt;compiler&gt;</CODE></NOBR> is <CODE>GCC</CODE>,
 <CODE>MinGW</CODE>, or <NOBR><CODE>MinGW-w64</CODE></NOBR>.
 </P>
 
 <P>
 As supplied, each target directory contains two files:
+<BLOCKQUOTE>
 <PRE>
-     Makefile
-     platform.h
+Makefile
+platform.h
 </PRE>
+</BLOCKQUOTE>
 The provided <CODE>Makefile</CODE> is written for GNU <CODE>make</CODE>.
 A build of TestFloat for the specific target is begun by executing the
 <CODE>make</CODE> command with the target directory as the current directory.
@@ -269,9 +277,10 @@ Every C source file of TestFloat contains a <CODE>#include</CODE> for
 <CODE>platform.h</CODE>.
 In many cases, the contents of <CODE>platform.h</CODE> can be as simple as one
 or two lines of code.
-If the target's compiler or library has bugs or other shortcomings, workarounds
-for these issues may be possible with target-specific declarations in
-<CODE>platform.h</CODE>, without the need to modify the main TestFloat sources.
+If the target&rsquo;s compiler or library has bugs or other shortcomings,
+workarounds for these issues may be possible with target-specific declarations
+in <CODE>platform.h</CODE>, without the need to modify the main TestFloat
+sources.
 </P>
 
 <P>
@@ -310,8 +319,8 @@ clients.  This list must include <CODE>softfloat.h</CODE> and may also include
 other header files referenced by <CODE>softfloat.h</CODE>, such as
 <CODE>softfloat_types.h</CODE>.
 This macro is used only to establish build dependencies between the SoftFloat
-header files and TestFloat's source files, in case the SoftFloat header files
-are changed.
+header files and TestFloat&rsquo;s source files, in case the SoftFloat header
+files are changed.
 <DT><CODE>SOFTFLOAT_LIB</CODE>
 <DD>
 The full path of the compiled SoftFloat library (usually
@@ -336,29 +345,33 @@ For older or nonstandard compilers, substitutes for
 <CODE>&lt;stdbool.h&gt;</CODE> and <CODE>&lt;stdint.h&gt;</CODE> may need to be
 created.
 TestFloat depends on these names from <CODE>&lt;stdbool.h&gt;</CODE>:
+<BLOCKQUOTE>
 <PRE>
-     bool
-     true
-     false
+bool
+true
+false
 </PRE>
+</BLOCKQUOTE>
 and on these names from <CODE>&lt;stdint.h&gt;</CODE>:
+<BLOCKQUOTE>
 <PRE>
-     uint16_t
-     uint32_t
-     uint64_t
-     int32_t
-     int64_t
-     UINT64_C
-     INT64_C
-     uint_least8_t
-     uint_fast8_t
-     uint_fast16_t
-     uint_fast32_t
-     uint_fast64_t
-     int_fast16_t
-     int_fast32_t
-     int_fast64_t
+uint16_t
+uint32_t
+uint64_t
+int32_t
+int64_t
+UINT64_C
+INT64_C
+uint_least8_t
+uint_fast8_t
+uint_fast16_t
+uint_fast32_t
+uint_fast64_t
+int_fast16_t
+int_fast32_t
+int_fast64_t
 </PRE>
+</BLOCKQUOTE>
 </P>
 
 
@@ -408,18 +421,18 @@ Must be defined if the TestFloat programs are to support the
 <NOBR>128-bit</NOBR> quadruple-precision floating-point format.
 </DL>
 </BLOCKQUOTE>
-Following the usual custom <NOBR>for C</NOBR>, the content of a macro's
+Following the usual custom <NOBR>for C</NOBR>, the content of a macro&rsquo;s
 definition is irrelevant;
-what matters is a macro's effect on <CODE>#ifdef</CODE> directives.
+what matters is a macro&rsquo;s effect on <CODE>#ifdef</CODE> directives.
 </P>
 
 <P>
 It is recommended that any definition of macro <CODE>LITTLEENDIAN</CODE> be
-made in a build target's <CODE>platform.h</CODE> header file, because
+made in a build target&rsquo;s <CODE>platform.h</CODE> header file, because
 endianness is expected to be determined inflexibly by the target machine.
 On the other hand, the <CODE>EXTFLOAT80</CODE> and <CODE>FLOAT128</CODE> macros
 are not dictated by the target and hence might be better located in the
-target's Makefile (or its equivalent).
+target&rsquo;s Makefile (or its equivalent).
 </P>
 
 
@@ -427,7 +440,7 @@ target's Makefile (or its equivalent).
 
 <P>
 The supplied sources for the all-in-one <CODE>testfloat</CODE> program cause
-<CODE>testfloat</CODE> to test the C compiler's <CODE>float</CODE> and
+<CODE>testfloat</CODE> to test the C compiler&rsquo;s <CODE>float</CODE> and
 <CODE>double</CODE> types for C operations <CODE>+</CODE>, <CODE>-</CODE>,
 <CODE>*</CODE>, <CODE>/</CODE>, etc.
 The supplied version is also capable of testing C type <CODE>long</CODE>
@@ -445,7 +458,7 @@ Indicates that type <CODE>long</CODE> <CODE>double</CODE> is
 <NOBR>128-bit</NOBR> quadruple-precision floating-point.
 </DL>
 </BLOCKQUOTE>
-By default, <CODE>testfloat</CODE> assumes that only the IEEE Standard's
+By default, <CODE>testfloat</CODE> assumes that only the IEEE Standard&rsquo;s
 original four rounding modes (<CODE>near_even</CODE>, <CODE>minMag</CODE>,
 <CODE>min</CODE>, and <CODE>max</CODE>) are supported by the floating-point
 being tested.
@@ -464,15 +477,18 @@ Indicates that the subject floating-point supports rounding mode
 <P>
 To test a new and/or different implementation of floating-point,
 <CODE>testfloat</CODE> must normally be retargeted to invoke this other
-floating-point instead of C's floating-point.
+floating-point instead of C&rsquo;s floating-point.
 Two source files define the functions that <CODE>testfloat</CODE> uses to
 invoke floating-point operations for testing:
+<BLOCKQUOTE>
 <PRE>
-     subjfloat_config.h
-     subjfloat.c
+subjfloat_config.h
+subjfloat.c
 </PRE>
-For the default target of testing C's floating-point, these files are contained
-in directory <NOBR><CODE>source/subj-C</CODE></NOBR> as discussed earlier.
+</BLOCKQUOTE>
+For the default target of testing C&rsquo;s floating-point, these files are
+contained in directory <NOBR><CODE>source/subj-C</CODE></NOBR> as discussed
+earlier.
 For a different subject floating-point, it is recommended that appropriate
 versions of <CODE>subjfloat_config.h</CODE> and <CODE>subjfloat.c</CODE> be
 stored in a sibling <NOBR><CODE>subj-&lt;target&gt;</CODE></NOBR> directory,
@@ -531,8 +547,8 @@ UNIX-derived systems), TestFloat can be improved by overriding the given
 
 <P>
 Rather than modifying the supplied file <CODE>random.c</CODE>, it is
-recommended instead that a new, alternate file be created and the target's
-Makefile be modified to refer to that alternate file in place of
+recommended instead that a new, alternate file be created and the
+target&rsquo;s Makefile be modified to refer to that alternate file in place of
 <CODE>random.c</CODE>.
 </P>
 

@@ -11,19 +11,7 @@
 
 <P>
 John R. Hauser<BR>
-2014 ______<BR>
-</P>
-
-<P>
-*** CONTENT DONE.
-</P>
-
-<P>
-*** REPLACE QUOTATION MARKS.
-<BR>
-*** REPLACE APOSTROPHES.
-<BR>
-*** REPLACE EM DASH.
+2014 Dec 17<BR>
 </P>
 
 
@@ -49,7 +37,7 @@ While the processes of generating inputs and examining results are generic, a
 particular build of <CODE>testfloat</CODE> is limited to testing only the one
 implementation of floating-point it has been compiled to invoke.
 For example, while one instance of <CODE>testfloat</CODE> might be compiled to
-execute a computer's hardware instruction for floating-point addition, a
+execute a computer&rsquo;s hardware instruction for floating-point addition, a
 different version might be compiled to call a subroutine called
 <CODE>myAddFloat</CODE> that is linked into the <CODE>testfloat</CODE> program.
 To test a new implementation of floating-point (a new set of machine
@@ -65,16 +53,16 @@ Standard, and tests the C operations of <CODE>+</CODE>, <CODE>-</CODE>,
 <CODE>*</CODE>, <CODE>/</CODE>, type conversions, etc.
 This tests the floating-point arithmetic seen by C programs.
 Depending on the compiler and the options selected during compilation, this may
-or may not be the same as the computer's floating-point hardware, if any.
+or may not be the same as the computer&rsquo;s floating-point hardware, if any.
 </P>
 
 <P>
 The <CODE>testfloat</CODE> program will ordinarily test an operation for all
 rounding modes defined by the IEEE Floating-Point Standard, one after the
 other.
-If the rounding mode is not supposed to have any affect on the results--for
-instance, some operations do not require rounding--only the nearest/even
-rounding mode is checked.
+If the rounding mode is not supposed to have any affect on the
+results&mdash;for instance, some operations do not require rounding&mdash;only
+the nearest/even rounding mode is checked.
 For double-extended-precision operations affected by rounding precision
 control, <CODE>testfloat</CODE> also tests all three rounding precision modes,
 one after the other.
@@ -93,9 +81,11 @@ output, refer to
 
 <P>
 The <CODE>testfloat</CODE> program is executed as a command with this syntax:
+<BLOCKQUOTE>
 <PRE>
-     testfloat [&lt;option&gt;...] &lt;function&gt;
+testfloat [&lt;option&gt;...] &lt;function&gt;
 </PRE>
+</BLOCKQUOTE>
 Square brackets (<CODE>[ ]</CODE>) denote optional arguments,
 <CODE>&lt;option&gt;</CODE> is a supported option, and
 <CODE>&lt;function&gt;</CODE> is the name of either a testable operation or a
@@ -249,9 +239,11 @@ The set <CODE>-all1</CODE> comprises all one-operand operations, while
 <CODE>-all2</CODE> is all two-operand operations.
 A function set is used in place of an operation name in the
 <CODE>testfloat</CODE> command line, such as
+<BLOCKQUOTE>
 <PRE>
-     testfloat [&lt;option&gt;...] -all1
+testfloat [&lt;option&gt;...] -all1
 </PRE>
+</BLOCKQUOTE>
 </P>
 
 

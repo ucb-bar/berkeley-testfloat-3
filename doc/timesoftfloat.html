@@ -11,19 +11,7 @@
 
 <P>
 John R. Hauser<BR>
-2014 ______<BR>
-</P>
-
-<P>
-*** CONTENT DONE.
-</P>
-
-<P>
-*** REPLACE QUOTATION MARKS.
-<BR>
-*** REPLACE APOSTROPHES.
-<BR>
-*** REPLACE EM DASH.
+2014 Dec 17<BR>
 </P>
 
 
@@ -38,14 +26,14 @@ floating-point conforms to the IEEE Standard for Binary Floating-Point
 Arithmetic.
 Although <CODE>timesoftfloat</CODE> does not test floating-point correctness
 like other TestFloat programs, nevertheless <CODE>timesoftfloat</CODE> is a
-partner to TestFloat's <CODE>testsoftfloat</CODE> program.
+partner to TestFloat&rsquo;s <CODE>testsoftfloat</CODE> program.
 For more about TestFloat generally and <CODE>testsoftfloat</CODE> specifically,
 see file
 <A HREF="TestFloat-general.html"><NOBR><CODE>TestFloat-general.html</CODE></NOBR></A>.
 </P>
 
 <P>
-Ordinarily, <CODE>timesoftfloat</CODE> will measure a function's speed
+Ordinarily, <CODE>timesoftfloat</CODE> will measure a function&rsquo;s speed
 separately for each rounding mode defined by the IEEE Floating-Point Standard,
 one after the other.
 If an operation is not supposed to require rounding, it will by default be
@@ -63,13 +51,13 @@ options.
 
 <P>
 For each function and mode evaluated, <CODE>timesoftfloat</CODE> reports the
-measured speed of the function in Mops/s, or ``millions of operations per
-second''.
+measured speed of the function in Mop/s, or &ldquo;millions of operations per
+second&rdquo;.
 The speeds reported by <CODE>timesoftfloat</CODE> may be affected somewhat by
 other software executing at the same time as <CODE>timesoftfloat</CODE>.
 Be aware also that the exact execution time of any SoftFloat function depends
-partly on the values of arguments and the state of the processor's caches at
-the time the function is called.
+partly on the values of arguments and the state of the processor&rsquo;s caches
+at the time the function is called.
 Your actual experience with SoftFloat may differ from the speeds reported by
 <CODE>timesoftfloat</CODE> for all these reasons.
 </P>
@@ -89,9 +77,11 @@ SoftFloat implementation.
 <P>
 The <CODE>timesoftfloat</CODE> program is executed as a command with this
 syntax:
+<BLOCKQUOTE>
 <PRE>
-     timesoftfloat [&lt;option&gt;...] &lt;function&gt;
+timesoftfloat [&lt;option&gt;...] &lt;function&gt;
 </PRE>
+</BLOCKQUOTE>
 Square brackets (<CODE>[ ]</CODE>) denote optional arguments,
 <CODE>&lt;option&gt;</CODE> is a supported option, and
 <CODE>&lt;function&gt;</CODE> is the name of either a testable function or a
@@ -181,9 +171,11 @@ The set <CODE>-all1</CODE> comprises all one-operand operations,
 obviously all operations.
 A function set is used in place of a function name in the
 <CODE>timesoftfloat</CODE> command line, such as
+<BLOCKQUOTE>
 <PRE>
-     timesoftfloat [&lt;option&gt;...] -all1
+timesoftfloat [&lt;option&gt;...] -all1
 </PRE>
+</BLOCKQUOTE>
 </P>
 
 <P>

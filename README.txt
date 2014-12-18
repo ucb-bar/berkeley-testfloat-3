@@ -2,13 +2,12 @@
 Package Overview for Berkeley TestFloat Release 3
 
 John R. Hauser
-2014 ________
+2014 Dec 17
 
-Berkeley TestFloat is ___.
-***
-TestFloat
-is distributed in the form of C source code.  Building the TestFloat sources
-creates ___.
+Berkeley TestFloat is a small collection of programs for testing that an
+implementation of binary floating-point conforms to the IEEE Standard for
+Floating-Point Arithmetic.  TestFloat is distributed in the form of C source
+code.
 
 The TestFloat package is documented in the following files in the "doc"
 subdirectory:

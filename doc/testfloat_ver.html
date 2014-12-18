@@ -11,19 +11,7 @@
 
 <P>
 John R. Hauser<BR>
-2014 ______<BR>
-</P>
-
-<P>
-*** CONTENT DONE.
-</P>
-
-<P>
-*** REPLACE QUOTATION MARKS.
-<BR>
-*** REPLACE APOSTROPHES.
-<BR>
-*** REPLACE EM DASH.
+2014 Dec 17<BR>
 </P>
 
 
@@ -52,7 +40,7 @@ The test cases to be verified are read by <CODE>testfloat_ver</CODE> from
 standard input.
 This input will typically be piped from another program that, for each test
 case, invokes the floating-point operation and writes out the results.
-The format of <CODE>testfloat_ver</CODE>'s input is raw hexadecimal text,
+The format of <CODE>testfloat_ver</CODE>&rsquo;s input is raw hexadecimal text,
 described in the section below titled <I>Input Format</I>.
 </P>
 
@@ -71,9 +59,11 @@ its output, refer to
 <P>
 The <CODE>testfloat_ver</CODE> program is executed as a command with this
 syntax:
+<BLOCKQUOTE>
 <PRE>
-     testfloat_ver [&lt;option&gt;...] &lt;function&gt;
+testfloat_ver [&lt;option&gt;...] &lt;function&gt;
 </PRE>
+</BLOCKQUOTE>
 Square brackets (<CODE>[ ]</CODE>) denote optional arguments,
 <CODE>&lt;option&gt;</CODE> is a supported option, and
 <CODE>&lt;function&gt;</CODE> is the name of a testable operation.
@@ -205,17 +195,21 @@ the exception flags that were raised.
 These values are all expected to be provided as raw hexadecimal numbers
 separated on the line by spaces.
 For example, for the command
+<BLOCKQUOTE>
 <PRE>
-     testfloat_ver f64_add
+testfloat_ver f64_add
 </PRE>
+</BLOCKQUOTE>
 valid input could include these lines:
+<BLOCKQUOTE>
 <PRE>
-     3F90EB5825D6851E C3E0080080000000 C3E0080080000000 01
-     41E3C00000000000 C182024F8AE474A8 41E377F6C1D46E2D 01
-     7FD80FFFFFFFFFFF 7FEFFFFFFFFFFF80 7FF0000000000000 05
-     3FFFED6A25C534BE 3CA1000000020000 3FFFED6A25C534BF 01
-     ...
+3F90EB5825D6851E C3E0080080000000 C3E0080080000000 01
+41E3C00000000000 C182024F8AE474A8 41E377F6C1D46E2D 01
+7FD80FFFFFFFFFFF 7FEFFFFFFFFFFF80 7FF0000000000000 05
+3FFFED6A25C534BE 3CA1000000020000 3FFFED6A25C534BF 01
+...
 </PRE>
+</BLOCKQUOTE>
 On each line above, the first two hexadecimal numbers represent the
 <NOBR>64-bit</NOBR> floating-point operands, the third hexadecimal number is
 the <NOBR>64-bit</NOBR> floating-point result of the operation (the sum), and
@@ -235,12 +229,18 @@ encoded significand.
 <P>
 Exception flags are encoded with one bit per flag as follows:
 <BLOCKQUOTE>
-<TABLE>
-<TR><TD>bit 0</TD><TD>&nbsp;&nbsp;&nbsp;</TD><TD><I>inexact</I> exception</TD></TR>
-<TR><TD>bit 1</TD><TD> </TD><TD><I>underflow</I> exception</TD></TR>
-<TR><TD>bit 2</TD><TD> </TD><TD><I>overflow</I> exception</TD></TR>
-<TR><TD>bit 3</TD><TD> </TD><TD><I>infinite</I> exception ("divide by zero")</TD></TR>
-<TR><TD>bit 4</TD><TD> </TD><TD><I>invalid</I> exception</TD></TR>
+<TABLE CELLSPACING=0 CELLPADDING=0>
+<TR>
+  <TD>bit 0<CODE>&nbsp;&nbsp;&nbsp;</CODE></TD>
+  <TD><I>inexact</I> exception</TD>
+</TR>
+<TR><TD>bit 1</TD><TD><I>underflow</I> exception</TD></TR>
+<TR><TD>bit 2</TD><TD><I>overflow</I> exception</TD></TR>
+<TR>
+  <TD>bit 3</TD>
+  <TD><I>infinite</I> exception (&ldquo;divide by zero&rdquo;)</TD>
+</TR>
+<TR><TD>bit 4</TD><TD><I>invalid</I> exception</TD></TR>
 </TABLE>
 </BLOCKQUOTE>
 </P>
