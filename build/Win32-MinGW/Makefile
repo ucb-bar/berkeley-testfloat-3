@@ -34,7 +34,7 @@
 
 SOURCE_DIR = ../../source
 SUBJ_SOURCE_DIR = $(SOURCE_DIR)/subj-C
-SOFTFLOAT_DIR = ../../../berkeley-softfloat-rc3
+SOFTFLOAT_DIR = ../../../berkeley-softfloat-3
 SOFTFLOAT_INCLUDE_DIR = $(SOFTFLOAT_DIR)/source/include
 PLATFORM = Win32-MinGW
 
