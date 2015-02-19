@@ -5,10 +5,10 @@ This C source file is part of TestFloat, Release 3, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California
-(Regents).  All Rights Reserved.  Redistribution and use in source and binary
-forms, with or without modification, are permitted provided that the following
-conditions are met:
+Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+California (Regents).  All Rights Reserved.  Redistribution and use in source
+and binary forms, with or without modification, are permitted provided that
+the following conditions are met:
 
 Redistributions of source code must retain the above copyright notice,
 this list of conditions, and the following two paragraphs of disclaimer.
@@ -1488,7 +1488,7 @@ static bool floatXLt( const struct floatX *xPtr, const struct floatX *yPtr )
 #ifdef LITTLEENDIAN
 struct uint256 { uint64_t v0, v64, v128, v192; };
 #else
-struct uint256 { uint64_t v192, v128 v64, v0; };
+struct uint256 { uint64_t v192, v128, v64, v0; };
 #endif
 
 static bool eq256M( const struct uint256 *aPtr, const struct uint256 *bPtr )
