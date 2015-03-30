@@ -55,7 +55,7 @@ COMPILE_SLOWFLOAT_C = \
   gcc -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
     $(C_INCLUDES) -O3 -o $@
 MAKELIB = ar crs $@
-LINK = gcc -lm -o $@
+LINK = gcc -o $@
 
 OBJ = .o
 LIB = .a
@@ -241,7 +241,7 @@ testsoftfloat$(OBJ): \
 	$(COMPILE_C) $(SOURCE_DIR)/testsoftfloat.c
 
 testsoftfloat$(EXE): $(OBJS_TESTSOFTFLOAT) testfloat$(LIB) $(SOFTFLOAT_LIB)
-	$(LINK) $^
+	$(LINK) $^ -lm
 
 OBJS_TIMESOFTFLOAT = timesoftfloat$(OBJ)
 
@@ -251,7 +251,7 @@ timesoftfloat$(OBJ): \
 	$(COMPILE_C) $(SOURCE_DIR)/timesoftfloat.c
 
 timesoftfloat$(EXE): $(OBJS_TIMESOFTFLOAT) testfloat$(LIB) $(SOFTFLOAT_LIB)
-	$(LINK) $^
+	$(LINK) $^ -lm
 
 OBJS_TESTFLOAT_GEN = genLoops$(OBJ) testfloat_gen$(OBJ)
 
@@ -267,7 +267,7 @@ testfloat_gen$(OBJ): \
 	$(COMPILE_C) $(SOURCE_DIR)/testfloat_gen.c
 
 testfloat_gen$(EXE): $(OBJS_TESTFLOAT_GEN) testfloat$(LIB) $(SOFTFLOAT_LIB)
-	$(LINK) $^
+	$(LINK) $^ -lm
 
 OBJS_TESTFLOAT_VER = verLoops$(OBJ) testfloat_ver$(OBJ)
 
@@ -284,7 +284,7 @@ testfloat_ver$(OBJ): \
 	$(COMPILE_C) $(SOURCE_DIR)/testfloat_ver.c
 
 testfloat_ver$(EXE): $(OBJS_TESTFLOAT_VER) testfloat$(LIB) $(SOFTFLOAT_LIB)
-	$(LINK) $^
+	$(LINK) $^ -lm
 
 OBJS_TESTFLOAT = subjfloat$(OBJ) subjfloat_functions$(OBJ) testfloat$(OBJ)
 
@@ -304,7 +304,7 @@ testfloat$(OBJ): \
 	$(COMPILE_C) $(SOURCE_DIR)/testfloat.c
 
 testfloat$(EXE): $(OBJS_TESTFLOAT) testfloat$(LIB) $(SOFTFLOAT_LIB)
-	$(LINK) $^
+	$(LINK) $^ -lm
 
 .PHONY: clean
 clean:
