@@ -387,8 +387,10 @@ static
     funcType_ab_f32_z_bool *trueFunction_ab_f32_z_bool;
     funcType_abz_f64 *trueFunction_abz_f64;
     funcType_ab_f64_z_bool *trueFunction_ab_f64_z_bool;
+#ifdef EXTFLOAT80
     funcType_abz_extF80 *trueFunction_abz_extF80;
     funcType_ab_extF80_z_bool *trueFunction_ab_extF80_z_bool;
+#endif
     funcType_abz_f128 *trueFunction_abz_f128;
     funcType_ab_f128_z_bool *trueFunction_ab_f128_z_bool;
 
@@ -827,10 +829,12 @@ static
         trueFunction_abz_extF80 = extF80M_rem;
         goto test_abz_extF80;
 #endif
+#ifdef EXTFLOAT80
      test_abz_extF80:
         test_abz_extF80(
             trueFunction_abz_extF80, (funcType_abz_extF80 *) subjFunctionPtr );
         break;
+#endif
 #ifdef SUBJ_EXTF80_SQRT
      case EXTF80_SQRT:
         test_az_extF80( extF80M_sqrt, (funcType_az_extF80 *) subjFunctionPtr );
