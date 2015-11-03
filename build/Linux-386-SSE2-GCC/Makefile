@@ -1,34 +1,37 @@
 
 #=============================================================================
 #
-# This Makefile is part of TestFloat, Release 3, a package of programs for
+# This Makefile is part of TestFloat, Release 3a, a package of programs for
 # testing the correctness of floating-point arithmetic complying with the IEEE
 # Standard for Floating-Point, by John R. Hauser.
 #
-# Copyright 2011, 2012, 2013, 2014 The Regents of the University of California
-# (Regents).  All Rights Reserved.  Redistribution and use in source and
-# binary forms, with or without modification, are permitted provided that the
-# following conditions are met:
+# Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+# California.  All rights reserved.
 #
-# Redistributions of source code must retain the above copyright notice,
-# this list of conditions, and the following two paragraphs of disclaimer.
-# Redistributions in binary form must reproduce the above copyright notice,
-# this list of conditions, and the following two paragraphs of disclaimer in
-# the documentation and/or other materials provided with the distribution.
-# Neither the name of the Regents nor the names of its contributors may be
-# used to endorse or promote products derived from this software without
-# specific prior written permission.
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
 #
-# IN NO EVENT SHALL REGENTS BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT,
-# SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS,
-# ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
-# REGENTS HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#  1. Redistributions of source code must retain the above copyright notice,
+#     this list of conditions, and the following disclaimer.
 #
-# REGENTS SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED
-# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-# PURPOSE.  THE SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED
-# HEREUNDER IS PROVIDED "AS IS".  REGENTS HAS NO OBLIGATION TO PROVIDE
-# MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+#  2. Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions, and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution.
+#
+#  3. Neither the name of the University nor the names of its contributors
+#     may be used to endorse or promote products derived from this software
+#     without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS "AS IS", AND ANY
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ARE
+# DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY
+# DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 #=============================================================================
 
@@ -56,7 +59,7 @@ COMPILE_SLOWFLOAT_C = \
     $(C_INCLUDES) -O3 -o $@
 MAKELIB = ar crs $@
 LINK = gcc -o $@
-LIBS = -lm
+OTHER_LIBS = -lm
 
 OBJ = .o
 LIB = .a
@@ -242,7 +245,7 @@ testsoftfloat$(OBJ): \
 	$(COMPILE_C) $(SOURCE_DIR)/testsoftfloat.c
 
 testsoftfloat$(EXE): $(OBJS_TESTSOFTFLOAT) testfloat$(LIB) $(SOFTFLOAT_LIB)
-	$(LINK) $^ $(LIBS)
+	$(LINK) $^ $(OTHER_LIBS)
 
 OBJS_TIMESOFTFLOAT = timesoftfloat$(OBJ)
 
@@ -252,7 +255,7 @@ timesoftfloat$(OBJ): \
 	$(COMPILE_C) $(SOURCE_DIR)/timesoftfloat.c
 
 timesoftfloat$(EXE): $(OBJS_TIMESOFTFLOAT) testfloat$(LIB) $(SOFTFLOAT_LIB)
-	$(LINK) $^ $(LIBS)
+	$(LINK) $^ $(OTHER_LIBS)
 
 OBJS_TESTFLOAT_GEN = genLoops$(OBJ) testfloat_gen$(OBJ)
 
@@ -268,7 +271,7 @@ testfloat_gen$(OBJ): \
 	$(COMPILE_C) $(SOURCE_DIR)/testfloat_gen.c
 
 testfloat_gen$(EXE): $(OBJS_TESTFLOAT_GEN) testfloat$(LIB) $(SOFTFLOAT_LIB)
-	$(LINK) $^ $(LIBS)
+	$(LINK) $^ $(OTHER_LIBS)
 
 OBJS_TESTFLOAT_VER = verLoops$(OBJ) testfloat_ver$(OBJ)
 
@@ -285,7 +288,7 @@ testfloat_ver$(OBJ): \
 	$(COMPILE_C) $(SOURCE_DIR)/testfloat_ver.c
 
 testfloat_ver$(EXE): $(OBJS_TESTFLOAT_VER) testfloat$(LIB) $(SOFTFLOAT_LIB)
-	$(LINK) $^ $(LIBS)
+	$(LINK) $^ $(OTHER_LIBS)
 
 OBJS_TESTFLOAT = subjfloat$(OBJ) subjfloat_functions$(OBJ) testfloat$(OBJ)
 
@@ -305,7 +308,7 @@ testfloat$(OBJ): \
 	$(COMPILE_C) $(SOURCE_DIR)/testfloat.c
 
 testfloat$(EXE): $(OBJS_TESTFLOAT) testfloat$(LIB) $(SOFTFLOAT_LIB)
-	$(LINK) $^ $(LIBS)
+	$(LINK) $^ $(OTHER_LIBS)
 
 .PHONY: clean
 clean:

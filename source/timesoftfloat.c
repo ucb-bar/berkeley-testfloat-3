@@ -1,34 +1,37 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3, a package of programs for
+This C source file is part of TestFloat, Release 3a, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California
-(Regents).  All Rights Reserved.  Redistribution and use in source and binary
-forms, with or without modification, are permitted provided that the following
-conditions are met:
+Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+California.  All rights reserved.
 
-Redistributions of source code must retain the above copyright notice,
-this list of conditions, and the following two paragraphs of disclaimer.
-Redistributions in binary form must reproduce the above copyright notice,
-this list of conditions, and the following two paragraphs of disclaimer in the
-documentation and/or other materials provided with the distribution.  Neither
-the name of the Regents nor the names of its contributors may be used to
-endorse or promote products derived from this software without specific prior
-written permission.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-IN NO EVENT SHALL REGENTS BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT,
-SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, ARISING
-OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF REGENTS HAS
-BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 1. Redistributions of source code must retain the above copyright notice,
+    this list of conditions, and the following disclaimer.
 
-REGENTS SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED
-TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE.  THE SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED
-HEREUNDER IS PROVIDED "AS IS".  REGENTS HAS NO OBLIGATION TO PROVIDE
-MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions, and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+ 3. Neither the name of the University nor the names of its contributors may
+    be used to endorse or promote products derived from this software without
+    specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS "AS IS", AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, ARE
+DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =============================================================================*/
 
@@ -3273,6 +3276,7 @@ static
     bool (*function_ab_f32_z_bool)( float32_t, float32_t );
     float64_t (*function_abz_f64)( float64_t, float64_t );
     bool (*function_ab_f64_z_bool)( float64_t, float64_t );
+#ifdef EXTFLOAT80
     void
      (*function_abz_extF80)(
          const extFloat80_t *, const extFloat80_t *, extFloat80_t * );
@@ -3280,9 +3284,12 @@ static
      (*function_ab_extF80_z_bool)(
          const extFloat80_t *, const extFloat80_t * );
     void
+#endif
+#ifdef FLOAT128
      (*function_abz_f128)(
          const float128_t *, const float128_t *, float128_t * );
     bool (*function_ab_f128_z_bool)( const float128_t *, const float128_t * );
+#endif
 
     switch ( functionCode ) {
         /*--------------------------------------------------------------------
@@ -3711,10 +3718,10 @@ static
     functionAttribs = functionInfos[functionCode].attribs;
     roundingPrecision = 32;
     for (;;) {
-        if ( ! (functionAttribs & FUNC_EFF_ROUNDINGPRECISION) ) {
+        if ( functionAttribs & FUNC_EFF_ROUNDINGPRECISION ) {
+            if ( roundingPrecisionIn ) roundingPrecision = roundingPrecisionIn;
+        } else {
             roundingPrecision = 0;
-        } else if ( roundingPrecisionIn ) {
-            roundingPrecision = roundingPrecisionIn;
         }
 #ifdef EXTFLOAT80
         if ( roundingPrecision ) extF80_roundingPrecision = roundingPrecision;
@@ -3723,12 +3730,12 @@ static
             roundingCode = 1; roundingCode < NUM_ROUNDINGMODES; ++roundingCode
         ) {
             if (
-                ! (functionAttribs
-                       & (FUNC_ARG_ROUNDINGMODE | FUNC_EFF_ROUNDINGMODE))
+                functionAttribs
+                    & (FUNC_ARG_ROUNDINGMODE | FUNC_EFF_ROUNDINGMODE)
             ) {
+                if ( roundingCodeIn ) roundingCode = roundingCodeIn;
+            } else {
                 roundingCode = 0;
-            } else if ( roundingCodeIn ) {
-                roundingCode = roundingCodeIn;
             }
             if ( roundingCode ) {
                 roundingMode = roundingModes[roundingCode];
@@ -3739,10 +3746,10 @@ static
             for (
                 exactCode = EXACT_FALSE; exactCode <= EXACT_TRUE; ++exactCode
             ) {
-                if ( ! (functionAttribs & FUNC_ARG_EXACT) ) {
+                if ( functionAttribs & FUNC_ARG_EXACT ) {
+                    if ( exactCodeIn ) exactCode = exactCodeIn;
+                } else {
                     exactCode = 0;
-                } else if ( exactCodeIn ) {
-                    exactCode = exactCodeIn;
                 }
                 exact = (exactCode == EXACT_TRUE );
                 usesExact = (exactCode != 0 );
@@ -3752,14 +3759,15 @@ static
                     ++tininessCode
                 ) {
                     if (
-                        ! (functionAttribs
-                               & (roundingPrecision && (roundingPrecision < 80)
-                                      ? FUNC_EFF_TININESSMODE_REDUCEDPREC
-                                      : FUNC_EFF_TININESSMODE))
+                        (functionAttribs & FUNC_EFF_TININESSMODE)
+                            || ((functionAttribs
+                                     & FUNC_EFF_TININESSMODE_REDUCEDPREC)
+                                    && roundingPrecision
+                                    && (roundingPrecision < 80))
                     ) {
+                        if ( tininessCodeIn ) tininessCode = tininessCodeIn;
+                    } else {
                         tininessCode = 0;
-                    } else if ( tininessCodeIn ) {
-                        tininessCode = tininessCodeIn;
                     }
                     if ( tininessCode ) {
                         tininessMode = tininessModes[tininessCode];
