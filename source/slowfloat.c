@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
-testing the correctness of floating-point arithmetic complying with the IEEE
-Standard for Floating-Point, by John R. Hauser.
+This C source file is part of TestFloat, Release 3a+, a package of programs
+for testing the correctness of floating-point arithmetic complying with the
+IEEE Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
 California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -290,33 +290,33 @@ static
 {
     uint_fast8_t savedExceptionFlags;
     struct floatX x;
-    int_fast32_t shiftCount;
+    int_fast32_t shiftDist;
     uint_fast32_t z;
 
     if ( xPtr->isInf || xPtr->isNaN ) {
         slowfloat_exceptionFlags |= softfloat_flag_invalid;
-        return 0xFFFFFFFF;
+        return (xPtr->isInf & xPtr->sign) ? 0 : 0xFFFFFFFF;
     }
     if ( xPtr->isZero ) return 0;
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
-    shiftCount = 52 - x.exp;
-    if ( 56 < shiftCount ) {
+    shiftDist = 52 - x.exp;
+    if ( 56 < shiftDist ) {
         x.sig.v64 = 0;
         x.sig.v0  = 1;
     } else {
-        while ( 0 < shiftCount ) {
+        while ( 0 < shiftDist ) {
             x.sig = shortShiftRightJam128( x.sig, 1 );
-            --shiftCount;
+            --shiftDist;
         }
     }
     roundFloatXTo53( false, &x, roundingMode, exact );
     x.sig = shortShiftRightJam128( x.sig, 3 );
     z = x.sig.v64;
-    if ( (shiftCount < 0) || x.sig.v64>>32 || (x.sign && z) ) {
+    if ( (shiftDist < 0) || x.sig.v64>>32 || (x.sign && z) ) {
         slowfloat_exceptionFlags =
             savedExceptionFlags | softfloat_flag_invalid;
-        return 0xFFFFFFFF;
+        return x.sign ? 0 : 0xFFFFFFFF;
     }
     return z;
 
@@ -355,33 +355,33 @@ static
 {
     uint_fast8_t savedExceptionFlags;
     struct floatX x;
-    int_fast32_t shiftCount;
+    int_fast32_t shiftDist;
     uint_fast64_t z;
 
     if ( xPtr->isInf || xPtr->isNaN ) {
         slowfloat_exceptionFlags |= softfloat_flag_invalid;
-        return UINT64_C( 0xFFFFFFFFFFFFFFFF );
+        return (xPtr->isInf & xPtr->sign) ? 0 : UINT64_C( 0xFFFFFFFFFFFFFFFF );
     }
     if ( xPtr->isZero ) return 0;
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
-    shiftCount = 112 - x.exp;
-    if ( 116 < shiftCount ) {
+    shiftDist = 112 - x.exp;
+    if ( 116 < shiftDist ) {
         x.sig.v64 = 0;
         x.sig.v0  = 1;
     } else {
-        while ( 0 < shiftCount ) {
+        while ( 0 < shiftDist ) {
             x.sig = shortShiftRightJam128( x.sig, 1 );
-            --shiftCount;
+            --shiftDist;
         }
     }
     roundFloatXTo113( false, &x, roundingMode, exact );
     x.sig = shortShiftRightJam128( x.sig, 7 );
     z = x.sig.v0;
-    if ( (shiftCount < 0) || x.sig.v64 || (x.sign && z) ) {
+    if ( (shiftDist < 0) || x.sig.v64 || (x.sign && z) ) {
         slowfloat_exceptionFlags =
             savedExceptionFlags | softfloat_flag_invalid;
-        return UINT64_C( 0xFFFFFFFFFFFFFFFF );
+        return x.sign ? 0 : UINT64_C( 0xFFFFFFFFFFFFFFFF );
     }
     return z;
 
@@ -422,7 +422,7 @@ static
 {
     uint_fast8_t savedExceptionFlags;
     struct floatX x;
-    int_fast32_t shiftCount;
+    int_fast32_t shiftDist;
     union { uint32_t ui; int32_t i; } uZ;
 
     if ( xPtr->isInf || xPtr->isNaN ) {
@@ -432,14 +432,14 @@ static
     if ( xPtr->isZero ) return 0;
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
-    shiftCount = 52 - x.exp;
-    if ( 56 < shiftCount ) {
+    shiftDist = 52 - x.exp;
+    if ( 56 < shiftDist ) {
         x.sig.v64 = 0;
         x.sig.v0  = 1;
     } else {
-        while ( 0 < shiftCount ) {
+        while ( 0 < shiftDist ) {
             x.sig = shortShiftRightJam128( x.sig, 1 );
-            --shiftCount;
+            --shiftDist;
         }
     }
     roundFloatXTo53( false, &x, roundingMode, exact );
@@ -447,7 +447,7 @@ static
     uZ.ui = x.sig.v64;
     if ( x.sign ) uZ.ui = -uZ.ui;
     if (
-        (shiftCount < 0) || x.sig.v64>>32
+        (shiftDist < 0) || x.sig.v64>>32
             || ((uZ.i != 0) && (x.sign != (uZ.i < 0)))
     ) {
         slowfloat_exceptionFlags =
@@ -493,7 +493,7 @@ static
 {
     uint_fast8_t savedExceptionFlags;
     struct floatX x;
-    int_fast32_t shiftCount;
+    int_fast32_t shiftDist;
     union { uint64_t ui; int64_t i; } uZ;
 
     if ( xPtr->isInf || xPtr->isNaN ) {
@@ -505,14 +505,14 @@ static
     if ( xPtr->isZero ) return 0;
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
-    shiftCount = 112 - x.exp;
-    if ( 116 < shiftCount ) {
+    shiftDist = 112 - x.exp;
+    if ( 116 < shiftDist ) {
         x.sig.v64 = 0;
         x.sig.v0  = 1;
     } else {
-        while ( 0 < shiftCount ) {
+        while ( 0 < shiftDist ) {
             x.sig = shortShiftRightJam128( x.sig, 1 );
-            --shiftCount;
+            --shiftDist;
         }
     }
     roundFloatXTo113( false, &x, roundingMode, exact );
@@ -520,8 +520,7 @@ static
     uZ.ui = x.sig.v0;
     if ( x.sign ) uZ.ui = -uZ.ui;
     if (
-        (shiftCount < 0) || x.sig.v64
-            || ((uZ.i != 0) && (x.sign != (uZ.i < 0)))
+        (shiftDist < 0) || x.sig.v64 || ((uZ.i != 0) && (x.sign != (uZ.i < 0)))
     ) {
         slowfloat_exceptionFlags =
             savedExceptionFlags | softfloat_flag_invalid;
@@ -1138,23 +1137,23 @@ static
   floatXRoundToInt(
       struct floatX *xPtr, uint_fast8_t roundingMode, bool exact )
 {
-    int_fast32_t exp, shiftCount;
+    int_fast32_t exp, shiftDist;
     struct uint128 sig;
 
     if ( xPtr->isNaN || xPtr->isInf ) return;
     exp = xPtr->exp;
-    shiftCount = 112 - exp;
-    if ( shiftCount <= 0 ) return;
-    if ( 119 < shiftCount ) {
+    shiftDist = 112 - exp;
+    if ( shiftDist <= 0 ) return;
+    if ( 119 < shiftDist ) {
         xPtr->exp = 112;
         xPtr->sig.v64 = 0;
         xPtr->sig.v0 = ! xPtr->isZero;
     } else {
         sig = xPtr->sig;
-        while ( 0 < shiftCount ) {
+        while ( 0 < shiftDist ) {
             ++exp;
             sig = shortShiftRightJam128( sig, 1 );
-            --shiftCount;
+            --shiftDist;
         }
         xPtr->exp = exp;
         xPtr->sig = sig;
