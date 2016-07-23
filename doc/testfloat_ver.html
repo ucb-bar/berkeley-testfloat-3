@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3a: <CODE>testfloat_ver</CODE></H1>
+<H1>Berkeley TestFloat Release 3b: <CODE>testfloat_ver</CODE></H1>
 
 <P>
 John R. Hauser<BR>
-2015 October 23<BR>
+2016 July 22<BR>
 </P>
 
 
@@ -112,7 +112,8 @@ The <CODE>-checkNaNs</CODE> option causes <CODE>testfloat_ver</CODE> to verify
 the bitwise correctness of NaN results.
 In order for this option to be sensible, <CODE>testfloat_ver</CODE> must have
 been compiled so that its internal reference implementation of floating-point
-(SoftFloat) generates the proper NaN results for the system being tested.
+(Berkeley SoftFloat) generates the proper NaN results for the system being
+tested.
 </P>
 
 <H3><CODE>-precision32, -precision64, -precision80</CODE></H3>
@@ -157,8 +158,8 @@ be detected before rounding, while <CODE>-tininessafter</CODE> indicates that
 tininess on underflow should be detected after rounding.
 These options are ignored for operations that are exact and thus do not round.
 When the method of tininess detection matters but is not specified, the default
-assumption is that tininess should be detected before rounding, same as
-<CODE>-tininessbefore</CODE>.
+assumption is that tininess should be detected after rounding, same as
+<CODE>-tininessafter</CODE>.
 </P>
 
 <H3><CODE>-notexact, -exact</CODE></H3>

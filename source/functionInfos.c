@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
+This C source file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -49,13 +49,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define EFF_T_REDP FUNC_EFF_TININESSMODE_REDUCEDPREC
 
 /*----------------------------------------------------------------------------
-| Warning:  This array must match the functions names defined in
-| "functions.h".
+| Warning:  This array must match the list of macros defined in "functions.h".
 *----------------------------------------------------------------------------*/
 const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { 0, 0 },
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
+#ifdef FLOAT16
+    { "ui32_to_f16",    ARG_1 | EFF_R },
+#endif
     { "ui32_to_f32",    ARG_1 | EFF_R },
     { "ui32_to_f64",    ARG_1         },
 #ifdef EXTFLOAT80
@@ -63,6 +65,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
 #endif
 #ifdef FLOAT128
     { "ui32_to_f128",   ARG_1         },
+#endif
+#ifdef FLOAT16
+    { "ui64_to_f16",    ARG_1 | EFF_R },
 #endif
     { "ui64_to_f32",    ARG_1 | EFF_R },
     { "ui64_to_f64",    ARG_1 | EFF_R },
@@ -72,6 +77,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
 #ifdef FLOAT128
     { "ui64_to_f128",   ARG_1         },
 #endif
+#ifdef FLOAT16
+    { "i32_to_f16",     ARG_1 | EFF_R },
+#endif
     { "i32_to_f32",     ARG_1 | EFF_R },
     { "i32_to_f64",     ARG_1         },
 #ifdef EXTFLOAT80
@@ -79,6 +87,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
 #endif
 #ifdef FLOAT128
     { "i32_to_f128",    ARG_1         },
+#endif
+#ifdef FLOAT16
+    { "i64_to_f16",     ARG_1 | EFF_R },
 #endif
     { "i64_to_f32",     ARG_1 | EFF_R },
     { "i64_to_f64",     ARG_1 | EFF_R },
@@ -90,6 +101,40 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
 #endif
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
+#ifdef FLOAT16
+    { "f16_to_ui32", ARG_1 | ARG_R | ARG_E },
+    { "f16_to_ui64", ARG_1 | ARG_R | ARG_E },
+    { "f16_to_i32",  ARG_1 | ARG_R | ARG_E },
+    { "f16_to_i64",  ARG_1 | ARG_R | ARG_E },
+    { "f16_to_ui32_r_minMag", ARG_1 | ARG_E },
+    { "f16_to_ui64_r_minMag", ARG_1 | ARG_E },
+    { "f16_to_i32_r_minMag",  ARG_1 | ARG_E },
+    { "f16_to_i64_r_minMag",  ARG_1 | ARG_E },
+    { "f16_to_f32",    ARG_1 },
+    { "f16_to_f64",    ARG_1 },
+#ifdef EXTFLOAT80
+    { "f16_to_extF80", ARG_1 },
+#endif
+#ifdef FLOAT128
+    { "f16_to_f128",   ARG_1 },
+#endif
+    { "f16_roundToInt", ARG_1 | ARG_R | ARG_E },
+    { "f16_add",          ARG_2 | EFF_R         },
+    { "f16_sub",          ARG_2 | EFF_R         },
+    { "f16_mul",          ARG_2 | EFF_R | EFF_T },
+    { "f16_mulAdd",               EFF_R | EFF_T },
+    { "f16_div",          ARG_2 | EFF_R         },
+    { "f16_rem",          ARG_2                 },
+    { "f16_sqrt",         ARG_1 | EFF_R         },
+    { "f16_eq",           ARG_2                 },
+    { "f16_le",           ARG_2                 },
+    { "f16_lt",           ARG_2                 },
+    { "f16_eq_signaling", ARG_2                 },
+    { "f16_le_quiet",     ARG_2                 },
+    { "f16_lt_quiet",     ARG_2                 },
+#endif
+    /*------------------------------------------------------------------------
+    *------------------------------------------------------------------------*/
     { "f32_to_ui32", ARG_1 | ARG_R | ARG_E },
     { "f32_to_ui64", ARG_1 | ARG_R | ARG_E },
     { "f32_to_i32",  ARG_1 | ARG_R | ARG_E },
@@ -98,6 +143,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "f32_to_ui64_r_minMag", ARG_1 | ARG_E },
     { "f32_to_i32_r_minMag",  ARG_1 | ARG_E },
     { "f32_to_i64_r_minMag",  ARG_1 | ARG_E },
+#ifdef FLOAT16
+    { "f32_to_f16", ARG_1 | EFF_R | EFF_T },
+#endif
     { "f32_to_f64",    ARG_1 },
 #ifdef EXTFLOAT80
     { "f32_to_extF80", ARG_1 },
@@ -129,7 +177,10 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "f64_to_ui64_r_minMag", ARG_1 | ARG_E },
     { "f64_to_i32_r_minMag",  ARG_1 | ARG_E },
     { "f64_to_i64_r_minMag",  ARG_1 | ARG_E },
-    { "f64_to_f32",  ARG_1 | EFF_R | EFF_T },
+#ifdef FLOAT16
+    { "f64_to_f16", ARG_1 | EFF_R | EFF_T },
+#endif
+    { "f64_to_f32", ARG_1 | EFF_R | EFF_T },
 #ifdef EXTFLOAT80
     { "f64_to_extF80", ARG_1 },
 #endif
@@ -161,8 +212,11 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "extF80_to_ui64_r_minMag", ARG_1 | ARG_E },
     { "extF80_to_i32_r_minMag",  ARG_1 | ARG_E },
     { "extF80_to_i64_r_minMag",  ARG_1 | ARG_E },
-    { "extF80_to_f32",  ARG_1 | EFF_R | EFF_T },
-    { "extF80_to_f64",  ARG_1 | EFF_R | EFF_T },
+#ifdef FLOAT16
+    { "extF80_to_f16", ARG_1 | EFF_R | EFF_T },
+#endif
+    { "extF80_to_f32", ARG_1 | EFF_R | EFF_T },
+    { "extF80_to_f64", ARG_1 | EFF_R | EFF_T },
 #ifdef FLOAT128
     { "extF80_to_f128", ARG_1 },
 #endif
@@ -191,8 +245,11 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "f128_to_ui64_r_minMag", ARG_1 | ARG_E },
     { "f128_to_i32_r_minMag",  ARG_1 | ARG_E },
     { "f128_to_i64_r_minMag",  ARG_1 | ARG_E },
-    { "f128_to_f32",  ARG_1 | EFF_R | EFF_T },
-    { "f128_to_f64",  ARG_1 | EFF_R | EFF_T },
+#ifdef FLOAT16
+    { "f128_to_f16",    ARG_1 | EFF_R | EFF_T },
+#endif
+    { "f128_to_f32",    ARG_1 | EFF_R | EFF_T },
+    { "f128_to_f64",    ARG_1 | EFF_R | EFF_T },
 #ifdef EXTFLOAT80
     { "f128_to_extF80", ARG_1 | EFF_R | EFF_T },
 #endif

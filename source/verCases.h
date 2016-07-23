@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3a, a package of programs for
+This C header file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -63,6 +63,27 @@ void verCases_exitWithStatus( void );
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
+#ifdef INLINE
+
+#ifdef FLOAT16
+
+INLINE bool f16_same( float16_t a, float16_t b )
+{
+    union { uint16_t ui; float16_t f; } uA, uB;
+    uA.f = a;
+    uB.f = b;
+    return (uA.ui == uB.ui);
+}
+
+INLINE bool f16_isNaN( float16_t a )
+{
+    union { uint16_t ui; float16_t f; } uA;
+    uA.f = a;
+    return 0x7C00 < (uA.ui & 0x7FFF);
+}
+
+#endif
 
 INLINE bool f32_same( float32_t a, float32_t b )
 {
@@ -133,6 +154,27 @@ INLINE bool f128M_isNaN( const float128_t *aPtr )
         (UINT64_C( 0x7FFF000000000000 ) < absA64)
             || ((absA64 == UINT64_C( 0x7FFF000000000000 )) && uiAPtr->v0);
 }
+
+#endif
+
+#else
+
+#ifdef FLOAT16
+bool f16_same( float16_t, float16_t );
+bool f16_isNaN( float16_t );
+#endif
+bool f32_same( float32_t, float32_t );
+bool f32_isNaN( float32_t );
+bool f64_same( float64_t, float64_t );
+bool f64_isNaN( float64_t );
+#ifdef EXTFLOAT80
+bool extF80M_same( const extFloat80_t *, const extFloat80_t * );
+bool extF80M_isNaN( const extFloat80_t * );
+#endif
+#ifdef FLOAT128
+bool f128M_same( const float128_t *, const float128_t * );
+bool f128M_isNaN( const float128_t * );
+#endif
 
 #endif
 

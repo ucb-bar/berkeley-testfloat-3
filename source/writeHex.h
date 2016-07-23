@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3a, a package of programs for
+This C header file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -44,6 +44,9 @@ void writeHex_ui8( uint_fast8_t, char );
 void writeHex_ui16( uint_fast16_t, char );
 void writeHex_ui32( uint_fast32_t, char );
 void writeHex_ui64( uint_fast64_t, char );
+#ifdef FLOAT16
+void writeHex_f16( float16_t, char );
+#endif
 void writeHex_f32( float32_t, char );
 void writeHex_f64( float64_t, char );
 #ifdef EXTFLOAT80

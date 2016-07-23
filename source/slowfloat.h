@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3a, a package of programs for
+This C header file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -46,6 +46,9 @@ extern uint_fast8_t slowfloat_exceptionFlags;
 extern uint_fast8_t slow_extF80_roundingPrecision;
 #endif
 
+#ifdef FLOAT16
+float16_t slow_ui32_to_f16( uint32_t );
+#endif
 float32_t slow_ui32_to_f32( uint32_t );
 float64_t slow_ui32_to_f64( uint32_t );
 #ifdef EXTFLOAT80
@@ -53,6 +56,9 @@ void slow_ui32_to_extF80M( uint32_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
 void slow_ui32_to_f128M( uint32_t, float128_t * );
+#endif
+#ifdef FLOAT16
+float16_t slow_ui64_to_f16( uint64_t );
 #endif
 float32_t slow_ui64_to_f32( uint64_t );
 float64_t slow_ui64_to_f64( uint64_t );
@@ -62,6 +68,9 @@ void slow_ui64_to_extF80M( uint64_t, extFloat80_t * );
 #ifdef FLOAT128
 void slow_ui64_to_f128M( uint64_t, float128_t * );
 #endif
+#ifdef FLOAT16
+float16_t slow_i32_to_f16( int32_t );
+#endif
 float32_t slow_i32_to_f32( int32_t );
 float64_t slow_i32_to_f64( int32_t );
 #ifdef EXTFLOAT80
@@ -69,6 +78,9 @@ void slow_i32_to_extF80M( int32_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
 void slow_i32_to_f128M( int32_t, float128_t * );
+#endif
+#ifdef FLOAT16
+float16_t slow_i64_to_f16( int64_t );
 #endif
 float32_t slow_i64_to_f32( int64_t );
 float64_t slow_i64_to_f64( int64_t );
@@ -79,6 +91,39 @@ void slow_i64_to_extF80M( int64_t, extFloat80_t * );
 void slow_i64_to_f128M( int64_t, float128_t * );
 #endif
 
+#ifdef FLOAT16
+uint_fast32_t slow_f16_to_ui32( float16_t, uint_fast8_t, bool );
+uint_fast64_t slow_f16_to_ui64( float16_t, uint_fast8_t, bool );
+int_fast32_t slow_f16_to_i32( float16_t, uint_fast8_t, bool );
+int_fast64_t slow_f16_to_i64( float16_t, uint_fast8_t, bool );
+uint_fast32_t slow_f16_to_ui32_r_minMag( float16_t, bool );
+uint_fast64_t slow_f16_to_ui64_r_minMag( float16_t, bool );
+int_fast32_t slow_f16_to_i32_r_minMag( float16_t, bool );
+int_fast64_t slow_f16_to_i64_r_minMag( float16_t, bool );
+float32_t slow_f16_to_f32( float16_t );
+float64_t slow_f16_to_f64( float16_t );
+#ifdef EXTFLOAT80
+void slow_f16_to_extF80M( float16_t, extFloat80_t * );
+#endif
+#ifdef FLOAT128
+void slow_f16_to_f128M( float16_t, float128_t * );
+#endif
+float16_t slow_f16_roundToInt( float16_t, uint_fast8_t, bool );
+float16_t slow_f16_add( float16_t, float16_t );
+float16_t slow_f16_sub( float16_t, float16_t );
+float16_t slow_f16_mul( float16_t, float16_t );
+float16_t slow_f16_mulAdd( float16_t, float16_t, float16_t );
+float16_t slow_f16_div( float16_t, float16_t );
+float16_t slow_f16_rem( float16_t, float16_t );
+float16_t slow_f16_sqrt( float16_t );
+bool slow_f16_eq( float16_t, float16_t );
+bool slow_f16_le( float16_t, float16_t );
+bool slow_f16_lt( float16_t, float16_t );
+bool slow_f16_eq_signaling( float16_t, float16_t );
+bool slow_f16_le_quiet( float16_t, float16_t );
+bool slow_f16_lt_quiet( float16_t, float16_t );
+#endif
+
 uint_fast32_t slow_f32_to_ui32( float32_t, uint_fast8_t, bool );
 uint_fast64_t slow_f32_to_ui64( float32_t, uint_fast8_t, bool );
 int_fast32_t slow_f32_to_i32( float32_t, uint_fast8_t, bool );
@@ -87,6 +132,9 @@ uint_fast32_t slow_f32_to_ui32_r_minMag( float32_t, bool );
 uint_fast64_t slow_f32_to_ui64_r_minMag( float32_t, bool );
 int_fast32_t slow_f32_to_i32_r_minMag( float32_t, bool );
 int_fast64_t slow_f32_to_i64_r_minMag( float32_t, bool );
+#ifdef FLOAT16
+float16_t slow_f32_to_f16( float32_t );
+#endif
 float64_t slow_f32_to_f64( float32_t );
 #ifdef EXTFLOAT80
 void slow_f32_to_extF80M( float32_t, extFloat80_t * );
@@ -117,6 +165,9 @@ uint_fast32_t slow_f64_to_ui32_r_minMag( float64_t, bool );
 uint_fast64_t slow_f64_to_ui64_r_minMag( float64_t, bool );
 int_fast32_t slow_f64_to_i32_r_minMag( float64_t, bool );
 int_fast64_t slow_f64_to_i64_r_minMag( float64_t, bool );
+#ifdef FLOAT16
+float16_t slow_f64_to_f16( float64_t );
+#endif
 float32_t slow_f64_to_f32( float64_t );
 #ifdef EXTFLOAT80
 void slow_f64_to_extF80M( float64_t, extFloat80_t * );
@@ -148,6 +199,9 @@ uint_fast32_t slow_extF80M_to_ui32_r_minMag( const extFloat80_t *, bool );
 uint_fast64_t slow_extF80M_to_ui64_r_minMag( const extFloat80_t *, bool );
 int_fast32_t slow_extF80M_to_i32_r_minMag( const extFloat80_t *, bool );
 int_fast64_t slow_extF80M_to_i64_r_minMag( const extFloat80_t *, bool );
+#ifdef FLOAT16
+float16_t slow_extF80M_to_f16( const extFloat80_t * );
+#endif
 float32_t slow_extF80M_to_f32( const extFloat80_t * );
 float64_t slow_extF80M_to_f64( const extFloat80_t * );
 #ifdef FLOAT128
@@ -196,6 +250,9 @@ uint_fast32_t slow_f128M_to_ui32_r_minMag( const float128_t *, bool );
 uint_fast64_t slow_f128M_to_ui64_r_minMag( const float128_t *, bool );
 int_fast32_t slow_f128M_to_i32_r_minMag( const float128_t *, bool );
 int_fast64_t slow_f128M_to_i64_r_minMag( const float128_t *, bool );
+#ifdef FLOAT16
+float16_t slow_f128M_to_f16( const float128_t * );
+#endif
 float32_t slow_f128M_to_f32( const float128_t * );
 float64_t slow_f128M_to_f64( const float128_t * );
 #ifdef EXTFLOAT80

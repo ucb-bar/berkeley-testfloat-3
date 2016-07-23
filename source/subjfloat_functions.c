@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
+This C source file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -54,6 +54,13 @@ typedef void genericFuncType();
 genericFuncType *const subjfloat_functions[] = {
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
+#ifdef FLOAT16
+#ifdef SUBJ_UI32_TO_F16
+    (genericFuncType *) subj_ui32_to_f16,
+#else
+    0,
+#endif
+#endif
 #ifdef SUBJ_UI32_TO_F32
     (genericFuncType *) subj_ui32_to_f32,
 #else
@@ -74,6 +81,13 @@ genericFuncType *const subjfloat_functions[] = {
 #ifdef FLOAT128
 #ifdef SUBJ_UI32_TO_F128
     (genericFuncType *) subj_ui32_to_f128M,
+#else
+    0,
+#endif
+#endif
+#ifdef FLOAT16
+#ifdef SUBJ_UI64_TO_F16
+    (genericFuncType *) subj_ui64_to_f16,
 #else
     0,
 #endif
@@ -102,6 +116,13 @@ genericFuncType *const subjfloat_functions[] = {
     0,
 #endif
 #endif
+#ifdef FLOAT16
+#ifdef SUBJ_I32_TO_F16
+    (genericFuncType *) subj_i32_to_f16,
+#else
+    0,
+#endif
+#endif
 #ifdef SUBJ_I32_TO_F32
     (genericFuncType *) subj_i32_to_f32,
 #else
@@ -126,6 +147,13 @@ genericFuncType *const subjfloat_functions[] = {
     0,
 #endif
 #endif
+#ifdef FLOAT16
+#ifdef SUBJ_I64_TO_F16
+    (genericFuncType *) subj_i64_to_f16,
+#else
+    0,
+#endif
+#endif
 #ifdef SUBJ_I64_TO_F32
     (genericFuncType *) subj_i64_to_f32,
 #else
@@ -146,6 +174,329 @@ genericFuncType *const subjfloat_functions[] = {
 #ifdef FLOAT128
 #ifdef SUBJ_I64_TO_F128
     (genericFuncType *) subj_i64_to_f128M,
+#else
+    0,
+#endif
+#endif
+    /*------------------------------------------------------------------------
+    *------------------------------------------------------------------------*/
+#ifdef FLOAT16
+#ifdef SUBJ_F16_TO_UI32_R_NEAR_EVEN
+    (genericFuncType *) subj_f16_to_ui32_r_near_even,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI32_R_MINMAG
+    (genericFuncType *) subj_f16_to_ui32_r_minMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI32_R_MIN
+    (genericFuncType *) subj_f16_to_ui32_r_min,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI32_R_MAX
+    (genericFuncType *) subj_f16_to_ui32_r_max,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI32_R_NEAR_MAXMAG
+    (genericFuncType *) subj_f16_to_ui32_r_near_maxMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI64_R_NEAR_EVEN
+    (genericFuncType *) subj_f16_to_ui64_r_near_even,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI64_R_MINMAG
+    (genericFuncType *) subj_f16_to_ui64_r_minMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI64_R_MIN
+    (genericFuncType *) subj_f16_to_ui64_r_min,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI64_R_MAX
+    (genericFuncType *) subj_f16_to_ui64_r_max,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI64_R_NEAR_MAXMAG
+    (genericFuncType *) subj_f16_to_ui64_r_near_maxMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I32_R_NEAR_EVEN
+    (genericFuncType *) subj_f16_to_i32_r_near_even,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I32_R_MINMAG
+    (genericFuncType *) subj_f16_to_i32_r_minMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I32_R_MIN
+    (genericFuncType *) subj_f16_to_i32_r_min,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I32_R_MAX
+    (genericFuncType *) subj_f16_to_i32_r_max,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I32_R_NEAR_MAXMAG
+    (genericFuncType *) subj_f16_to_i32_r_near_maxMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I64_R_NEAR_EVEN
+    (genericFuncType *) subj_f16_to_i64_r_near_even,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I64_R_MINMAG
+    (genericFuncType *) subj_f16_to_i64_r_minMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I64_R_MIN
+    (genericFuncType *) subj_f16_to_i64_r_min,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I64_R_MAX
+    (genericFuncType *) subj_f16_to_i64_r_max,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I64_R_NEAR_MAXMAG
+    (genericFuncType *) subj_f16_to_i64_r_near_maxMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI32_RX_NEAR_EVEN
+    (genericFuncType *) subj_f16_to_ui32_rx_near_even,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI32_RX_MINMAG
+    (genericFuncType *) subj_f16_to_ui32_rx_minMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI32_RX_MIN
+    (genericFuncType *) subj_f16_to_ui32_rx_min,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI32_RX_MAX
+    (genericFuncType *) subj_f16_to_ui32_rx_max,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI32_RX_NEAR_MAXMAG
+    (genericFuncType *) subj_f16_to_ui32_rx_near_maxMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI64_RX_NEAR_EVEN
+    (genericFuncType *) subj_f16_to_ui64_rx_near_even,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI64_RX_MINMAG
+    (genericFuncType *) subj_f16_to_ui64_rx_minMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI64_RX_MIN
+    (genericFuncType *) subj_f16_to_ui64_rx_min,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI64_RX_MAX
+    (genericFuncType *) subj_f16_to_ui64_rx_max,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_UI64_RX_NEAR_MAXMAG
+    (genericFuncType *) subj_f16_to_ui64_rx_near_maxMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I32_RX_NEAR_EVEN
+    (genericFuncType *) subj_f16_to_i32_rx_near_even,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I32_RX_MINMAG
+    (genericFuncType *) subj_f16_to_i32_rx_minMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I32_RX_MIN
+    (genericFuncType *) subj_f16_to_i32_rx_min,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I32_RX_MAX
+    (genericFuncType *) subj_f16_to_i32_rx_max,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I32_RX_NEAR_MAXMAG
+    (genericFuncType *) subj_f16_to_i32_rx_near_maxMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I64_RX_NEAR_EVEN
+    (genericFuncType *) subj_f16_to_i64_rx_near_even,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I64_RX_MINMAG
+    (genericFuncType *) subj_f16_to_i64_rx_minMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I64_RX_MIN
+    (genericFuncType *) subj_f16_to_i64_rx_min,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I64_RX_MAX
+    (genericFuncType *) subj_f16_to_i64_rx_max,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_I64_RX_NEAR_MAXMAG
+    (genericFuncType *) subj_f16_to_i64_rx_near_maxMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_F32
+    (genericFuncType *) subj_f16_to_f32,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_TO_F64
+    (genericFuncType *) subj_f16_to_f64,
+#else
+    0,
+#endif
+#ifdef EXTFLOAT80
+#ifdef SUBJ_F16_TO_EXTF80
+    (genericFuncType *) subj_f16_to_extF80M,
+#else
+    0,
+#endif
+#endif
+#ifdef FLOAT128
+#ifdef SUBJ_F16_TO_F128
+    (genericFuncType *) subj_f16_to_f128M,
+#else
+    0,
+#endif
+#endif
+#ifdef SUBJ_F16_ROUNDTOINT_R_NEAR_EVEN
+    (genericFuncType *) subj_f16_roundToInt_r_near_even,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_ROUNDTOINT_R_MINMAG
+    (genericFuncType *) subj_f16_roundToInt_r_minMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_ROUNDTOINT_R_MIN
+    (genericFuncType *) subj_f16_roundToInt_r_min,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_ROUNDTOINT_R_MAX
+    (genericFuncType *) subj_f16_roundToInt_r_max,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_ROUNDTOINT_R_NEAR_MAXMAG
+    (genericFuncType *) subj_f16_roundToInt_r_near_maxMag,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_ROUNDTOINT_X
+    (genericFuncType *) subj_f16_roundToInt_x,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_ADD
+    (genericFuncType *) subj_f16_add,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_SUB
+    (genericFuncType *) subj_f16_sub,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_MUL
+    (genericFuncType *) subj_f16_mul,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_MULADD
+    (genericFuncType *) subj_f16_mulAdd,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_DIV
+    (genericFuncType *) subj_f16_div,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_REM
+    (genericFuncType *) subj_f16_rem,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_SQRT
+    (genericFuncType *) subj_f16_sqrt,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_EQ
+    (genericFuncType *) subj_f16_eq,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_LE
+    (genericFuncType *) subj_f16_le,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_LT
+    (genericFuncType *) subj_f16_lt,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_EQ_SIGNALING
+    (genericFuncType *) subj_f16_eq_signaling,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_LE_QUIET
+    (genericFuncType *) subj_f16_le_quiet,
+#else
+    0,
+#endif
+#ifdef SUBJ_F16_LT_QUIET
+    (genericFuncType *) subj_f16_lt_quiet,
 #else
     0,
 #endif
@@ -351,6 +702,13 @@ genericFuncType *const subjfloat_functions[] = {
     (genericFuncType *) subj_f32_to_i64_rx_near_maxMag,
 #else
     0,
+#endif
+#ifdef FLOAT16
+#ifdef SUBJ_F32_TO_F16
+    (genericFuncType *) subj_f32_to_f16,
+#else
+    0,
+#endif
 #endif
 #ifdef SUBJ_F32_TO_F64
     (genericFuncType *) subj_f32_to_f64,
@@ -667,6 +1025,13 @@ genericFuncType *const subjfloat_functions[] = {
     (genericFuncType *) subj_f64_to_i64_rx_near_maxMag,
 #else
     0,
+#endif
+#ifdef FLOAT16
+#ifdef SUBJ_F64_TO_F16
+    (genericFuncType *) subj_f64_to_f16,
+#else
+    0,
+#endif
 #endif
 #ifdef SUBJ_F64_TO_F32
     (genericFuncType *) subj_f64_to_f32,
@@ -985,6 +1350,13 @@ genericFuncType *const subjfloat_functions[] = {
 #else
     0,
 #endif
+#ifdef FLOAT16
+#ifdef SUBJ_EXTF80_TO_F16
+    (genericFuncType *) subj_extF80M_to_f16,
+#else
+    0,
+#endif
+#endif
 #ifdef SUBJ_EXTF80_TO_F32
     (genericFuncType *) subj_extF80M_to_f32,
 #else
@@ -1295,6 +1667,13 @@ genericFuncType *const subjfloat_functions[] = {
     (genericFuncType *) subj_f128M_to_i64_rx_near_maxMag,
 #else
     0,
+#endif
+#ifdef FLOAT16
+#ifdef SUBJ_F128_TO_F16
+    (genericFuncType *) subj_f128M_to_f16,
+#else
+    0,
+#endif
 #endif
 #ifdef SUBJ_F128_TO_F32
     (genericFuncType *) subj_f128M_to_f32,

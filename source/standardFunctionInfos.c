@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
+This C source file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -48,6 +48,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 const struct standardFunctionInfo standardFunctionInfos[] = {
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
+#ifdef FLOAT16
+    { "ui32_to_f16",    UI32_TO_F16,    0, 0 },
+#endif
     { "ui32_to_f32",    UI32_TO_F32,    0, 0 },
     { "ui32_to_f64",    UI32_TO_F64,    0, 0 },
 #ifdef EXTFLOAT80
@@ -55,6 +58,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
 #endif
 #ifdef FLOAT128
     { "ui32_to_f128",   UI32_TO_F128,   0, 0 },
+#endif
+#ifdef FLOAT16
+    { "ui64_to_f16",    UI64_TO_F16,    0, 0 },
 #endif
     { "ui64_to_f32",    UI64_TO_F32,    0, 0 },
     { "ui64_to_f64",    UI64_TO_F64,    0, 0 },
@@ -64,6 +70,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
 #ifdef FLOAT128
     { "ui64_to_f128",   UI64_TO_F128,   0, 0 },
 #endif
+#ifdef FLOAT16
+    { "i32_to_f16",     I32_TO_F16,     0, 0 },
+#endif
     { "i32_to_f32",     I32_TO_F32,     0, 0 },
     { "i32_to_f64",     I32_TO_F64,     0, 0 },
 #ifdef EXTFLOAT80
@@ -72,6 +81,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
 #ifdef FLOAT128
     { "i32_to_f128",    I32_TO_F128,    0, 0 },
 #endif
+#ifdef FLOAT16
+    { "i64_to_f16",     I64_TO_F16,     0, 0 },
+#endif
     { "i64_to_f32",     I64_TO_F32,     0, 0 },
     { "i64_to_f64",     I64_TO_F64,     0, 0 },
 #ifdef EXTFLOAT80
@@ -79,6 +91,77 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
 #endif
 #ifdef FLOAT128
     { "i64_to_f128",    I64_TO_F128,    0, 0 },
+#endif
+    /*------------------------------------------------------------------------
+    *------------------------------------------------------------------------*/
+#ifdef FLOAT16
+    { "f16_to_ui32_r_near_even",         F16_TO_UI32,         RNEVEN, false },
+    { "f16_to_ui32_r_minMag",            F16_TO_UI32,         RMINM,  false },
+    { "f16_to_ui32_r_min",               F16_TO_UI32,         RMIN,   false },
+    { "f16_to_ui32_r_max",               F16_TO_UI32,         RMAX,   false },
+    { "f16_to_ui32_r_near_maxMag",       F16_TO_UI32,         RNMAXM, false },
+    { "f16_to_ui64_r_near_even",         F16_TO_UI64,         RNEVEN, false },
+    { "f16_to_ui64_r_minMag",            F16_TO_UI64,         RMINM,  false },
+    { "f16_to_ui64_r_min",               F16_TO_UI64,         RMIN,   false },
+    { "f16_to_ui64_r_max",               F16_TO_UI64,         RMAX,   false },
+    { "f16_to_ui64_r_near_maxMag",       F16_TO_UI64,         RNMAXM, false },
+    { "f16_to_i32_r_near_even",          F16_TO_I32,          RNEVEN, false },
+    { "f16_to_i32_r_minMag",             F16_TO_I32,          RMINM,  false },
+    { "f16_to_i32_r_min",                F16_TO_I32,          RMIN,   false },
+    { "f16_to_i32_r_max",                F16_TO_I32,          RMAX,   false },
+    { "f16_to_i32_r_near_maxMag",        F16_TO_I32,          RNMAXM, false },
+    { "f16_to_i64_r_near_even",          F16_TO_I64,          RNEVEN, false },
+    { "f16_to_i64_r_minMag",             F16_TO_I64,          RMINM,  false },
+    { "f16_to_i64_r_min",                F16_TO_I64,          RMIN,   false },
+    { "f16_to_i64_r_max",                F16_TO_I64,          RMAX,   false },
+    { "f16_to_i64_r_near_maxMag",        F16_TO_I64,          RNMAXM, false },
+    { "f16_to_ui32_rx_near_even",        F16_TO_UI32,         RNEVEN, true  },
+    { "f16_to_ui32_rx_minMag",           F16_TO_UI32,         RMINM,  true  },
+    { "f16_to_ui32_rx_min",              F16_TO_UI32,         RMIN,   true  },
+    { "f16_to_ui32_rx_max",              F16_TO_UI32,         RMAX,   true  },
+    { "f16_to_ui32_rx_near_maxMag",      F16_TO_UI32,         RNMAXM, true  },
+    { "f16_to_ui64_rx_near_even",        F16_TO_UI64,         RNEVEN, true  },
+    { "f16_to_ui64_rx_minMag",           F16_TO_UI64,         RMINM,  true  },
+    { "f16_to_ui64_rx_min",              F16_TO_UI64,         RMIN,   true  },
+    { "f16_to_ui64_rx_max",              F16_TO_UI64,         RMAX,   true  },
+    { "f16_to_ui64_rx_near_maxMag",      F16_TO_UI64,         RNMAXM, true  },
+    { "f16_to_i32_rx_near_even",         F16_TO_I32,          RNEVEN, true  },
+    { "f16_to_i32_rx_minMag",            F16_TO_I32,          RMINM,  true  },
+    { "f16_to_i32_rx_min",               F16_TO_I32,          RMIN,   true  },
+    { "f16_to_i32_rx_max",               F16_TO_I32,          RMAX,   true  },
+    { "f16_to_i32_rx_near_maxMag",       F16_TO_I32,          RNMAXM, true  },
+    { "f16_to_i64_rx_near_even",         F16_TO_I64,          RNEVEN, true  },
+    { "f16_to_i64_rx_minMag",            F16_TO_I64,          RMINM,  true  },
+    { "f16_to_i64_rx_min",               F16_TO_I64,          RMIN,   true  },
+    { "f16_to_i64_rx_max",               F16_TO_I64,          RMAX,   true  },
+    { "f16_to_i64_rx_near_maxMag",       F16_TO_I64,          RNMAXM, true  },
+    { "f16_to_f32",                      F16_TO_F32,          0,      0     },
+    { "f16_to_f64",                      F16_TO_F64,          0,      0     },
+#ifdef EXTFLOAT80
+    { "f16_to_extF80",                   F16_TO_EXTF80,       0,      0     },
+#endif
+#ifdef FLOAT128
+    { "f16_to_f128",                     F16_TO_F128,         0,      0     },
+#endif
+    { "f16_roundToInt_r_near_even",      F16_ROUNDTOINT,      RNEVEN, false },
+    { "f16_roundToInt_r_minMag",         F16_ROUNDTOINT,      RMINM,  false },
+    { "f16_roundToInt_r_min",            F16_ROUNDTOINT,      RMIN,   false },
+    { "f16_roundToInt_r_max",            F16_ROUNDTOINT,      RMAX,   false },
+    { "f16_roundToInt_r_near_maxMag",    F16_ROUNDTOINT,      RNMAXM, false },
+    { "f16_roundToInt_x",                F16_ROUNDTOINT,      0,      true  },
+    { "f16_add",                         F16_ADD,             0,      0     },
+    { "f16_sub",                         F16_SUB,             0,      0     },
+    { "f16_mul",                         F16_MUL,             0,      0     },
+    { "f16_mulAdd",                      F16_MULADD,          0,      0     },
+    { "f16_div",                         F16_DIV,             0,      0     },
+    { "f16_rem",                         F16_REM,             0,      0     },
+    { "f16_sqrt",                        F16_SQRT,            0,      0     },
+    { "f16_eq",                          F16_EQ,              0,      0     },
+    { "f16_le",                          F16_LE,              0,      0     },
+    { "f16_lt",                          F16_LT,              0,      0     },
+    { "f16_eq_signaling",                F16_EQ_SIGNALING,    0,      0     },
+    { "f16_le_quiet",                    F16_LE_QUIET,        0,      0     },
+    { "f16_lt_quiet",                    F16_LT_QUIET,        0,      0     },
 #endif
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
@@ -122,6 +205,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "f32_to_i64_rx_min",               F32_TO_I64,          RMIN,   true  },
     { "f32_to_i64_rx_max",               F32_TO_I64,          RMAX,   true  },
     { "f32_to_i64_rx_near_maxMag",       F32_TO_I64,          RNMAXM, true  },
+#ifdef FLOAT16
+    { "f32_to_f16",                      F32_TO_F16,          0,      0     },
+#endif
     { "f32_to_f64",                      F32_TO_F64,          0,      0     },
 #ifdef EXTFLOAT80
     { "f32_to_extF80",                   F32_TO_EXTF80,       0,      0     },
@@ -190,6 +276,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "f64_to_i64_rx_min",               F64_TO_I64,          RMIN,   true  },
     { "f64_to_i64_rx_max",               F64_TO_I64,          RMAX,   true  },
     { "f64_to_i64_rx_near_maxMag",       F64_TO_I64,          RNMAXM, true  },
+#ifdef FLOAT16
+    { "f64_to_f16",                      F64_TO_F16,          0,      0     },
+#endif
     { "f64_to_f32",                      F64_TO_F32,          0,      0     },
 #ifdef EXTFLOAT80
     { "f64_to_extF80",                   F64_TO_EXTF80,       0,      0     },
@@ -259,6 +348,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "extF80_to_i64_rx_min",            EXTF80_TO_I64,       RMIN,   true  },
     { "extF80_to_i64_rx_max",            EXTF80_TO_I64,       RMAX,   true  },
     { "extF80_to_i64_rx_near_maxMag",    EXTF80_TO_I64,       RNMAXM, true  },
+#ifdef FLOAT16
+    { "extF80_to_f16",                   EXTF80_TO_F16,       0,      0     },
+#endif
     { "extF80_to_f32",                   EXTF80_TO_F32,       0,      0     },
     { "extF80_to_f64",                   EXTF80_TO_F64,       0,      0     },
 #ifdef FLOAT128
@@ -326,6 +418,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "f128_to_i64_rx_min",              F128_TO_I64,         RMIN,   true  },
     { "f128_to_i64_rx_max",              F128_TO_I64,         RMAX,   true  },
     { "f128_to_i64_rx_near_maxMag",      F128_TO_I64,         RNMAXM, true  },
+#ifdef FLOAT16
+    { "f128_to_f16",                     F128_TO_F16,         0,      0     },
+#endif
     { "f128_to_f32",                     F128_TO_F32,         0,      0     },
     { "f128_to_f64",                     F128_TO_F64,         0,      0     },
 #ifdef EXTFLOAT80

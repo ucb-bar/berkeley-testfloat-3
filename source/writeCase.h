@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3a, a package of programs for
+This C header file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -43,6 +43,11 @@ void writeCase_a_ui32( uint_fast32_t, const char * );
 void writeCase_a_ui64( uint_fast64_t, const char * );
 #define writeCase_a_i32 writeCase_a_ui32
 #define writeCase_a_i64 writeCase_a_ui64
+#ifdef FLOAT16
+void writeCase_a_f16( float16_t, const char * );
+void writeCase_ab_f16( float16_t, float16_t, const char * );
+void writeCase_abc_f16( float16_t, float16_t, float16_t, const char * );
+#endif
 void writeCase_a_f32( float32_t, const char * );
 void writeCase_ab_f32( float32_t, float32_t, const char * );
 void writeCase_abc_f32( float32_t, float32_t, float32_t, const char * );
@@ -79,6 +84,9 @@ void
  writeCase_z_ui64( uint_fast64_t, uint_fast8_t, uint_fast64_t, uint_fast8_t );
 #define writeCase_z_i32 writeCase_z_ui32
 #define writeCase_z_i64 writeCase_z_ui64
+#ifdef FLOAT16
+void writeCase_z_f16( float16_t, uint_fast8_t, float16_t, uint_fast8_t );
+#endif
 void writeCase_z_f32( float32_t, uint_fast8_t, float32_t, uint_fast8_t );
 void writeCase_z_f64( float64_t, uint_fast8_t, float64_t, uint_fast8_t );
 #ifdef EXTFLOAT80

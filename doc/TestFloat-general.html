@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3a: General Documentation</H1>
+<H1>Berkeley TestFloat Release 3b: General Documentation</H1>
 
 <P>
 John R. Hauser<BR>
-2015 October 23<BR>
+2016 July 22<BR>
 </P>
 
 
@@ -53,8 +53,9 @@ implementation of binary floating-point conforms to the IEEE Standard for
 Floating-Point Arithmetic.
 All operations required by the original 1985 version of the IEEE Floating-Point
 Standard can be tested, except for conversions to and from decimal.
-The following binary formats can be tested:  <NOBR>32-bit</NOBR>
-single-precision, <NOBR>64-bit</NOBR> double-precision, <NOBR>80-bit</NOBR>
+With the current release, the following binary formats can be tested:
+<NOBR>16-bit</NOBR> half-precision, <NOBR>32-bit</NOBR> single-precision,
+<NOBR>64-bit</NOBR> double-precision, <NOBR>80-bit</NOBR>
 double-extended-precision, and/or <NOBR>128-bit</NOBR> quadruple-precision.
 TestFloat cannot test decimal floating-point.
 </P>
@@ -64,7 +65,7 @@ Included in the TestFloat package are the <CODE>testsoftfloat</CODE> and
 <CODE>timesoftfloat</CODE> programs for testing the Berkeley SoftFloat software
 implementation of floating-point and for measuring its speed.
 Information about SoftFloat can be found at the SoftFloat Web page,
-<A HREF="http://www.jhauser.us/arithmetic/SoftFloat.html"><CODE>http://www.jhauser.us/arithmetic/SoftFloat.html</CODE></A>.
+<A HREF="http://www.jhauser.us/arithmetic/SoftFloat.html"><NOBR><CODE>http://www.jhauser.us/arithmetic/SoftFloat.html</CODE></NOBR></A>.
 The <CODE>testsoftfloat</CODE> and <CODE>timesoftfloat</CODE> programs are
 expected to be of interest only to people compiling the SoftFloat sources.
 </P>
@@ -77,13 +78,14 @@ Details about the standard are available elsewhere.
 </P>
 
 <P>
-The current version of TestFloat is <NOBR>Release 3a</NOBR>.
-Besides a replacement of the license text supplied by the University of
-California, the differences between Releases 3 and 3a are minor, mostly
-affecting the build process.
+The current version of TestFloat is <NOBR>Release 3b</NOBR>.
+This release differs from the previous <NOBR>Release 3a</NOBR> mainly in the
+ability to test the <NOBR>16-bit</NOBR> half-precision format.
 Compared to Release 2c and earlier, the set of TestFloat programs as well as
 the programs&rsquo; arguments and behavior changed some with
 <NOBR>Release 3</NOBR>.
+For more about the evolution of TestFloat releases, see
+<A HREF="TestFloat-history.html"><NOBR><CODE>TestFloat-history.html</CODE></NOBR></A>.
 </P>
 
 
@@ -101,8 +103,8 @@ soundness of the floating-point under test.
 TestFloat may also at times manage to find rarer and more subtle bugs, but it
 will probably only find such bugs by chance.
 Software that purposefully seeks out various kinds of subtle floating-point
-bugs can be found through links posted on the TestFloat Web page
-(<A HREF="http://www.jhauser.us/arithmetic/TestFloat.html"><CODE>http://www.jhauser.us/arithmetic/TestFloat.html</CODE></A>).
+bugs can be found through links posted on the TestFloat Web page,
+<A HREF="http://www.jhauser.us/arithmetic/TestFloat.html"><NOBR><CODE>http://www.jhauser.us/arithmetic/TestFloat.html</CODE></NOBR></A>.
 </P>
 
 
@@ -112,10 +114,10 @@ bugs can be found through links posted on the TestFloat Web page
 The TestFloat package was written by me, <NOBR>John R.</NOBR> Hauser.
 <NOBR>Release 3</NOBR> of TestFloat was a completely new implementation
 supplanting earlier releases.
-The project to create <NOBR>Release 3</NOBR> (and <NOBR>now 3a</NOBR>) was done
-in the employ of the University of California, Berkeley, within the Department
-of Electrical Engineering and Computer Sciences, first for the Parallel
-Computing Laboratory (Par Lab) and then for the ASPIRE Lab.
+The project to create <NOBR>Release 3</NOBR> (now <NOBR>through 3b</NOBR>) was
+done in the employ of the University of California, Berkeley, within the
+Department of Electrical Engineering and Computer Sciences, first for the
+Parallel Computing Laboratory (Par Lab) and then for the ASPIRE Lab.
 The work was officially overseen by Prof. Krste Asanovic, with funding provided
 by these sources:
 <BLOCKQUOTE>
@@ -146,12 +148,12 @@ Oracle, and Samsung.
 </P>
 
 <P>
-The following applies to the whole of TestFloat <NOBR>Release 3a</NOBR> as well
+The following applies to the whole of TestFloat <NOBR>Release 3b</NOBR> as well
 as to each source file individually.
 </P>
 
 <P>
-Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
 California.
 All rights reserved.
 </P>
@@ -225,7 +227,7 @@ It also makes no attempt to find bugs specific to SRT division and the like
 (such as the infamous Pentium division bug).
 Software that tests for such failures can be found through links on the
 TestFloat Web page,
-<A HREF="http://www.jhauser.us/arithmetic/TestFloat.html"><CODE>http://www.jhauser.us/arithmetic/TestFloat.html</CODE></A>.
+<A HREF="http://www.jhauser.us/arithmetic/TestFloat.html"><NOBR><CODE>http://www.jhauser.us/arithmetic/TestFloat.html</CODE></NOBR></A>.
 </P>
 
 <P>
@@ -278,7 +280,7 @@ me.
 The SoftFloat functions are linked into each TestFloat program&rsquo;s
 executable.
 Information about SoftFloat can be found at the Web page
-<A HREF="http://www.jhauser.us/arithmetic/SoftFloat.html"><CODE>http://www.jhauser.us/arithmetic/SoftFloat.html</CODE></A>.
+<A HREF="http://www.jhauser.us/arithmetic/SoftFloat.html"><NOBR><CODE>http://www.jhauser.us/arithmetic/SoftFloat.html</CODE></NOBR></A>.
 </P>
 
 <P>
@@ -312,14 +314,18 @@ Generates test cases for a specific floating-point operation.
 </TD>
 </TR>
 <TR>
-<TD><A HREF="testfloat_ver.html"><CODE>testfloat_ver</CODE></A></TD>
+<TD>
+<A HREF="testfloat_ver.html"><CODE>testfloat_ver</CODE></A>
+</TD>
 <TD>
 Verifies whether the results from executing a floating-point operation are as
 expected.
 </TD>
 </TR>
 <TR>
-<TD><A HREF="testfloat.html"><CODE>testfloat</CODE></A></TD>
+<TD>
+<A HREF="testfloat.html"><CODE>testfloat</CODE></A>
+</TD>
 <TD>
 An all-in-one program that generates test cases, executes floating-point
 operations, and verifies whether the results match expectations.
@@ -462,11 +468,11 @@ IEEE Standard.
 
 <P>
 More information about all these operations is given below.
-In the operation names used by TestFloat, <NOBR>32-bit</NOBR> single-precision
-is called <CODE>f32</CODE>, <NOBR>64-bit</NOBR> double-precision is
-<CODE>f64</CODE>, <NOBR>80-bit</NOBR> double-extended-precision is
-<CODE>extF80</CODE>, and <NOBR>128-bit</NOBR> quadruple-precision is
-<CODE>f128</CODE>.
+In the operation names used by TestFloat, <NOBR>16-bit</NOBR> half-precision is
+called <CODE>f16</CODE>, <NOBR>32-bit</NOBR> single-precision is
+<CODE>f32</CODE>, <NOBR>64-bit</NOBR> double-precision is <CODE>f64</CODE>,
+<NOBR>80-bit</NOBR> double-extended-precision is <CODE>extF80</CODE>, and
+<NOBR>128-bit</NOBR> quadruple-precision is <CODE>f128</CODE>.
 TestFloat generally uses the same names for operations as Berkeley SoftFloat,
 except that TestFloat&rsquo;s names never include the <CODE>M</CODE> that
 SoftFloat uses to indicate that values are passed through pointers.
@@ -481,19 +487,21 @@ can be tested.
 The conversion operations are:
 <BLOCKQUOTE>
 <PRE>
+ui32_to_f16      ui64_to_f16      i32_to_f16       i64_to_f16
 ui32_to_f32      ui64_to_f32      i32_to_f32       i64_to_f32
 ui32_to_f64      ui64_to_f64      i32_to_f64       i64_to_f64
 ui32_to_extF80   ui64_to_extF80   i32_to_extF80    i64_to_extF80
 ui32_to_f128     ui64_to_f128     i32_to_f128      i64_to_f128
 
-f32_to_ui32      f64_to_ui32      extF80_to_ui32   f128_to_ui32
-f32_to_ui64      f64_to_ui64      extF80_to_ui64   f128_to_ui64
-f32_to_i32       f64_to_i32       extF80_to_i32    f128_to_i32
-f32_to_i64       f64_to_i64       extF80_to_i64    f128_to_i64
+f16_to_ui32      f32_to_ui32      f64_to_ui32      extF80_to_ui32    f128_to_ui32
+f16_to_ui64      f32_to_ui64      f64_to_ui64      extF80_to_ui64    f128_to_ui64
+f16_to_i32       f32_to_i32       f64_to_i32       extF80_to_i32     f128_to_i32
+f16_to_i64       f32_to_i64       f64_to_i64       extF80_to_i64     f128_to_i64
 
-f32_to_f64       f64_to_f32       extF80_to_f32    f128_to_f32
-f32_to_extF80    f64_to_extF80    extF80_to_f64    f128_to_f64
-f32_to_f128      f64_to_f128      extF80_to_f128   f128_to_extF80
+f16_to_f32       f32_to_f16       f64_to_f16       extF80_to_f16     f128_to_f16
+f16_to_f64       f32_to_f64       f64_to_f32       extF80_to_f32     f128_to_f32
+f16_to_extF80    f32_to_extF80    f64_to_extF80    extF80_to_f64     f128_to_f64
+f16_to_f128      f32_to_f128      f64_to_f128      extF80_to_f128    f128_to_extF80
 </PRE>
 </BLOCKQUOTE>
 Abbreviations <CODE>ui32</CODE> and <CODE>ui64</CODE> indicate
@@ -540,10 +548,12 @@ raise the <I>inexact</I> exception whenever the result is not exact.
 <P>
 TestFloat assumes that conversions from floating-point to an integer type
 should raise the <I>invalid</I> exception if the input cannot be rounded to an
-integer representable by the result format.
+integer representable in the result format.
 In such a circumstance, if the result type is an unsigned integer, TestFloat
 expects the result of the operation to be the type&rsquo;s largest integer
-value.
+value;
+although, when conversion overflows for a negative input, TestFloat may also
+accept a result of zero.
 If the result type is a signed integer and conversion overflows, TestFloat
 expects the result to be the largest-magnitude integer with the same sign as
 the input.
@@ -560,6 +570,7 @@ exception.
 The following standard arithmetic operations can be tested:
 <BLOCKQUOTE>
 <PRE>
+f16_add      f16_sub      f16_mul      f16_div      f16_sqrt
 f32_add      f32_sub      f32_mul      f32_div      f32_sqrt
 f64_add      f64_sub      f64_mul      f64_div      f64_sqrt
 extF80_add   extF80_sub   extF80_mul   extF80_div   extF80_sqrt
@@ -579,6 +590,7 @@ defined by the 2008 IEEE Floating-Point Standard.
 The fused multiply-add operations are:
 <BLOCKQUOTE>
 <PRE>
+f16_mulAdd
 f32_mulAdd
 f64_mulAdd
 f128_mulAdd
@@ -600,6 +612,7 @@ operation.
 These operations are:
 <BLOCKQUOTE>
 <PRE>
+f16_rem
 f32_rem
 f64_rem
 extF80_rem
@@ -617,6 +630,7 @@ operation.
 For most TestFloat programs, these operations are:
 <BLOCKQUOTE>
 <PRE>
+f16_roundToInt
 f32_roundToInt
 f64_roundToInt
 extF80_roundToInt
@@ -645,8 +659,8 @@ The usual indication of rounding mode is ignored.
 In contrast, the &lsquo;<CODE>_x</CODE>&rsquo; versions accept the usual
 indication of rounding mode and raise the <I>inexact</I> exception whenever the
 result is not exact.
-This irregular system follows the IEEE Standard&rsquo;s precise specification
-for the round-to-integer operations.
+This irregular system follows the IEEE Standard&rsquo;s particular
+specification for the round-to-integer operations.
 </P>
 
 <H3>6.6. Comparison Operations</H3>
@@ -655,6 +669,7 @@ for the round-to-integer operations.
 The following floating-point comparison operations can be tested:
 <BLOCKQUOTE>
 <PRE>
+f16_eq      f16_le      f16_lt
 f32_eq      f32_le      f32_lt
 f64_eq      f64_le      f64_lt
 extF80_eq   extF80_le   extF80_lt
@@ -676,6 +691,7 @@ For completeness, the following additional operations can be tested if
 supported:
 <BLOCKQUOTE>
 <PRE>
+f16_eq_signaling      f16_le_quiet      f16_lt_quiet
 f32_eq_signaling      f32_le_quiet      f32_lt_quiet
 f64_eq_signaling      f64_le_quiet      f64_lt_quiet
 extF80_eq_signaling   extF80_le_quiet   extF80_lt_quiet
@@ -711,7 +727,7 @@ Two implementations can sometimes give different results without either being
 incorrect.
 <LI>
 The trusted floating-point emulation could be faulty.
-This could be because there is a bug in the way the enulation is coded, or
+This could be because there is a bug in the way the emulation is coded, or
 because a mistake was made when the code was compiled for the current system.
 <LI>
 The TestFloat program may not work properly, reporting differences that do not
@@ -754,140 +770,185 @@ first, followed by the exception flags.
 For example, two typical error lines could be
 <BLOCKQUOTE>
 <PRE>
-800.7FFF00  87F.000100  => 001.000000 ...ux  expected: 001.000000 ....x
-081.000004  000.1FFFFF  => 001.000000 ...ux  expected: 001.000000 ....x
+-00.7FFF00  -7F.000100  => +01.000000 ...ux  expected: +01.000000 ....x
++81.000004  +00.1FFFFF  => +01.000000 ...ux  expected: +01.000000 ....x
 </PRE>
 </BLOCKQUOTE>
-In the first line, the inputs are <CODE>800.7FFF00</CODE> and
-<CODE>87F.000100</CODE>, and the observed result is <CODE>001.000000</CODE>
+In the first line, the inputs are <CODE>-00.7FFF00</CODE> and
+<CODE>-7F.000100</CODE>, and the observed result is <CODE>+01.000000</CODE>
 with flags <CODE>...ux</CODE>.
 The trusted emulation result is the same but with different flags,
 <CODE>....x</CODE>.
-Items such as <CODE>800.7FFF00</CODE> composed of hexadecimal digits and a
-single period represent floating-point values (here <NOBR>32-bit</NOBR>
+Items such as <CODE>-00.7FFF00</CODE> composed of a sign character
+<NOBR>(<CODE>+</CODE>/<CODE>-</CODE>)</NOBR>, hexadecimal digits, and a single
+period represent floating-point values (here <NOBR>32-bit</NOBR>
 single-precision).
 The two instances above were reported as errors because the exception flag
 results differ.
 </P>
 
 <P>
-Aside from the exception flags, there are nine data types that may be
+Aside from the exception flags, there are ten data types that may be
 represented.
-Four are floating-point types:  <NOBR>32-bit</NOBR> single-precision,
-<NOBR>64-bit</NOBR> double-precision, <NOBR>80-bit</NOBR>
-double-extended-precision, and <NOBR>128-bit</NOBR> quadruple-precision.
+Five are floating-point types:  <NOBR>16-bit</NOBR> half-precision,
+<NOBR>32-bit</NOBR> single-precision, <NOBR>64-bit</NOBR> double-precision,
+<NOBR>80-bit</NOBR> double-extended-precision, and <NOBR>128-bit</NOBR>
+quadruple-precision.
 The remaining five types are <NOBR>32-bit</NOBR> and <NOBR>64-bit</NOBR>
 unsigned integers, <NOBR>32-bit</NOBR> and <NOBR>64-bit</NOBR>
 two&rsquo;s-complement signed integers, and Boolean values (the results of
 comparison operations).
 Boolean values are represented as a single character, either a <CODE>0</CODE>
-or a <CODE>1</CODE>.
-<NOBR>32-bit</NOBR> integers are represented as 8 hexadecimal digits.
-Thus, for a signed <NOBR>32-bit</NOBR> integer, <CODE>FFFFFFFF</CODE> is -1,
-and <CODE>7FFFFFFF</CODE> is the largest positive value.
+(false) or a <CODE>1</CODE> (true).
+A <NOBR>32-bit</NOBR> integer is represented as 8 hexadecimal digits.
+Thus, for a signed <NOBR>32-bit</NOBR> integer, <CODE>FFFFFFFF</CODE> is
+&minus;1, and <CODE>7FFFFFFF</CODE> is the largest positive value.
 <NOBR>64-bit</NOBR> integers are the same except with 16 hexadecimal digits.
 </P>
 
 <P>
-Floating-point values are written in a correspondingly primitive form.
-Values of the <NOBR>64-bit</NOBR> double-precision format are represented by 16
-hexadecimal digits that give the raw bits of the floating-point encoding.
-A period separates the 3rd and 4th hexadecimal digits to mark the division
-between the exponent bits and fraction bits.
-Some notable <NOBR>64-bit</NOBR> double-precision values include:
+Floating-point values are written decomposed into their sign, encoded exponent,
+and encoded significand.
+First is the sign character <NOBR>(<CODE>+</CODE> or <CODE>-</CODE>),</NOBR>
+followed by the encoded exponent in hexadecimal, then a period
+(<CODE>.</CODE>), and lastly the encoded significand in hexadecimal.
+</P>
+
+<P>
+For <NOBR>16-bit</NOBR> half-precision, notable values include:
 <BLOCKQUOTE>
 <TABLE CELLSPACING=0 CELLPADDING=0>
-<TR>
-  <TD><CODE>000.0000000000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
-  <TD>+0</TD>
-</TR>
-<TR><TD><CODE>3FF.0000000000000</CODE></TD><TD>&nbsp;1</TD></TR>
-<TR><TD><CODE>400.0000000000000</CODE></TD><TD>&nbsp;2</TD></TR>
-<TR><TD><CODE>7FF.0000000000000</CODE></TD><TD>+infinity</TD></TR>
+<TR><TD><CODE>+00.000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD><TD>+0</TD></TR>
+<TR><TD><CODE>+0F.000</CODE></TD><TD>&nbsp;1</TD></TR>
+<TR><TD><CODE>+10.000</CODE></TD><TD>&nbsp;2</TD></TR>
+<TR><TD><CODE>+1E.3FF</CODE></TD><TD>maximum finite value</TD></TR>
+<TR><TD><CODE>+1F.000</CODE></TD><TD>+infinity</TD></TR>
 <TR><TD>&nbsp;</TD></TR>
-<TR><TD><CODE>800.0000000000000</CODE></TD><TD>&minus;0</TD></TR>
-<TR><TD><CODE>BFF.0000000000000</CODE></TD><TD>&minus;1</TD></TR>
-<TR><TD><CODE>C00.0000000000000</CODE></TD><TD>&minus;2</TD></TR>
-<TR><TD><CODE>FFF.0000000000000</CODE></TD><TD>&minus;infinity</TD></TR>
-<TR><TD>&nbsp;</TD></TR>
+<TR><TD><CODE>-00.000</CODE></TD><TD>&minus;0</TD></TR>
+<TR><TD><CODE>-0F.000</CODE></TD><TD>&minus;1</TD></TR>
+<TR><TD><CODE>-10.000</CODE></TD><TD>&minus;2</TD></TR>
 <TR>
-  <TD><CODE>3FE.FFFFFFFFFFFFF</CODE></TD>
-  <TD>largest representable number less than +1</TD>
+  <TD><CODE>-1E.3FF</CODE></TD>
+  <TD>minimum finite value (largest magnitude, but negative)</TD>
 </TR>
+<TR><TD><CODE>-1F.000</CODE></TD><TD>&minus;infinity</TD></TR>
 </TABLE>
 </BLOCKQUOTE>
-The following categories are easily distinguished (assuming the
-<CODE>x</CODE>s are not all 0):
+Certain categories are easily distinguished (assuming the <CODE>x</CODE>s are
+not all 0):
 <BLOCKQUOTE>
 <TABLE CELLSPACING=0 CELLPADDING=0>
 <TR>
-  <TD><CODE>000.xxxxxxxxxxxxx&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
-  <TD>positive subnormal (denormalized) numbers</TD>
+  <TD><CODE>+00.xxx&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
+  <TD>positive subnormal numbers</TD>
 </TR>
-<TR><TD><CODE>7FF.xxxxxxxxxxxxx</CODE></TD><TD>positive NaNs</TD></TR>
-<TR>
-  <TD><CODE>800.xxxxxxxxxxxxx</CODE></TD>
-  <TD>negative subnormal numbers</TD>
-</TR>
-<TR><TD><CODE>FFF.xxxxxxxxxxxxx</CODE></TD><TD>negative NaNs</TD></TR>
+<TR><TD><CODE>+1F.xxx</CODE></TD><TD>positive NaNs</TD></TR>
+<TR><TD><CODE>-00.xxx</CODE></TD><TD>negative subnormal numbers</TD></TR>
+<TR><TD><CODE>-1F.xxx</CODE></TD><TD>negative NaNs</TD></TR>
 </TABLE>
 </BLOCKQUOTE>
 </P>
 
 <P>
-<NOBR>128-bit</NOBR> quadruple-precision values are written the same except
-with 4 hexadecimal digits for the sign and exponent and 28 for the fraction.
-Notable values include:
+Likewise for other formats:
 <BLOCKQUOTE>
 <TABLE CELLSPACING=0 CELLPADDING=0>
+<TR><TD>32-bit single</TD><TD>64-bit double</TD><TD>128-bit quadruple</TD></TR>
+<TR><TD>&nbsp;</TD></TR>
 <TR>
-  <TD>
-    <CODE>0000.0000000000000000000000000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE>
-  </TD>
-  <TD>+0</TD>
+<TD><CODE>+00.000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
+<TD><CODE>+000.0000000000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
+<TD><CODE>+0000.0000000000000000000000000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
+<TD>+0</TD>
 </TR>
 <TR>
-  <TD><CODE>3FFF.0000000000000000000000000000</CODE></TD>
-  <TD>&nbsp;1</TD>
+<TD><CODE>+7F.000000</CODE></TD>
+<TD><CODE>+3FF.0000000000000</CODE></TD>
+<TD><CODE>+3FFF.0000000000000000000000000000</CODE></TD>
+<TD>&nbsp;1</TD>
 </TR>
 <TR>
-  <TD><CODE>4000.0000000000000000000000000000</CODE></TD>
-  <TD>&nbsp;2</TD>
+<TD><CODE>+80.000000</CODE></TD>
+<TD><CODE>+400.0000000000000</CODE></TD>
+<TD><CODE>+4000.0000000000000000000000000000</CODE></TD>
+<TD>&nbsp;2</TD>
 </TR>
 <TR>
-  <TD><CODE>7FFF.0000000000000000000000000000</CODE></TD>
-  <TD>+infinity</TD>
+<TD><CODE>+FE.7FFFFF</CODE></TD>
+<TD><CODE>+7FE.FFFFFFFFFFFFF</CODE></TD>
+<TD><CODE>+7FFE.FFFFFFFFFFFFFFFFFFFFFFFFFFFF</CODE></TD>
+<TD>maximum finite value</TD>
+</TR>
+<TR>
+<TD><CODE>+FF.000000</CODE></TD>
+<TD><CODE>+7FF.0000000000000</CODE></TD>
+<TD><CODE>+7FFF.0000000000000000000000000000</CODE></TD>
+<TD>+infinity</TD>
 </TR>
 <TR><TD>&nbsp;</TD></TR>
 <TR>
-  <TD><CODE>8000.0000000000000000000000000000</CODE></TD>
-  <TD>&minus;0</TD>
+<TD><CODE>-00.000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
+<TD><CODE>-000.0000000000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
+<TD><CODE>-0000.0000000000000000000000000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
+<TD>&minus;0</TD>
 </TR>
 <TR>
-  <TD><CODE>BFFF.0000000000000000000000000000</CODE></TD>
-  <TD>&minus;1</TD>
+<TD><CODE>-7F.000000</CODE></TD>
+<TD><CODE>-3FF.0000000000000</CODE></TD>
+<TD><CODE>-3FFF.0000000000000000000000000000</CODE></TD>
+<TD>&minus;1</TD>
 </TR>
 <TR>
-  <TD><CODE>C000.0000000000000000000000000000</CODE></TD>
-  <TD>&minus;2</TD>
+<TD><CODE>-80.000000</CODE></TD>
+<TD><CODE>-400.0000000000000</CODE></TD>
+<TD><CODE>-4000.0000000000000000000000000000</CODE></TD>
+<TD>&minus;2</TD>
 </TR>
 <TR>
-  <TD><CODE>FFFF.0000000000000000000000000000</CODE></TD>
-  <TD>&minus;infinity</TD>
+<TD><CODE>-FE.7FFFFF</CODE></TD>
+<TD><CODE>-7FE.FFFFFFFFFFFFF</CODE></TD>
+<TD><CODE>-7FFE.FFFFFFFFFFFFFFFFFFFFFFFFFFFF</CODE></TD>
+<TD>minimum finite value</TD>
+</TR>
+<TR>
+<TD><CODE>-FF.000000</CODE></TD>
+<TD><CODE>-7FF.0000000000000</CODE></TD>
+<TD><CODE>-7FFF.0000000000000000000000000000</CODE></TD>
+<TD>&minus;infinity</TD>
 </TR>
 <TR><TD>&nbsp;</TD></TR>
 <TR>
-  <TD><CODE>3FFE.FFFFFFFFFFFFFFFFFFFFFFFFFFFF</CODE></TD>
-  <TD>largest representable number less than +1</TD>
+<TD><CODE>+00.xxxxxx</CODE></TD>
+<TD><CODE>+000.xxxxxxxxxxxxx</CODE></TD>
+<TD><CODE>+0000.xxxxxxxxxxxxxxxxxxxxxxxxxxxx</CODE></TD>
+<TD>positive subnormals</TD>
+</TR>
+<TR>
+<TD><CODE>+FF.xxxxxx</CODE></TD>
+<TD><CODE>+7FF.xxxxxxxxxxxxx</CODE></TD>
+<TD><CODE>+7FFF.xxxxxxxxxxxxxxxxxxxxxxxxxxxx</CODE></TD>
+<TD>positive NaNs</TD>
+</TR>
+<TR>
+<TD><CODE>-00.xxxxxx</CODE></TD>
+<TD><CODE>-000.xxxxxxxxxxxxx</CODE></TD>
+<TD><CODE>-0000.xxxxxxxxxxxxxxxxxxxxxxxxxxxx</CODE></TD>
+<TD>negative subnormals</TD>
+</TR>
+<TR>
+<TD><CODE>-FF.xxxxxx</CODE></TD>
+<TD><CODE>-7FF.xxxxxxxxxxxxx</CODE></TD>
+<TD><CODE>-7FFF.xxxxxxxxxxxxxxxxxxxxxxxxxxxx</CODE></TD>
+<TD>negative NaNs</TD>
 </TR>
 </TABLE>
 </BLOCKQUOTE>
 </P>
 
 <P>
-<NOBR>80-bit</NOBR> double-extended-precision values are a little unusual in
-that the leading bit of precision is not hidden as with other formats.
-When correctly encoded, the leading significand bit of an <NOBR>80-bit</NOBR>
+The <NOBR>80-bit</NOBR> double-extended-precision values are a little unusual
+in that the leading bit of precision is not hidden as with other formats.
+When canonically encoded, the leading significand bit of an <NOBR>80-bit</NOBR>
 double-extended-precision value will be 0 if the value is zero or subnormal,
 and will be 1 otherwise.
 Hence, the same values listed above appear in <NOBR>80-bit</NOBR>
@@ -896,82 +957,25 @@ the significands):
 <BLOCKQUOTE>
 <TABLE CELLSPACING=0 CELLPADDING=0>
 <TR>
-  <TD><CODE>0000.0000000000000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
+  <TD><CODE>+0000.0000000000000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
   <TD>+0</TD>
 </TR>
-<TR><TD><CODE>3FFF.8000000000000000</CODE></TD><TD>&nbsp;1</TD></TR>
-<TR><TD><CODE>4000.8000000000000000</CODE></TD><TD>&nbsp;2</TD></TR>
-<TR><TD><CODE>7FFF.8000000000000000</CODE></TD><TD>+infinity</TD></TR>
-<TR><TD>&nbsp;</TD></TR>
-<TR><TD><CODE>8000.0000000000000000</CODE></TD><TD>&minus;0</TD></TR>
-<TR><TD><CODE>BFFF.8000000000000000</CODE></TD><TD>&minus;1</TD></TR>
-<TR><TD><CODE>C000.8000000000000000</CODE></TD><TD>&minus;2</TD></TR>
-<TR><TD><CODE>FFFF.8000000000000000</CODE></TD><TD>&minus;infinity</TD></TR>
-<TR><TD>&nbsp;</TD></TR>
+<TR><TD><CODE>+3FFF.8000000000000000</CODE></TD><TD>&nbsp;1</TD></TR>
+<TR><TD><CODE>+4000.8000000000000000</CODE></TD><TD>&nbsp;2</TD></TR>
 <TR>
-  <TD><CODE>3FFE.FFFFFFFFFFFFFFFF</CODE></TD>
-  <TD>largest representable number less than +1</TD>
+  <TD><CODE>+7FFE.FFFFFFFFFFFFFFFF</CODE></TD>
+  <TD>maximum finite value</TD>
 </TR>
-</TABLE>
-</BLOCKQUOTE>
-</P>
-
-<P>
-The representation of <NOBR>32-bit</NOBR> single-precision values is unusual
-for a different reason.
-Because the subfields of standard <NOBR>32-bit</NOBR> single-precision do not
-fall on neat <NOBR>4-bit</NOBR> boundaries, single-precision outputs are
-slightly perturbed.
-These are written as 9 hexadecimal digits, with a period separating the 3rd and
-4th hexadecimal digits.
-Broken out into bits, the 9 hexademical digits cover the <NOBR>32-bit</NOBR>
-single-precision subfields as follows:
-<BLOCKQUOTE>
-<PRE>
-x000 .... ....  .  .... .... .... .... .... ....    sign       (1 bit)
-.... xxxx xxxx  .  .... .... .... .... .... ....    exponent   (8 bits)
-.... .... ....  .  0xxx xxxx xxxx xxxx xxxx xxxx    fraction  (23 bits)
-</PRE>
-</BLOCKQUOTE>
-As shown in this schematic, the first hexadecimal digit contains only the sign,
-and will be either <CODE>0</CODE> <NOBR>or <CODE>8</CODE></NOBR>.
-The next two digits give the biased exponent as an <NOBR>8-bit</NOBR> integer.
-This is followed by a period and 6 hexadecimal digits of fraction.
-The most significant hexadecimal digit of the fraction can be at most
-<NOBR>a <CODE>7</CODE></NOBR>.
-</P>
-
-<P>
-Notable single-precision values include:
-<BLOCKQUOTE>
-<TABLE CELLSPACING=0 CELLPADDING=0>
-<TR><TD><CODE>000.000000&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD><TD>+0</TD></TR>
-<TR><TD><CODE>07F.000000</CODE></TD><TD>&nbsp;1</TD></TR>
-<TR><TD><CODE>080.000000</CODE></TD><TD>&nbsp;2</TD></TR>
-<TR><TD><CODE>0FF.000000</CODE></TD><TD>+infinity</TD></TR>
+<TR><TD><CODE>+7FFF.8000000000000000</CODE></TD><TD>+infinity</TD></TR>
 <TR><TD>&nbsp;</TD></TR>
-<TR><TD><CODE>800.000000</CODE></TD><TD>&minus;0</TD></TR>
-<TR><TD><CODE>87F.000000</CODE></TD><TD>&minus;1</TD></TR>
-<TR><TD><CODE>880.000000</CODE></TD><TD>&minus;2</TD></TR>
-<TR><TD><CODE>8FF.000000</CODE></TD><TD>&minus;infinity</TD></TR>
-<TR><TD>&nbsp;</TD></TR>
+<TR><TD><CODE>-0000.0000000000000000</CODE></TD><TD>&minus;0</TD></TR>
+<TR><TD><CODE>-3FFF.8000000000000000</CODE></TD><TD>&minus;1</TD></TR>
+<TR><TD><CODE>-4000.8000000000000000</CODE></TD><TD>&minus;2</TD></TR>
 <TR>
-  <TD><CODE>07E.7FFFFF</CODE></TD>
-  <TD>largest representable number less than +1</TD>
+  <TD><CODE>-7FFE.FFFFFFFFFFFFFFFF</CODE></TD>
+  <TD>minimum finite value</TD>
 </TR>
-</TABLE>
-</BLOCKQUOTE>
-Again, certain categories are easily distinguished (assuming the
-<CODE>x</CODE>s are not all 0):
-<BLOCKQUOTE>
-<TABLE CELLSPACING=0 CELLPADDING=0>
-<TR>
-  <TD><CODE>000.xxxxxx&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
-  <TD>positive subnormal (denormalized) numbers</TD>
-</TR>
-<TR><TD><CODE>0FF.xxxxxx</CODE></TD><TD>positive NaNs</TD></TR>
-<TR><TD><CODE>800.xxxxxx</CODE></TD><TD>negative subnormal numbers</TD></TR>
-<TR><TD><CODE>8FF.xxxxxx</CODE></TD><TD>negative NaNs</TD></TR>
+<TR><TD><CODE>-7FFF.8000000000000000</CODE></TD><TD>&minus;infinity</TD></TR>
 </TABLE>
 </BLOCKQUOTE>
 </P>
@@ -987,15 +991,15 @@ The letter used to indicate a set flag depends on the flag:
 <TABLE CELLSPACING=0 CELLPADDING=0>
 <TR>
   <TD><CODE>v&nbsp;&nbsp;&nbsp;&nbsp;</CODE></TD>
-  <TD>invalid exception</TD>
+  <TD><I>invalid</I> exception</TD>
 </TR>
 <TR>
   <TD><CODE>i</CODE></TD>
-  <TD>infinite exception (&ldquo;divide by zero&rdquo;)</TD>
+  <TD><I>infinite</I> exception (&ldquo;divide by zero&rdquo;)</TD>
 </TR>
-<TR><TD><CODE>o</CODE></TD><TD>overflow exception</TD></TR>
-<TR><TD><CODE>u</CODE></TD><TD>underflow exception</TD></TR>
-<TR><TD><CODE>x</CODE></TD><TD>inexact exception</TD></TR>
+<TR><TD><CODE>o</CODE></TD><TD><I>overflow</I> exception</TD></TR>
+<TR><TD><CODE>u</CODE></TD><TD><I>underflow</I> exception</TD></TR>
+<TR><TD><CODE>x</CODE></TD><TD><I>inexact</I> exception</TD></TR>
 </TABLE>
 </BLOCKQUOTE>
 For example, the notation <CODE>...ux</CODE> indicates that the
@@ -1090,8 +1094,8 @@ or an unspecified alternative mechanism may be used to signal such cases.
 TestFloat assumes that conversions to integer will raise the <I>invalid</I>
 exception if the source value cannot be rounded to a representable integer.
 In such cases, TestFloat expects the result value to be the largest-magnitude
-positive or negative integer as detailed earlier in <NOBR>section 6.1</NOBR>,
-<I>Conversion Operations</I>.
+positive or negative integer or zero as detailed earlier in
+<NOBR>section 6.1</NOBR>, <I>Conversion Operations</I>.
 The current version of TestFloat provides no means to alter these expectations.
 </P>
 
@@ -1101,7 +1105,7 @@ The current version of TestFloat provides no means to alter these expectations.
 <P>
 At the time of this writing, the most up-to-date information about TestFloat
 and the latest release can be found at the Web page
-<A HREF="http://www.jhauser.us/arithmetic/TestFloat.html"><CODE>http://www.jhauser.us/arithmetic/TestFloat.html</CODE></A>.
+<A HREF="http://www.jhauser.us/arithmetic/TestFloat.html"><NOBR><CODE>http://www.jhauser.us/arithmetic/TestFloat.html</CODE></NOBR></A>.
 </P>
 
 

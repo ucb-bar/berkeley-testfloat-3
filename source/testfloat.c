@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
+This C source file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
 California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -61,6 +61,9 @@ static void catchSIGINT( int signalCode )
 
 static void (*subjFunctionPtr)();
 
+#ifdef FLOAT16
+typedef float16_t funcType_a_ui32_z_f16( uint32_t );
+#endif
 typedef float32_t funcType_a_ui32_z_f32( uint32_t );
 typedef float64_t funcType_a_ui32_z_f64( uint32_t );
 #ifdef EXTFLOAT80
@@ -68,6 +71,9 @@ typedef void funcType_a_ui32_z_extF80( uint32_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
 typedef void funcType_a_ui32_z_f128( uint32_t, float128_t * );
+#endif
+#ifdef FLOAT16
+typedef float16_t funcType_a_ui64_z_f16( uint64_t );
 #endif
 typedef float32_t funcType_a_ui64_z_f32( uint64_t );
 typedef float64_t funcType_a_ui64_z_f64( uint64_t );
@@ -77,6 +83,9 @@ typedef void funcType_a_ui64_z_extF80( uint64_t, extFloat80_t * );
 #ifdef FLOAT128
 typedef void funcType_a_ui64_z_f128( uint64_t, float128_t * );
 #endif
+#ifdef FLOAT16
+typedef float16_t funcType_a_i32_z_f16( int32_t );
+#endif
 typedef float32_t funcType_a_i32_z_f32( int32_t );
 typedef float64_t funcType_a_i32_z_f64( int32_t );
 #ifdef EXTFLOAT80
@@ -84,6 +93,9 @@ typedef void funcType_a_i32_z_extF80( int32_t, extFloat80_t * );
 #endif
 #ifdef FLOAT128
 typedef void funcType_a_i32_z_f128( int32_t, float128_t * );
+#endif
+#ifdef FLOAT16
+typedef float16_t funcType_a_i64_z_f16( int64_t );
 #endif
 typedef float32_t funcType_a_i64_z_f32( int64_t );
 typedef float64_t funcType_a_i64_z_f64( int64_t );
@@ -94,10 +106,32 @@ typedef void funcType_a_i64_z_extF80( int64_t, extFloat80_t * );
 typedef void funcType_a_i64_z_f128( int64_t, float128_t * );
 #endif
 
+#ifdef FLOAT16
+typedef uint_fast32_t funcType_a_f16_z_ui32( float16_t );
+typedef uint_fast64_t funcType_a_f16_z_ui64( float16_t );
+typedef int_fast32_t funcType_a_f16_z_i32( float16_t );
+typedef int_fast64_t funcType_a_f16_z_i64( float16_t );
+typedef float32_t funcType_a_f16_z_f32( float16_t );
+typedef float64_t funcType_a_f16_z_f64( float16_t );
+#ifdef EXTFLOAT80
+typedef void funcType_a_f16_z_extF80( float16_t, extFloat80_t * );
+#endif
+#ifdef FLOAT128
+typedef void funcType_a_f16_z_f128( float16_t, float128_t * );
+#endif
+typedef float16_t funcType_az_f16( float16_t );
+typedef float16_t funcType_abz_f16( float16_t, float16_t );
+typedef float16_t funcType_abcz_f16( float16_t, float16_t, float16_t );
+typedef bool funcType_ab_f16_z_bool( float16_t, float16_t );
+#endif
+
 typedef uint_fast32_t funcType_a_f32_z_ui32( float32_t );
 typedef uint_fast64_t funcType_a_f32_z_ui64( float32_t );
 typedef int_fast32_t funcType_a_f32_z_i32( float32_t );
 typedef int_fast64_t funcType_a_f32_z_i64( float32_t );
+#ifdef FLOAT16
+typedef float16_t funcType_a_f32_z_f16( float32_t );
+#endif
 typedef float64_t funcType_a_f32_z_f64( float32_t );
 #ifdef EXTFLOAT80
 typedef void funcType_a_f32_z_extF80( float32_t, extFloat80_t * );
@@ -114,6 +148,9 @@ typedef uint_fast32_t funcType_a_f64_z_ui32( float64_t );
 typedef uint_fast64_t funcType_a_f64_z_ui64( float64_t );
 typedef int_fast32_t funcType_a_f64_z_i32( float64_t );
 typedef int_fast64_t funcType_a_f64_z_i64( float64_t );
+#ifdef FLOAT16
+typedef float16_t funcType_a_f64_z_f16( float64_t );
+#endif
 typedef float32_t funcType_a_f64_z_f32( float64_t );
 #ifdef EXTFLOAT80
 typedef void funcType_a_f64_z_extF80( float64_t, extFloat80_t * );
@@ -131,6 +168,9 @@ typedef uint_fast32_t funcType_a_extF80_z_ui32( const extFloat80_t * );
 typedef uint_fast64_t funcType_a_extF80_z_ui64( const extFloat80_t * );
 typedef int_fast32_t funcType_a_extF80_z_i32( const extFloat80_t * );
 typedef int_fast64_t funcType_a_extF80_z_i64( const extFloat80_t * );
+#ifdef FLOAT16
+typedef float16_t funcType_a_extF80_z_f16( const extFloat80_t * );
+#endif
 typedef float32_t funcType_a_extF80_z_f32( const extFloat80_t * );
 typedef float64_t funcType_a_extF80_z_f64( const extFloat80_t * );
 #ifdef FLOAT128
@@ -150,6 +190,9 @@ typedef uint_fast32_t funcType_a_f128_z_ui32( const float128_t * );
 typedef uint_fast64_t funcType_a_f128_z_ui64( const float128_t * );
 typedef int_fast32_t funcType_a_f128_z_i32( const float128_t * );
 typedef int_fast64_t funcType_a_f128_z_i64( const float128_t * );
+#ifdef FLOAT16
+typedef float16_t funcType_a_f128_z_f16( const float128_t * );
+#endif
 typedef float32_t funcType_a_f128_z_f32( const float128_t * );
 typedef float64_t funcType_a_f128_z_f64( const float128_t * );
 #ifdef EXTFLOAT80
@@ -167,10 +210,63 @@ typedef
 typedef bool funcType_ab_f128_z_bool( const float128_t *, const float128_t * );
 #endif
 
+#ifdef FLOAT16
+
 static
- uint_fast32_t
-  subjFunction_a_f32_z_ui32_rx(
-      float32_t a, uint_fast8_t roundingMode, bool exact )
+uint_fast32_t
+ subjFunction_a_f16_z_ui32_rx(
+     float16_t a, uint_fast8_t roundingMode, bool exact )
+{
+
+    return ((funcType_a_f16_z_ui32 *) subjFunctionPtr)( a );
+
+}
+
+static
+uint_fast64_t
+ subjFunction_a_f16_z_ui64_rx(
+     float16_t a, uint_fast8_t roundingMode, bool exact )
+{
+
+    return ((funcType_a_f16_z_ui64 *) subjFunctionPtr)( a );
+
+}
+
+static
+int_fast32_t
+ subjFunction_a_f16_z_i32_rx(
+     float16_t a, uint_fast8_t roundingMode, bool exact )
+{
+
+    return ((funcType_a_f16_z_i32 *) subjFunctionPtr)( a );
+
+}
+
+static
+int_fast64_t
+ subjFunction_a_f16_z_i64_rx(
+     float16_t a, uint_fast8_t roundingMode, bool exact )
+{
+
+    return ((funcType_a_f16_z_i64 *) subjFunctionPtr)( a );
+
+}
+
+static
+float16_t
+ subjFunction_az_f16_rx( float16_t a, uint_fast8_t roundingMode, bool exact )
+{
+
+    return ((funcType_az_f16 *) subjFunctionPtr)( a );
+
+}
+
+#endif
+
+static
+uint_fast32_t
+ subjFunction_a_f32_z_ui32_rx(
+     float32_t a, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f32_z_ui32 *) subjFunctionPtr)( a );
@@ -178,9 +274,9 @@ static
 }
 
 static
- uint_fast64_t
-  subjFunction_a_f32_z_ui64_rx(
-      float32_t a, uint_fast8_t roundingMode, bool exact )
+uint_fast64_t
+ subjFunction_a_f32_z_ui64_rx(
+     float32_t a, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f32_z_ui64 *) subjFunctionPtr)( a );
@@ -188,9 +284,9 @@ static
 }
 
 static
- int_fast32_t
-  subjFunction_a_f32_z_i32_rx(
-      float32_t a, uint_fast8_t roundingMode, bool exact )
+int_fast32_t
+ subjFunction_a_f32_z_i32_rx(
+     float32_t a, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f32_z_i32 *) subjFunctionPtr)( a );
@@ -198,9 +294,9 @@ static
 }
 
 static
- int_fast64_t
-  subjFunction_a_f32_z_i64_rx(
-      float32_t a, uint_fast8_t roundingMode, bool exact )
+int_fast64_t
+ subjFunction_a_f32_z_i64_rx(
+     float32_t a, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f32_z_i64 *) subjFunctionPtr)( a );
@@ -208,8 +304,8 @@ static
 }
 
 static
- float32_t
-  subjFunction_az_f32_rx( float32_t a, uint_fast8_t roundingMode, bool exact )
+float32_t
+ subjFunction_az_f32_rx( float32_t a, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_az_f32 *) subjFunctionPtr)( a );
@@ -217,9 +313,9 @@ static
 }
 
 static
- uint_fast32_t
-  subjFunction_a_f64_z_ui32_rx(
-      float64_t a, uint_fast8_t roundingMode, bool exact )
+uint_fast32_t
+ subjFunction_a_f64_z_ui32_rx(
+     float64_t a, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f64_z_ui32 *) subjFunctionPtr)( a );
@@ -227,9 +323,9 @@ static
 }
 
 static
- uint_fast64_t
-  subjFunction_a_f64_z_ui64_rx(
-      float64_t a, uint_fast8_t roundingMode, bool exact )
+uint_fast64_t
+ subjFunction_a_f64_z_ui64_rx(
+     float64_t a, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f64_z_ui64 *) subjFunctionPtr)( a );
@@ -237,9 +333,9 @@ static
 }
 
 static
- int_fast32_t
-  subjFunction_a_f64_z_i32_rx(
-      float64_t a, uint_fast8_t roundingMode, bool exact )
+int_fast32_t
+ subjFunction_a_f64_z_i32_rx(
+     float64_t a, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f64_z_i32 *) subjFunctionPtr)( a );
@@ -247,9 +343,9 @@ static
 }
 
 static
- int_fast64_t
-  subjFunction_a_f64_z_i64_rx(
-      float64_t a, uint_fast8_t roundingMode, bool exact )
+int_fast64_t
+ subjFunction_a_f64_z_i64_rx(
+     float64_t a, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f64_z_i64 *) subjFunctionPtr)( a );
@@ -257,8 +353,8 @@ static
 }
 
 static
- float64_t
-  subjFunction_az_f64_rx( float64_t a, uint_fast8_t roundingMode, bool exact )
+float64_t
+ subjFunction_az_f64_rx( float64_t a, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_az_f64 *) subjFunctionPtr)( a );
@@ -268,9 +364,9 @@ static
 #ifdef EXTFLOAT80
 
 static
- uint_fast32_t
-  subjFunction_a_extF80_z_ui32_rx(
-      const extFloat80_t *aPtr, uint_fast8_t roundingMode, bool exact )
+uint_fast32_t
+ subjFunction_a_extF80_z_ui32_rx(
+     const extFloat80_t *aPtr, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_extF80_z_ui32 *) subjFunctionPtr)( aPtr );
@@ -278,9 +374,9 @@ static
 }
 
 static
- uint_fast64_t
-  subjFunction_a_extF80_z_ui64_rx(
-      const extFloat80_t *aPtr, uint_fast8_t roundingMode, bool exact )
+uint_fast64_t
+ subjFunction_a_extF80_z_ui64_rx(
+     const extFloat80_t *aPtr, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_extF80_z_ui64 *) subjFunctionPtr)( aPtr );
@@ -288,9 +384,9 @@ static
 }
 
 static
- int_fast32_t
-  subjFunction_a_extF80_z_i32_rx(
-      const extFloat80_t *aPtr, uint_fast8_t roundingMode, bool exact )
+int_fast32_t
+ subjFunction_a_extF80_z_i32_rx(
+     const extFloat80_t *aPtr, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_extF80_z_i32 *) subjFunctionPtr)( aPtr );
@@ -298,9 +394,9 @@ static
 }
 
 static
- int_fast64_t
-  subjFunction_a_extF80_z_i64_rx(
-      const extFloat80_t *aPtr, uint_fast8_t roundingMode, bool exact )
+int_fast64_t
+ subjFunction_a_extF80_z_i64_rx(
+     const extFloat80_t *aPtr, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_extF80_z_i64 *) subjFunctionPtr)( aPtr );
@@ -308,13 +404,13 @@ static
 }
 
 static
- void
-  subjFunction_az_extF80_rx(
-      const extFloat80_t *aPtr,
-      uint_fast8_t roundingMode,
-      bool exact,
-      extFloat80_t *zPtr
-  )
+void
+ subjFunction_az_extF80_rx(
+     const extFloat80_t *aPtr,
+     uint_fast8_t roundingMode,
+     bool exact,
+     extFloat80_t *zPtr
+ )
 {
 
     return ((funcType_az_extF80 *) subjFunctionPtr)( aPtr, zPtr );
@@ -326,9 +422,9 @@ static
 #ifdef FLOAT128
 
 static
- uint_fast32_t
-  subjFunction_a_f128_z_ui32_rx(
-      const float128_t *aPtr, uint_fast8_t roundingMode, bool exact )
+uint_fast32_t
+ subjFunction_a_f128_z_ui32_rx(
+     const float128_t *aPtr, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f128_z_ui32 *) subjFunctionPtr)( aPtr );
@@ -336,9 +432,9 @@ static
 }
 
 static
- uint_fast64_t
-  subjFunction_a_f128_z_ui64_rx(
-      const float128_t *aPtr, uint_fast8_t roundingMode, bool exact )
+uint_fast64_t
+ subjFunction_a_f128_z_ui64_rx(
+     const float128_t *aPtr, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f128_z_ui64 *) subjFunctionPtr)( aPtr );
@@ -346,9 +442,9 @@ static
 }
 
 static
- int_fast32_t
-  subjFunction_a_f128_z_i32_rx(
-      const float128_t *aPtr, uint_fast8_t roundingMode, bool exact )
+int_fast32_t
+ subjFunction_a_f128_z_i32_rx(
+     const float128_t *aPtr, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f128_z_i32 *) subjFunctionPtr)( aPtr );
@@ -356,9 +452,9 @@ static
 }
 
 static
- int_fast64_t
-  subjFunction_a_f128_z_i64_rx(
-      const float128_t *aPtr, uint_fast8_t roundingMode, bool exact )
+int_fast64_t
+ subjFunction_a_f128_z_i64_rx(
+     const float128_t *aPtr, uint_fast8_t roundingMode, bool exact )
 {
 
     return ((funcType_a_f128_z_i64 *) subjFunctionPtr)( aPtr );
@@ -366,13 +462,13 @@ static
 }
 
 static
- void
-  subjFunction_az_f128_rx(
-      const float128_t *aPtr,
-      uint_fast8_t roundingMode,
-      bool exact,
-      float128_t *zPtr
-  )
+void
+ subjFunction_az_f128_rx(
+     const float128_t *aPtr,
+     uint_fast8_t roundingMode,
+     bool exact,
+     float128_t *zPtr
+ )
 {
 
     return ((funcType_az_f128 *) subjFunctionPtr)( aPtr, zPtr );
@@ -382,10 +478,14 @@ static
 #endif
 
 static
- void
-  testFunctionInstance(
-      int functionCode, uint_fast8_t roundingMode, bool exact )
+void
+ testFunctionInstance(
+     int functionCode, uint_fast8_t roundingMode, bool exact )
 {
+#ifdef FLOAT16
+    funcType_abz_f16 *trueFunction_abz_f16;
+    funcType_ab_f16_z_bool *trueFunction_ab_f16_z_bool;
+#endif
     funcType_abz_f32 *trueFunction_abz_f32;
     funcType_ab_f32_z_bool *trueFunction_ab_f32_z_bool;
     funcType_abz_f64 *trueFunction_abz_f64;
@@ -405,6 +505,14 @@ static
     switch ( functionCode ) {
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
+#ifdef FLOAT16
+#ifdef SUBJ_UI32_TO_F16
+     case UI32_TO_F16:
+        test_a_ui32_z_f16(
+            ui32_to_f16, (funcType_a_ui32_z_f16 *) subjFunctionPtr );
+        break;
+#endif
+#endif
 #ifdef SUBJ_UI32_TO_F32
      case UI32_TO_F32:
         test_a_ui32_z_f32(
@@ -430,6 +538,14 @@ static
      case UI32_TO_F128:
         test_a_ui32_z_f128(
             ui32_to_f128M, (funcType_a_ui32_z_f128 *) subjFunctionPtr );
+        break;
+#endif
+#endif
+#ifdef FLOAT16
+#ifdef SUBJ_UI64_TO_F16
+     case UI64_TO_F16:
+        test_a_ui64_z_f16(
+            ui64_to_f16, (funcType_a_ui64_z_f16 *) subjFunctionPtr );
         break;
 #endif
 #endif
@@ -461,6 +577,14 @@ static
         break;
 #endif
 #endif
+#ifdef FLOAT16
+#ifdef SUBJ_I32_TO_F16
+     case I32_TO_F16:
+        test_a_i32_z_f16(
+            i32_to_f16, (funcType_a_i32_z_f16 *) subjFunctionPtr );
+        break;
+#endif
+#endif
 #ifdef SUBJ_I32_TO_F32
      case I32_TO_F32:
         test_a_i32_z_f32(
@@ -486,6 +610,14 @@ static
      case I32_TO_F128:
         test_a_i32_z_f128(
             i32_to_f128M, (funcType_a_i32_z_f128 *) subjFunctionPtr );
+        break;
+#endif
+#endif
+#ifdef FLOAT16
+#ifdef SUBJ_I64_TO_F16
+     case I64_TO_F16:
+        test_a_i64_z_f16(
+            i64_to_f16, (funcType_a_i64_z_f16 *) subjFunctionPtr );
         break;
 #endif
 #endif
@@ -519,6 +651,133 @@ static
 #endif
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
+#ifdef FLOAT16
+     case F16_TO_UI32:
+        test_a_f16_z_ui32_rx(
+            f16_to_ui32, subjFunction_a_f16_z_ui32_rx, roundingMode, exact );
+        break;
+     case F16_TO_UI64:
+        test_a_f16_z_ui64_rx(
+            f16_to_ui64, subjFunction_a_f16_z_ui64_rx, roundingMode, exact );
+        break;
+     case F16_TO_I32:
+        test_a_f16_z_i32_rx(
+            f16_to_i32, subjFunction_a_f16_z_i32_rx, roundingMode, exact );
+        break;
+     case F16_TO_I64:
+        test_a_f16_z_i64_rx(
+            f16_to_i64, subjFunction_a_f16_z_i64_rx, roundingMode, exact );
+        break;
+#ifdef SUBJ_F16_TO_F32
+     case F16_TO_F32:
+        test_a_f16_z_f32(
+            f16_to_f32, (funcType_a_f16_z_f32 *) subjFunctionPtr );
+        break;
+#endif
+#ifdef SUBJ_F16_TO_F64
+     case F16_TO_F64:
+        test_a_f16_z_f64(
+            f16_to_f64, (funcType_a_f16_z_f64 *) subjFunctionPtr );
+        break;
+#endif
+#ifdef EXTFLOAT80
+#ifdef SUBJ_F16_TO_EXTF80
+     case F16_TO_EXTF80:
+        test_a_f16_z_extF80(
+            f16_to_extF80M, (funcType_a_f16_z_extF80 *) subjFunctionPtr );
+        break;
+#endif
+#endif
+#ifdef FLOAT128
+#ifdef SUBJ_F16_TO_F128
+     case F16_TO_F128:
+        test_a_f16_z_f128(
+            f16_to_f128M, (funcType_a_f16_z_f128 *) subjFunctionPtr );
+        break;
+#endif
+#endif
+     case F16_ROUNDTOINT:
+        test_az_f16_rx(
+            f16_roundToInt, subjFunction_az_f16_rx, roundingMode, exact );
+        break;
+#ifdef SUBJ_F16_ADD
+     case F16_ADD:
+        trueFunction_abz_f16 = f16_add;
+        goto test_abz_f16;
+#endif
+#ifdef SUBJ_F16_SUB
+     case F16_SUB:
+        trueFunction_abz_f16 = f16_sub;
+        goto test_abz_f16;
+#endif
+#ifdef SUBJ_F16_MUL
+     case F16_MUL:
+        trueFunction_abz_f16 = f16_mul;
+        goto test_abz_f16;
+#endif
+#ifdef SUBJ_F16_MULADD
+     case F16_MULADD:
+        test_abcz_f16( f16_mulAdd, (funcType_abcz_f16 *) subjFunctionPtr );
+        break;
+#endif
+#ifdef SUBJ_F16_DIV
+     case F16_DIV:
+        trueFunction_abz_f16 = f16_div;
+        goto test_abz_f16;
+#endif
+#ifdef SUBJ_F16_REM
+     case F16_REM:
+        trueFunction_abz_f16 = f16_rem;
+        goto test_abz_f16;
+#endif
+     test_abz_f16:
+        test_abz_f16(
+            trueFunction_abz_f16, (funcType_abz_f16 *) subjFunctionPtr );
+        break;
+#ifdef SUBJ_F16_SQRT
+     case F16_SQRT:
+        test_az_f16( f16_sqrt, (funcType_az_f16 *) subjFunctionPtr );
+        break;
+#endif
+#ifdef SUBJ_F16_EQ
+     case F16_EQ:
+        trueFunction_ab_f16_z_bool = f16_eq;
+        goto test_ab_f16_z_bool;
+#endif
+#ifdef SUBJ_F16_LE
+     case F16_LE:
+        trueFunction_ab_f16_z_bool = f16_le;
+        goto test_ab_f16_z_bool;
+#endif
+#ifdef SUBJ_F16_LT
+     case F16_LT:
+        trueFunction_ab_f16_z_bool = f16_lt;
+        goto test_ab_f16_z_bool;
+#endif
+#ifdef SUBJ_F16_EQ_SIGNALING
+     case F16_EQ_SIGNALING:
+        trueFunction_ab_f16_z_bool = f16_eq_signaling;
+        goto test_ab_f16_z_bool;
+#endif
+#ifdef SUBJ_F16_LE_QUIET
+     case F16_LE_QUIET:
+        trueFunction_ab_f16_z_bool = f16_le_quiet;
+        goto test_ab_f16_z_bool;
+#endif
+#ifdef SUBJ_F16_LT_QUIET
+     case F16_LT_QUIET:
+        trueFunction_ab_f16_z_bool = f16_lt_quiet;
+        goto test_ab_f16_z_bool;
+#endif
+     test_ab_f16_z_bool:
+        test_ab_f16_z_bool(
+            trueFunction_ab_f16_z_bool,
+            (funcType_ab_f16_z_bool *) subjFunctionPtr
+        );
+        break;
+#endif
+        /*--------------------------------------------------------------------
+        *--------------------------------------------------------------------*/
      case F32_TO_UI32:
         test_a_f32_z_ui32_rx(
             f32_to_ui32, subjFunction_a_f32_z_ui32_rx, roundingMode, exact );
@@ -535,6 +794,14 @@ static
         test_a_f32_z_i64_rx(
             f32_to_i64, subjFunction_a_f32_z_i64_rx, roundingMode, exact );
         break;
+#ifdef FLOAT16
+#ifdef SUBJ_F32_TO_F16
+     case F32_TO_F16:
+        test_a_f32_z_f16(
+            f32_to_f16, (funcType_a_f32_z_f16 *) subjFunctionPtr );
+        break;
+#endif
+#endif
 #ifdef SUBJ_F32_TO_F64
      case F32_TO_F64:
         test_a_f32_z_f64(
@@ -654,6 +921,14 @@ static
         test_a_f64_z_i64_rx(
             f64_to_i64, subjFunction_a_f64_z_i64_rx, roundingMode, exact );
         break;
+#ifdef FLOAT16
+#ifdef SUBJ_F64_TO_F16
+     case F64_TO_F16:
+        test_a_f64_z_f16(
+            f64_to_f16, (funcType_a_f64_z_f16 *) subjFunctionPtr );
+        break;
+#endif
+#endif
 #ifdef SUBJ_F64_TO_F32
      case F64_TO_F32:
         test_a_f64_z_f32(
@@ -784,6 +1059,14 @@ static
             extF80M_to_i64, subjFunction_a_extF80_z_i64_rx, roundingMode, exact
         );
         break;
+#ifdef FLOAT16
+#ifdef SUBJ_EXTF80_TO_F16
+     case EXTF80_TO_F16:
+        test_a_extF80_z_f16(
+            extF80M_to_f16, (funcType_a_extF80_z_f16 *) subjFunctionPtr );
+        break;
+#endif
+#endif
 #ifdef SUBJ_EXTF80_TO_F32
      case EXTF80_TO_F32:
         test_a_extF80_z_f32(
@@ -901,6 +1184,14 @@ static
         test_a_f128_z_i64_rx(
             f128M_to_i64, subjFunction_a_f128_z_i64_rx, roundingMode, exact );
         break;
+#ifdef FLOAT16
+#ifdef SUBJ_F128_TO_F16
+     case F128_TO_F16:
+        test_a_f128_z_f16(
+            f128M_to_f16, (funcType_a_f128_z_f16 *) subjFunctionPtr );
+        break;
+#endif
+#endif
 #ifdef SUBJ_F128_TO_F32
      case F128_TO_F32:
         test_a_f128_z_f32(
@@ -1009,12 +1300,12 @@ static
 }
 
 static
- void
-  testFunction(
-      const struct standardFunctionInfo *standardFunctionInfoPtr,
-      uint_fast8_t roundingPrecisionIn,
-      int roundingCodeIn
-  )
+void
+ testFunction(
+     const struct standardFunctionInfo *standardFunctionInfoPtr,
+     uint_fast8_t roundingPrecisionIn,
+     int roundingCodeIn
+ )
 {
     int functionCode, functionAttribs;
     bool standardFunctionHasFixedRounding;
@@ -1099,6 +1390,7 @@ int main( int argc, char *argv[] )
     const char *argPtr;
     void (*const *subjFunctionPtrPtr)();
     const char *functionNamePtr;
+    unsigned long ui;
     long i;
 
     /*------------------------------------------------------------------------
@@ -1130,6 +1422,8 @@ int main( int argc, char *argv[] )
 "  <option>:  (* is default)\n"
 "    -help            --Write this message and exit.\n"
 "    -list            --List all testable subject functions and exit.\n"
+"    -seed <num>      --Set pseudo-random number generator seed to <num>.\n"
+" *  -seed 1\n"
 "    -level <num>     --Testing level <num> (1 or 2).\n"
 " *  -level 1\n"
 "    -errors <num>    --Stop each function test after <num> errors.\n"
@@ -1162,6 +1456,9 @@ int main( int argc, char *argv[] )
 "    i32              --Signed 32-bit integer.\n"
 "    i64              --Signed 64-bit integer.\n"
 "  <float>:\n"
+#ifdef FLOAT16
+"    f16              --Binary 16-bit floating-point (half-precision).\n"
+#endif
 "    f32              --Binary 32-bit floating-point (single-precision).\n"
 "    f64              --Binary 64-bit floating-point (double-precision).\n"
 #ifdef EXTFLOAT80
@@ -1191,6 +1488,13 @@ int main( int argc, char *argv[] )
                 ++subjFunctionPtrPtr;
             }
             return EXIT_SUCCESS;
+        } else if ( ! strcmp( argPtr, "seed" ) ) {
+            if ( argc < 2 ) goto optionError;
+            ui = strtoul( argv[1], (char **) &argPtr, 10 );
+            if ( *argPtr ) goto optionError;
+            srand( ui );
+            --argc;
+            ++argv;
         } else if ( ! strcmp( argPtr, "level" ) ) {
             if ( argc < 2 ) goto optionError;
             i = strtol( argv[1], (char **) &argPtr, 10 );

@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
+This C source file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -118,6 +118,25 @@ void writeHex_ui64( uint_fast64_t a, char sepChar )
 
 }
 
+#ifdef FLOAT16
+
+void writeHex_f16( float16_t a, char sepChar )
+{
+    union { uint16_t ui; float16_t f; } uA;
+    uint_fast16_t uiA;
+
+    uA.f = a;
+    uiA = uA.ui;
+    fputc( uiA & 0x8000 ? '-' : '+', stdout );
+    writeHex_ui8( uiA>>10 & 0x1F, 0 );
+    fputc( '.', stdout );
+    fputc( '0' + (uiA>>8 & 3), stdout );
+    writeHex_ui8( uiA, sepChar );
+
+}
+
+#endif
+
 void writeHex_f32( float32_t a, char sepChar )
 {
     union { uint32_t ui; float32_t f; } uA;
@@ -125,7 +144,7 @@ void writeHex_f32( float32_t a, char sepChar )
 
     uA.f = a;
     uiA = uA.ui;
-    fputc( (0x80000000 <= uiA) ? '8' : '0', stdout );
+    fputc( uiA & 0x80000000 ? '-' : '+', stdout );
     writeHex_ui8( uiA>>23, 0 );
     fputc( '.', stdout );
     writeHex_ui8( uiA>>16 & 0x7F, 0 );
@@ -140,7 +159,8 @@ void writeHex_f64( float64_t a, char sepChar )
 
     uA.f = a;
     uiA = uA.ui;
-    writeHex_ui12( uiA>>52, 0 );
+    fputc( uiA & UINT64_C( 0x8000000000000000 ) ? '-' : '+', stdout );
+    writeHex_ui12( uiA>>52 & 0x7FF, 0 );
     fputc( '.', stdout );
     writeHex_ui12( uiA>>40, 0 );
     writeHex_ui8( uiA>>32, 0 );
@@ -153,9 +173,12 @@ void writeHex_f64( float64_t a, char sepChar )
 void writeHex_extF80M( const extFloat80_t *aPtr, char sepChar )
 {
     const struct extFloat80M *aSPtr;
+    uint_fast16_t uiA64;
 
     aSPtr = (const struct extFloat80M *) aPtr;
-    writeHex_ui16( aSPtr->signExp, 0 );
+    uiA64 = aSPtr->signExp;
+    fputc( uiA64 & 0x8000 ? '-' : '+', stdout );
+    writeHex_ui16( uiA64 & 0x7FFF, 0 );
     fputc( '.', stdout );
     writeHex_ui64( aSPtr->signif, sepChar );
 
@@ -172,7 +195,8 @@ void writeHex_f128M( const float128_t *aPtr, char sepChar )
 
     uiAPtr = (const struct uint128 *) aPtr;
     uiA64 = uiAPtr->v64;
-    writeHex_ui16( uiA64>>48, 0 );
+    fputc( uiA64 & UINT64_C( 0x8000000000000000 ) ? '-' : '+', stdout );
+    writeHex_ui16( uiA64>>48 & 0x7FFF, 0 );
     fputc( '.', stdout );
     writeHex_ui16( uiA64>>32, 0 );
     writeHex_ui32( uiA64, 0 );

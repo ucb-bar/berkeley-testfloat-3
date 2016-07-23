@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3a: <CODE>testfloat</CODE></H1>
+<H1>Berkeley TestFloat Release 3b: <CODE>testfloat</CODE></H1>
 
 <P>
 John R. Hauser<BR>
-2015 October 23<BR>
+2016 July 22<BR>
 </P>
 
 
@@ -121,6 +121,19 @@ The set of testable operations is just the set of operations that this build of
 <CODE>testfloat</CODE> has some way to invoke for testing.
 </P>
 
+<H3><CODE>-seed &lt;num&gt;</CODE></H3>
+
+<P>
+The <CODE>-seed</CODE> option sets the seed for the pseudo-random number
+generator used for generating test cases.
+The argument to <CODE>-seed</CODE> is a nonnegative integer.
+Executing the same compiled <CODE>testfloat</CODE> program with the same
+arguments (including the same pseudo-random number seed) should always perform
+the same sequence of tests, whereas changing the pseudo-random number seed
+should result in a different sequence of tests.
+The default seed number <NOBR>is 1</NOBR>.
+</P>
+
 <H3><CODE>-level &lt;num&gt;</CODE></H3>
 
 <P>
@@ -175,7 +188,8 @@ The <CODE>-checkNaNs</CODE> option causes <CODE>testfloat</CODE> to verify the
 bitwise correctness of NaN results.
 In order for this option to be sensible, <CODE>testfloat</CODE> must have been
 compiled so that its internal reference implementation of floating-point
-(SoftFloat) generates the proper NaN results for the system being tested.
+(Berkeley SoftFloat) generates the proper NaN results for the system being
+tested.
 </P>
 
 <H3><CODE>-precision32, -precision64, -precision80</CODE></H3>
@@ -235,7 +249,7 @@ Just as <CODE>testfloat</CODE> can test an operation for all five rounding
 modes in sequence, multiple operations can be tested with a single execution of
 <CODE>testfloat</CODE>.
 Two sets are recognized:  <CODE>-all1</CODE> and <CODE>-all2</CODE>.
-The set <CODE>-all1</CODE> comprises all one-operand operations, while
+The set <CODE>-all1</CODE> is all one-operand operations, while
 <CODE>-all2</CODE> is all two-operand operations.
 A function set is used in place of an operation name in the
 <CODE>testfloat</CODE> command line, such as

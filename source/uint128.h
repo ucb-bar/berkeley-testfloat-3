@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3a, a package of programs for
+This C header file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -47,6 +47,8 @@ struct uint128 { uint64_t v0, v64; };
 struct uint128 { uint64_t v64, v0; };
 #endif
 
+#ifdef INLINE
+
 INLINE bool eq128( struct uint128 a, struct uint128 b )
     { return (a.v64 == b.v64) && (a.v0 == b.v0); }
 
@@ -55,6 +57,14 @@ INLINE bool le128( struct uint128 a, struct uint128 b )
 
 INLINE bool lt128( struct uint128 a, struct uint128 b )
     { return (a.v64 < b.v64) || ((a.v64 == b.v64) && (a.v0 < b.v0)); }
+
+#else
+
+bool eq128( struct uint128, struct uint128 );
+bool le128( struct uint128, struct uint128 );
+bool lt128( struct uint128, struct uint128 );
+
+#endif
 
 struct uint128 shortShiftLeft128( struct uint128, int );
 struct uint128 shortShiftRight128( struct uint128, int );

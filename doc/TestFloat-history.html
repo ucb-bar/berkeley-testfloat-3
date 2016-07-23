@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>History of Berkeley TestFloat, to Release 3a</H1>
+<H1>History of Berkeley TestFloat, to Release 3b</H1>
 
 <P>
 John R. Hauser<BR>
-2015 October 23<BR>
+2016 July 22<BR>
 </P>
 
 
@@ -21,6 +21,44 @@ on which TestFloat is based.
 Each TestFloat release necessarily incorporates all bug fixes from the
 corresponding release of SoftFloat.
 </P>
+
+
+<H3>Release 3b (2016 July)</H3>
+
+<UL>
+
+<LI>
+Added the ability to test the common <NOBR>16-bit</NOBR>
+&ldquo;half-precision&rdquo; floating-point format.
+
+<LI>
+Added a <CODE>-seed</CODE> option to programs <CODE>testfloat_gen</CODE>,
+<CODE>testfloat</CODE>, and <CODE>testsoftfloat</CODE> for setting the seed for
+the pseudo-random number generator used to generate test cases.
+
+<LI>
+Where a specific choice is needed for how tininess is detected on underflow,
+changed the default to be the detection of tininess after rounding
+(<CODE>-tininessafter</CODE>) instead of before rounding
+(<CODE>-tininessbefore</CODE>).
+
+<LI>
+Modified the format of reported discrepancies to show the signs of
+floating-point values using <CODE>+</CODE> and <CODE>-</CODE> characters.
+
+<LI>
+Documented the use of the <CODE>INLINE</CODE> macro, and fixed the sources for
+the case that function inlining is not supported by the C compiler.
+
+<LI>
+Documented the possible need to define macro <CODE>THREAD_LOCAL</CODE> to match
+how the SoftFloat library was built.
+
+<LI>
+Modified the provided Makefiles to allow some options to be overridden from the
+<CODE>make</CODE> command.
+
+</UL>
 
 
 <H3>Release 3a (2015 October)</H3>

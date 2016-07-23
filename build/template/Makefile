@@ -1,12 +1,12 @@
 
 #=============================================================================
 #
-# This Makefile template is part of TestFloat, Release 3a, a package of
+# This Makefile template is part of TestFloat, Release 3b, a package of
 # programs for testing the correctness of floating-point arithmetic complying
 # with the IEEE Standard for Floating-Point, by John R. Hauser.
 #
-# Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
-# California.  All rights reserved.
+# Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University
+# of California.  All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -37,18 +37,19 @@
 
 # Edit lines marked with `==>'.  See "TestFloat-source.html".
 
-==> SOURCE_DIR = ../../source
+==> SOURCE_DIR ?= ../../source
+==> SOFTFLOAT_DIR ?= ../../../berkeley-softfloat-3
+==> PLATFORM ?= Win32-MinGW
+
 ==> SUBJ_SOURCE_DIR = $(SOURCE_DIR)/subj-C
-==> SOFTFLOAT_DIR = ../../../berkeley-softfloat-3
 ==> SOFTFLOAT_INCLUDE_DIR = $(SOFTFLOAT_DIR)/source/include
-==> PLATFORM = Win32-MinGW
 
 ==> SOFTFLOAT_H = \
 ==>   $(SOFTFLOAT_INCLUDE_DIR)/softfloat_types.h \
 ==>   $(SOFTFLOAT_INCLUDE_DIR)/softfloat.h
 ==> SOFTFLOAT_LIB = $(SOFTFLOAT_DIR)/build/$(PLATFORM)/softfloat$(LIB)
 
-==> TESTFLOAT_OPTS = -DEXTFLOAT80 -DFLOAT128 -DLONG_DOUBLE_IS_EXTFLOAT80
+==> TESTFLOAT_OPTS ?= -DFLOAT16 -DEXTFLOAT80 -DFLOAT128 -DLONG_DOUBLE_IS_EXTFLOAT80
 
 ==> DELETE = rm -f
 ==> C_INCLUDES = \
@@ -76,6 +77,7 @@ OBJS_GENCASES = \
   genCases_ui64$(OBJ) \
   genCases_i32$(OBJ) \
   genCases_i64$(OBJ) \
+  genCases_f16$(OBJ) \
   genCases_f32$(OBJ) \
   genCases_f64$(OBJ) \
   genCases_extF80$(OBJ) \
@@ -84,6 +86,9 @@ OBJS_GENCASES = \
 OBJS_WRITECASE = \
   writeCase_a_ui32$(OBJ) \
   writeCase_a_ui64$(OBJ) \
+  writeCase_a_f16$(OBJ) \
+  writeCase_ab_f16$(OBJ) \
+  writeCase_abc_f16$(OBJ) \
   writeCase_a_f32$(OBJ) \
   writeCase_ab_f32$(OBJ) \
   writeCase_abc_f32$(OBJ) \
@@ -99,28 +104,50 @@ OBJS_WRITECASE = \
   writeCase_z_bool$(OBJ) \
   writeCase_z_ui32$(OBJ) \
   writeCase_z_ui64$(OBJ) \
+  writeCase_z_f16$(OBJ) \
   writeCase_z_f32$(OBJ) \
   writeCase_z_f64$(OBJ) \
   writeCase_z_extF80M$(OBJ) \
   writeCase_z_f128M$(OBJ) \
 
 OBJS_TEST = \
+  test_a_ui32_z_f16$(OBJ) \
   test_a_ui32_z_f32$(OBJ) \
   test_a_ui32_z_f64$(OBJ) \
   test_a_ui32_z_extF80$(OBJ) \
   test_a_ui32_z_f128$(OBJ) \
+  test_a_ui64_z_f16$(OBJ) \
   test_a_ui64_z_f32$(OBJ) \
   test_a_ui64_z_f64$(OBJ) \
   test_a_ui64_z_extF80$(OBJ) \
   test_a_ui64_z_f128$(OBJ) \
+  test_a_i32_z_f16$(OBJ) \
   test_a_i32_z_f32$(OBJ) \
   test_a_i32_z_f64$(OBJ) \
   test_a_i32_z_extF80$(OBJ) \
   test_a_i32_z_f128$(OBJ) \
+  test_a_i64_z_f16$(OBJ) \
   test_a_i64_z_f32$(OBJ) \
   test_a_i64_z_f64$(OBJ) \
   test_a_i64_z_extF80$(OBJ) \
   test_a_i64_z_f128$(OBJ) \
+  test_a_f16_z_ui32_rx$(OBJ) \
+  test_a_f16_z_ui64_rx$(OBJ) \
+  test_a_f16_z_i32_rx$(OBJ) \
+  test_a_f16_z_i64_rx$(OBJ) \
+  test_a_f16_z_ui32_x$(OBJ) \
+  test_a_f16_z_ui64_x$(OBJ) \
+  test_a_f16_z_i32_x$(OBJ) \
+  test_a_f16_z_i64_x$(OBJ) \
+  test_a_f16_z_f32$(OBJ) \
+  test_a_f16_z_f64$(OBJ) \
+  test_a_f16_z_extF80$(OBJ) \
+  test_a_f16_z_f128$(OBJ) \
+  test_az_f16$(OBJ) \
+  test_az_f16_rx$(OBJ) \
+  test_abz_f16$(OBJ) \
+  test_abcz_f16$(OBJ) \
+  test_ab_f16_z_bool$(OBJ) \
   test_a_f32_z_ui32_rx$(OBJ) \
   test_a_f32_z_ui64_rx$(OBJ) \
   test_a_f32_z_i32_rx$(OBJ) \
@@ -129,6 +156,7 @@ OBJS_TEST = \
   test_a_f32_z_ui64_x$(OBJ) \
   test_a_f32_z_i32_x$(OBJ) \
   test_a_f32_z_i64_x$(OBJ) \
+  test_a_f32_z_f16$(OBJ) \
   test_a_f32_z_f64$(OBJ) \
   test_a_f32_z_extF80$(OBJ) \
   test_a_f32_z_f128$(OBJ) \
@@ -145,6 +173,7 @@ OBJS_TEST = \
   test_a_f64_z_ui64_x$(OBJ) \
   test_a_f64_z_i32_x$(OBJ) \
   test_a_f64_z_i64_x$(OBJ) \
+  test_a_f64_z_f16$(OBJ) \
   test_a_f64_z_f32$(OBJ) \
   test_a_f64_z_extF80$(OBJ) \
   test_a_f64_z_f128$(OBJ) \
@@ -161,6 +190,7 @@ OBJS_TEST = \
   test_a_extF80_z_ui64_x$(OBJ) \
   test_a_extF80_z_i32_x$(OBJ) \
   test_a_extF80_z_i64_x$(OBJ) \
+  test_a_extF80_z_f16$(OBJ) \
   test_a_extF80_z_f32$(OBJ) \
   test_a_extF80_z_f64$(OBJ) \
   test_a_extF80_z_f128$(OBJ) \
@@ -176,6 +206,7 @@ OBJS_TEST = \
   test_a_f128_z_ui64_x$(OBJ) \
   test_a_f128_z_i32_x$(OBJ) \
   test_a_f128_z_i64_x$(OBJ) \
+  test_a_f128_z_f16$(OBJ) \
   test_a_f128_z_f32$(OBJ) \
   test_a_f128_z_f64$(OBJ) \
   test_a_f128_z_extF80$(OBJ) \
@@ -186,6 +217,7 @@ OBJS_TEST = \
   test_ab_f128_z_bool$(OBJ) \
 
 OBJS_LIB = \
+  uint128_inline$(OBJ) \
   uint128$(OBJ) \
   fail$(OBJ) \
   functions_common$(OBJ) \
@@ -195,6 +227,7 @@ OBJS_LIB = \
   genCases_common$(OBJ) \
   $(OBJS_GENCASES) \
   genCases_writeTestsTotal$(OBJ) \
+  verCases_inline$(OBJ) \
   verCases_common$(OBJ) \
   verCases_writeFunctionName$(OBJ) \
   readHex$(OBJ) \

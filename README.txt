@@ -1,8 +1,8 @@
 
-Package Overview for Berkeley TestFloat Release 3a
+Package Overview for Berkeley TestFloat Release 3b
 
 John R. Hauser
-2015 October 23
+2016 July 22
 
 Berkeley TestFloat is a small collection of programs for testing that an
 implementation of binary floating-point conforms to the IEEE Standard for

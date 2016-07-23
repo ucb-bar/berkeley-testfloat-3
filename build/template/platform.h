@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header template is part of TestFloat, Release 3a, a package of programs
+This C header template is part of TestFloat, Release 3b, a package of programs
 for testing the correctness of floating-point arithmetic complying with the
 IEEE Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -44,4 +44,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
 ==> #define INLINE inline
+
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+==> #define THREAD_LOCAL _Thread_local
 

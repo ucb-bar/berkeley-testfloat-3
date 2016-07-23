@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
+This C source file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -114,6 +114,19 @@ static void readVerInput_i64( int_fast64_t *aPtr )
 
 }
 
+#ifdef FLOAT16
+
+static void readVerInput_f16( float16_t *aPtr )
+{
+    union { uint16_t ui; float16_t f; } uA;
+
+    if ( ! readHex_ui16( &uA.ui, ' ' ) ) failFromBadInput();
+    *aPtr = uA.f;
+
+}
+
+#endif
+
 static void readVerInput_f32( float32_t *aPtr )
 {
     union { uint32_t ui; float32_t f; } uA;
@@ -187,6 +200,55 @@ static void readVerInput_flags( uint_fast8_t *flagsPtr )
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
+#ifdef FLOAT16
+
+void ver_a_ui32_z_f16( float16_t trueFunction( uint32_t ) )
+{
+    int count;
+    uint_fast32_t a;
+    float16_t subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_ui32( &a );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_ui32( a, "  " );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
+
 void ver_a_ui32_z_f32( float32_t trueFunction( uint32_t ) )
 {
     int count;
@@ -373,6 +435,55 @@ void ver_a_ui32_z_f128( void trueFunction( uint32_t, float128_t * ) )
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
+#ifdef FLOAT16
+
+void ver_a_ui64_z_f16( float16_t trueFunction( uint64_t ) )
+{
+    int count;
+    uint_fast64_t a;
+    float16_t subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_ui64( &a );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_ui64( a, "  " );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
+
 void ver_a_ui64_z_f32( float32_t trueFunction( uint64_t ) )
 {
     int count;
@@ -559,6 +670,55 @@ void ver_a_ui64_z_f128( void trueFunction( uint64_t, float128_t * ) )
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
+#ifdef FLOAT16
+
+void ver_a_i32_z_f16( float16_t trueFunction( int32_t ) )
+{
+    int count;
+    int_fast32_t a;
+    float16_t subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_i32( &a );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_i32( a, "  " );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
+
 void ver_a_i32_z_f32( float32_t trueFunction( int32_t ) )
 {
     int count;
@@ -745,6 +905,55 @@ void ver_a_i32_z_f128( void trueFunction( int32_t, float128_t * ) )
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
+#ifdef FLOAT16
+
+void ver_a_i64_z_f16( float16_t trueFunction( int64_t ) )
+{
+    int count;
+    int_fast64_t a;
+    float16_t subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_i64( &a );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_i64( a, "  " );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
+
 void ver_a_i64_z_f32( float32_t trueFunction( int64_t ) )
 {
     int count;
@@ -931,6 +1140,852 @@ void ver_a_i64_z_f128( void trueFunction( int64_t, float128_t * ) )
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
+#ifdef FLOAT16
+
+void
+ ver_a_f16_z_ui32_rx(
+     uint_fast32_t trueFunction( float16_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
+{
+    int count;
+    float16_t a;
+    uint_fast32_t subjZ;
+    uint_fast8_t subjFlags;
+    uint_fast32_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_ui32( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, roundingMode, exact );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   (trueZ != 0xFFFFFFFF)
+                || (subjZ != 0xFFFFFFFF)
+                || (trueFlags != softfloat_flag_invalid)
+                || (subjFlags != softfloat_flag_invalid)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_ui32( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void
+ ver_a_f16_z_ui64_rx(
+     uint_fast64_t trueFunction( float16_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
+{
+    int count;
+    float16_t a;
+    uint_fast64_t subjZ;
+    uint_fast8_t subjFlags;
+    uint_fast64_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_ui64( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, roundingMode, exact );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                || (trueFlags != softfloat_flag_invalid)
+                || (subjFlags != softfloat_flag_invalid)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_ui64( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void
+ ver_a_f16_z_i32_rx(
+     int_fast32_t trueFunction( float16_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
+{
+    int count;
+    float16_t a;
+    int_fast32_t subjZ;
+    uint_fast8_t subjFlags;
+    int_fast32_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_i32( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, roundingMode, exact );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   (trueZ != 0x7FFFFFFF)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                || (trueFlags != softfloat_flag_invalid)
+                || (subjFlags != softfloat_flag_invalid)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_i32( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void
+ ver_a_f16_z_i64_rx(
+     int_fast64_t trueFunction( float16_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
+{
+    int count;
+    float16_t a;
+    int_fast64_t subjZ;
+    uint_fast8_t subjFlags;
+    int_fast64_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_i64( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, roundingMode, exact );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                || (trueFlags != softfloat_flag_invalid)
+                || (subjFlags != softfloat_flag_invalid)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_i64( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void
+ ver_a_f16_z_ui32_x(
+     uint_fast32_t trueFunction( float16_t, bool ), bool exact )
+{
+    int count;
+    float16_t a;
+    uint_fast32_t subjZ;
+    uint_fast8_t subjFlags;
+    uint_fast32_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_ui32( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, exact );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   (trueZ != 0xFFFFFFFF)
+                || (subjZ != 0xFFFFFFFF)
+                || (trueFlags != softfloat_flag_invalid)
+                || (subjFlags != softfloat_flag_invalid)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_ui32( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void
+ ver_a_f16_z_ui64_x(
+     uint_fast64_t trueFunction( float16_t, bool ), bool exact )
+{
+    int count;
+    float16_t a;
+    uint_fast64_t subjZ;
+    uint_fast8_t subjFlags;
+    uint_fast64_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_ui64( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, exact );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                || (trueFlags != softfloat_flag_invalid)
+                || (subjFlags != softfloat_flag_invalid)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_ui64( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void
+ ver_a_f16_z_i32_x(
+     int_fast32_t trueFunction( float16_t, bool ), bool exact )
+{
+    int count;
+    float16_t a;
+    int_fast32_t subjZ;
+    uint_fast8_t subjFlags;
+    int_fast32_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_i32( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, exact );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   (trueZ != 0x7FFFFFFF)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                || (trueFlags != softfloat_flag_invalid)
+                || (subjFlags != softfloat_flag_invalid)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_i32( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void
+ ver_a_f16_z_i64_x(
+     int_fast64_t trueFunction( float16_t, bool ), bool exact )
+{
+    int count;
+    float16_t a;
+    int_fast64_t subjZ;
+    uint_fast8_t subjFlags;
+    int_fast64_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_i64( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, exact );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                || (trueFlags != softfloat_flag_invalid)
+                || (subjFlags != softfloat_flag_invalid)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_i64( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void ver_a_f16_z_f32( float32_t trueFunction( float16_t ) )
+{
+    int count;
+    float16_t a;
+    float32_t subjZ;
+    uint_fast8_t subjFlags;
+    float32_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_f32( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f32_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f32_isNaN( trueZ )
+                || ! f32_isNaN( subjZ )
+                || f32_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_f32( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void ver_a_f16_z_f64( float64_t trueFunction( float16_t ) )
+{
+    int count;
+    float16_t a;
+    float64_t subjZ;
+    uint_fast8_t subjFlags;
+    float64_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_f64( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f64_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f64_isNaN( trueZ )
+                || ! f64_isNaN( subjZ )
+                || f64_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_f64( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#ifdef EXTFLOAT80
+
+void ver_a_f16_z_extF80( void trueFunction( float16_t, extFloat80_t * ) )
+{
+    int count;
+    float16_t a;
+    extFloat80_t subjZ;
+    uint_fast8_t subjFlags;
+    extFloat80_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_extF80( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueFunction( a, &trueZ );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! extF80M_same( &trueZ, &subjZ ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! extF80M_isNaN( &trueZ )
+                || ! extF80M_isNaN( &subjZ )
+                || extF80M_isSignalingNaN( &subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
+
+#ifdef FLOAT128
+
+void ver_a_f16_z_f128( void trueFunction( float16_t, float128_t * ) )
+{
+    int count;
+    float16_t a;
+    float128_t subjZ;
+    uint_fast8_t subjFlags;
+    float128_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_f128( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueFunction( a, &trueZ );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f128M_same( &trueZ, &subjZ ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f128M_isNaN( &trueZ )
+                || ! f128M_isNaN( &subjZ )
+                || f128M_isSignalingNaN( &subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_f128M( &trueZ, trueFlags, &subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
+
+void ver_az_f16( float16_t trueFunction( float16_t ) )
+{
+    int count;
+    float16_t a, subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void
+ ver_az_f16_rx(
+     float16_t trueFunction( float16_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
+{
+    int count;
+    float16_t a, subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, roundingMode, exact );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f16( a, "  " );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void ver_abz_f16( float16_t trueFunction( float16_t, float16_t ) )
+{
+    int count;
+    float16_t a, b, subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_f16( &b );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, b );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if (
+                ! verCases_checkNaNs
+                    && (f16_isSignalingNaN( a ) || f16_isSignalingNaN( b ))
+            ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_ab_f16( a, b, "  " );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void ver_abcz_f16( float16_t trueFunction( float16_t, float16_t, float16_t ) )
+{
+    int count;
+    float16_t a, b, c, subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_f16( &b );
+        readVerInput_f16( &c );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, b, c );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if (
+                   ! verCases_checkNaNs
+                && (f16_isSignalingNaN( a ) || f16_isSignalingNaN( b )
+                        || f16_isSignalingNaN( c ))
+            ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_abc_f16( a, b, c, "\n\t" );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+void ver_ab_f16_z_bool( bool trueFunction( float16_t, float16_t ) )
+{
+    int count;
+    float16_t a, b;
+    bool subjZ;
+    uint_fast8_t subjFlags;
+    bool trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f16( &a );
+        readVerInput_f16( &b );
+        readVerInput_bool( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a, b );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
+            if (
+                ! verCases_checkNaNs
+                    && (f16_isSignalingNaN( a ) || f16_isSignalingNaN( b ))
+            ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_ab_f16( a, b, "  " );
+                writeCase_z_bool( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
+
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 void
  ver_a_f32_z_ui32_rx(
      uint_fast32_t trueFunction( float32_t, uint_fast8_t, bool ),
@@ -1329,6 +2384,57 @@ void
 
 }
 
+#ifdef FLOAT16
+
+void ver_a_f32_z_f16( float16_t trueFunction( float32_t ) )
+{
+    int count;
+    float32_t a;
+    float16_t subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f32( &a );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f32_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f32( a, "  " );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
+
 void ver_a_f32_z_f64( float64_t trueFunction( float32_t ) )
 {
     int count;
@@ -1724,6 +2830,7 @@ void ver_ab_f32_z_bool( bool trueFunction( float32_t, float32_t ) )
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
 void
  ver_a_f64_z_ui32_rx(
      uint_fast32_t trueFunction( float64_t, uint_fast8_t, bool ),
@@ -2122,6 +3229,57 @@ void
 
 }
 
+#ifdef FLOAT16
+
+void ver_a_f64_z_f16( float16_t trueFunction( float64_t ) )
+{
+    int count;
+    float64_t a;
+    float16_t subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f64( &a );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f64_isSignalingNaN( a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f64( a, "  " );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
+
 void ver_a_f64_z_f32( float32_t trueFunction( float64_t ) )
 {
     int count;
@@ -2517,6 +3675,7 @@ void ver_ab_f64_z_bool( bool trueFunction( float64_t, float64_t ) )
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
 #ifdef EXTFLOAT80
 
 void
@@ -2917,6 +4076,57 @@ void
 
 }
 
+#ifdef FLOAT16
+
+void ver_a_extF80_z_f16( float16_t trueFunction( const extFloat80_t * ) )
+{
+    int count;
+    extFloat80_t a;
+    float16_t subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_extF80( &a );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( &a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && extF80M_isSignalingNaN( &a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_extF80M( &a, "\n\t" );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
+
 void ver_a_extF80_z_f32( float32_t trueFunction( const extFloat80_t * ) )
 {
     int count;
@@ -3207,7 +4417,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_ab_extF80M( &a, &b, "\n\t" );
+                writeCase_ab_extF80M( &a, &b, "  " );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -3332,6 +4542,7 @@ void
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
 #ifdef FLOAT128
 
 void
@@ -3731,6 +4942,57 @@ void
     verCases_writeTestsPerformed( 10000 - count );
 
 }
+
+#ifdef FLOAT16
+
+void ver_a_f128_z_f16( float16_t trueFunction( const float128_t * ) )
+{
+    int count;
+    float128_t a;
+    float16_t subjZ;
+    uint_fast8_t subjFlags;
+    float16_t trueZ;
+    uint_fast8_t trueFlags;
+
+    verCases_errorCount = 0;
+    verCases_tenThousandsCount = 0;
+    count = 10000;
+    while ( ! atEndOfInput() ) {
+        readVerInput_f128( &a );
+        readVerInput_f16( &subjZ );
+        readVerInput_flags( &subjFlags );
+        *verLoops_trueFlagsPtr = 0;
+        trueZ = trueFunction( &a );
+        trueFlags = *verLoops_trueFlagsPtr;
+        --count;
+        if ( ! count ) {
+            verCases_perTenThousand();
+            count = 10000;
+        }
+        if ( ! f16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+            if ( ! verCases_checkNaNs && f128M_isSignalingNaN( &a ) ) {
+                trueFlags |= softfloat_flag_invalid;
+            }
+            if (
+                   verCases_checkNaNs
+                || ! f16_isNaN( trueZ )
+                || ! f16_isNaN( subjZ )
+                || f16_isSignalingNaN( subjZ )
+                || (trueFlags != subjFlags)
+            ) {
+                ++verCases_errorCount;
+                verCases_writeErrorFound( 10000 - count );
+                writeCase_a_f128M( &a, "\n\t" );
+                writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
+                if ( verCases_errorCount == verCases_maxErrorCount ) break;
+            }
+        }
+    }
+    verCases_writeTestsPerformed( 10000 - count );
+
+}
+
+#endif
 
 void ver_a_f128_z_f32( float32_t trueFunction( const float128_t * ) )
 {

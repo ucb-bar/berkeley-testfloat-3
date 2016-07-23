@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
+This C source file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -770,7 +770,7 @@ void genCases_f64_abc_next( void )
             genCases_f64_a = currentA;
             genCases_f64_b = currentB;
             genCases_f64_c = currentC;
-            genCases_done = sequenceA.done & sequenceB.done & sequenceC.done;;
+            genCases_done = sequenceA.done & sequenceB.done & sequenceC.done;
             subcase = -1;
             break;
         }
@@ -793,7 +793,7 @@ void genCases_f64_abc_next( void )
             genCases_f64_a = currentA;
             genCases_f64_b = currentB;
             genCases_f64_c = f64NextQInP2( &sequenceC );
-            genCases_done = sequenceA.done & sequenceB.done & sequenceC.done;;
+            genCases_done = sequenceA.done & sequenceB.done & sequenceC.done;
             subcase = -1;
             break;
         }

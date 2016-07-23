@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
+This C source file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
 California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -49,12 +49,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 enum { minIterations = 1000 };
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 static const char *functionNamePtr;
 static uint_fast8_t roundingPrecision;
 static int roundingCode;
 static int tininessCode;
 static bool usesExact;
 static bool exact;
+
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
 
 static void reportTime( int_fast64_t count, clock_t clockTicks )
 {
@@ -94,8 +100,17 @@ static void reportTime( int_fast64_t count, clock_t clockTicks )
 
 }
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
+#ifdef FLOAT16
+union ui16_f16 { uint16_t ui; float16_t f; };
+#endif
 union ui32_f32 { uint32_t ui; float32_t f; };
 union ui64_f64 { uint64_t ui; float64_t f; };
+
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
 
 enum { numInputs_ui32 = 32 };
 
@@ -109,6 +124,39 @@ static const uint32_t inputs_ui32[numInputs_ui32] = {
     0x00208002, 0x07C42FBF, 0x0FFFE3FF, 0x040B9F13,
     0x40000008, 0x0001BF56, 0x000017F6, 0x000A908A
 };
+
+#ifdef FLOAT16
+
+static void time_a_ui32_z_f16( float16_t function( uint32_t ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            function( inputs_ui32[inputNum] );
+            inputNum = (inputNum + 1) & (numInputs_ui32 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        function( inputs_ui32[inputNum] );
+        inputNum = (inputNum + 1) & (numInputs_ui32 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
 
 static void time_a_ui32_z_f32( float32_t function( uint32_t ) )
 {
@@ -236,6 +284,9 @@ static void time_a_ui32_z_f128( void function( uint32_t, float128_t * ) )
 
 #endif
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 enum { numInputs_ui64 = 32 };
 
 static const int64_t inputs_ui64[numInputs_ui64] = {
@@ -256,6 +307,39 @@ static const int64_t inputs_ui64[numInputs_ui64] = {
     UINT64_C( 0x07FFFFFFFFFFF7FF ), UINT64_C( 0x00036155C7076FB0 ),
     UINT64_C( 0x00000020FBFFFFFE ), UINT64_C( 0x0000099AE6455357 )
 };
+
+#ifdef FLOAT16
+
+static void time_a_ui64_z_f16( float16_t function( uint64_t ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            function( inputs_ui64[inputNum] );
+            inputNum = (inputNum + 1) & (numInputs_ui64 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        function( inputs_ui64[inputNum] );
+        inputNum = (inputNum + 1) & (numInputs_ui64 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
 
 static void time_a_ui64_z_f32( float32_t function( uint64_t ) )
 {
@@ -383,6 +467,9 @@ static void time_a_ui64_z_f128( void function( uint64_t, float128_t * ) )
 
 #endif
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 enum { numInputs_i32 = 32 };
 
 static const int32_t inputs_i32[numInputs_i32] = {
@@ -395,6 +482,39 @@ static const int32_t inputs_i32[numInputs_i32] = {
     -0x00208002,  0x07C42FBF,  0x0FFFE3FF,  0x040B9F13,
     -0x40000008,  0x0001BF56,  0x000017F6,  0x000A908A
 };
+
+#ifdef FLOAT16
+
+static void time_a_i32_z_f16( float16_t function( int32_t ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            function( inputs_i32[inputNum] );
+            inputNum = (inputNum + 1) & (numInputs_i32 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        function( inputs_i32[inputNum] );
+        inputNum = (inputNum + 1) & (numInputs_i32 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
 
 static void time_a_i32_z_f32( float32_t function( int32_t ) )
 {
@@ -522,6 +642,9 @@ static void time_a_i32_z_f128( void function( int32_t, float128_t * ) )
 
 #endif
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 enum { numInputs_i64 = 32 };
 
 static const int64_t inputs_i64[numInputs_i64] = {
@@ -542,6 +665,39 @@ static const int64_t inputs_i64[numInputs_i64] = {
      INT64_C( 0x07FFFFFFFFFFF7FF ), -INT64_C( 0x00036155C7076FB0 ),
      INT64_C( 0x00000020FBFFFFFE ),  INT64_C( 0x0000099AE6455357 )
 };
+
+#ifdef FLOAT16
+
+static void time_a_i64_z_f16( float16_t function( int64_t ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            function( inputs_i64[inputNum] );
+            inputNum = (inputNum + 1) & (numInputs_i64 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        function( inputs_i64[inputNum] );
+        inputNum = (inputNum + 1) & (numInputs_i64 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
 
 static void time_a_i64_z_f32( float32_t function( int64_t ) )
 {
@@ -669,6 +825,655 @@ static void time_a_i64_z_f128( void function( int64_t, float128_t * ) )
 
 #endif
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
+#ifdef FLOAT16
+
+enum { numInputs_f16 = 32 };
+
+static const uint16_t inputs_F16UI[numInputs_f16] = {
+    0x0BBA, 0x77FE, 0x084F, 0x9C0F, 0x7800, 0x4436, 0xCE67, 0x80F3,
+    0x87EF, 0xC2FA, 0x7BFF, 0x13FE, 0x7BFE, 0x1C00, 0xAC46, 0xEAFA,
+    0x3813, 0x4804, 0x385E, 0x8000, 0xB86C, 0x4B7D, 0xC7FD, 0xC97F,
+    0x260C, 0x78EE, 0xB84F, 0x249E, 0x0D27, 0x37DC, 0x8400, 0xE8EF
+};
+
+static
+void
+ time_a_f16_z_ui32_rx(
+     uint_fast32_t function( float16_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, roundingMode, exact );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, roundingMode, exact );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static
+void
+ time_a_f16_z_ui64_rx(
+     uint_fast64_t function( float16_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, roundingMode, exact );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, roundingMode, exact );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static
+void
+ time_a_f16_z_i32_rx(
+     int_fast32_t function( float16_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, roundingMode, exact );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, roundingMode, exact );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static
+void
+ time_a_f16_z_i64_rx(
+     int_fast64_t function( float16_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, roundingMode, exact );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, roundingMode, exact );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static
+void
+ time_a_f16_z_ui32_x( uint_fast32_t function( float16_t, bool ), bool exact )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, exact );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, exact );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static
+void
+ time_a_f16_z_ui64_x( uint_fast64_t function( float16_t, bool ), bool exact )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, exact );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, exact );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static
+void time_a_f16_z_i32_x( int_fast32_t function( float16_t, bool ), bool exact )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, exact );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, exact );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static
+void time_a_f16_z_i64_x( int_fast64_t function( float16_t, bool ), bool exact )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, exact );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, exact );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static void time_a_f16_z_f32( float32_t function( float16_t ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static void time_a_f16_z_f64( float64_t function( float16_t ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#ifdef EXTFLOAT80
+
+static void time_a_f16_z_extF80( void function( float16_t, extFloat80_t * ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    extFloat80_t z;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, &z );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, &z );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
+
+#ifdef FLOAT128
+
+static void time_a_f16_z_f128( void function( float16_t, float128_t * ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    float128_t z;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, &z );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, &z );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
+
+static
+void
+ time_az_f16_rx(
+     float16_t function( float16_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNum];
+            function( uA.f, roundingMode, exact );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNum];
+        function( uA.f, roundingMode, exact );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static void time_abz_f16( float16_t function( float16_t, float16_t ) )
+{
+    int_fast64_t count;
+    int inputNumA, inputNumB;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA, uB;
+    clock_t endClock;
+
+    count = 0;
+    inputNumA = 0;
+    inputNumB = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNumA];
+            uB.ui = inputs_F16UI[inputNumB];
+            function( uA.f, uB.f );
+            inputNumA = (inputNumA + 1) & (numInputs_f16 - 1);
+            if ( ! inputNumA ) ++inputNumB;
+            inputNumB = (inputNumB + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNumA = 0;
+    inputNumB = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNumA];
+        uB.ui = inputs_F16UI[inputNumB];
+        function( uA.f, uB.f );
+        inputNumA = (inputNumA + 1) & (numInputs_f16 - 1);
+        if ( ! inputNumA ) ++inputNumB;
+        inputNumB = (inputNumB + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static
+void time_abcz_f16( float16_t function( float16_t, float16_t, float16_t ) )
+{
+    int_fast64_t count;
+    int inputNumA, inputNumB, inputNumC;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA, uB, uC;
+    clock_t endClock;
+
+    count = 0;
+    inputNumA = 0;
+    inputNumB = 0;
+    inputNumC = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNumA];
+            uB.ui = inputs_F16UI[inputNumB];
+            uC.ui = inputs_F16UI[inputNumC];
+            function( uA.f, uB.f, uC.f );
+            inputNumA = (inputNumA + 1) & (numInputs_f16 - 1);
+            if ( ! inputNumA ) ++inputNumB;
+            inputNumB = (inputNumB + 1) & (numInputs_f16 - 1);
+            if ( ! inputNumB ) ++inputNumC;
+            inputNumC = (inputNumC + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNumA = 0;
+    inputNumB = 0;
+    inputNumC = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNumA];
+        uB.ui = inputs_F16UI[inputNumB];
+        uC.ui = inputs_F16UI[inputNumC];
+        function( uA.f, uB.f, uC.f );
+        inputNumA = (inputNumA + 1) & (numInputs_f16 - 1);
+        if ( ! inputNumA ) ++inputNumB;
+        inputNumB = (inputNumB + 1) & (numInputs_f16 - 1);
+        if ( ! inputNumB ) ++inputNumC;
+        inputNumC = (inputNumC + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static void time_ab_f16_z_bool( bool function( float16_t, float16_t ) )
+{
+    int_fast64_t count;
+    int inputNumA, inputNumB;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA, uB;
+    clock_t endClock;
+
+    count = 0;
+    inputNumA = 0;
+    inputNumB = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI[inputNumA];
+            uB.ui = inputs_F16UI[inputNumB];
+            function( uA.f, uB.f );
+            inputNumA = (inputNumA + 1) & (numInputs_f16 - 1);
+            if ( ! inputNumA ) ++inputNumB;
+            inputNumB = (inputNumB + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNumA = 0;
+    inputNumB = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI[inputNumA];
+        uB.ui = inputs_F16UI[inputNumB];
+        function( uA.f, uB.f );
+        inputNumA = (inputNumA + 1) & (numInputs_f16 - 1);
+        if ( ! inputNumA ) ++inputNumB;
+        inputNumB = (inputNumB + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+static const uint16_t inputs_F16UI_pos[numInputs_f16] = {
+    0x0BBA, 0x77FE, 0x084F, 0x1C0F, 0x7800, 0x4436, 0x4E67, 0x00F3,
+    0x07EF, 0x42FA, 0x7BFF, 0x13FE, 0x7BFE, 0x1C00, 0x2C46, 0x6AFA,
+    0x3813, 0x4804, 0x385E, 0x0000, 0x386C, 0x4B7D, 0x47FD, 0x497F,
+    0x260C, 0x78EE, 0x384F, 0x249E, 0x0D27, 0x37DC, 0x0400, 0x68EF
+};
+
+static void time_az_f16_pos( float16_t function( float16_t ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui16_f16 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F16UI_pos[inputNum];
+            function( uA.f );
+            inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F16UI_pos[inputNum];
+        function( uA.f );
+        inputNum = (inputNum + 1) & (numInputs_f16 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
+
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 enum { numInputs_f32 = 32 };
 
 static const uint32_t inputs_F32UI[numInputs_f32] = {
@@ -683,12 +1488,12 @@ static const uint32_t inputs_F32UI[numInputs_f32] = {
 };
 
 static
- void
-  time_a_f32_z_ui32_rx(
-      uint_fast32_t function( float32_t, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f32_z_ui32_rx(
+     uint_fast32_t function( float32_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -721,12 +1526,12 @@ static
 }
 
 static
- void
-  time_a_f32_z_ui64_rx(
-      uint_fast64_t function( float32_t, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f32_z_ui64_rx(
+     uint_fast64_t function( float32_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -759,12 +1564,12 @@ static
 }
 
 static
- void
-  time_a_f32_z_i32_rx(
-      int_fast32_t function( float32_t, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f32_z_i32_rx(
+     int_fast32_t function( float32_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -797,12 +1602,12 @@ static
 }
 
 static
- void
-  time_a_f32_z_i64_rx(
-      int_fast64_t function( float32_t, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f32_z_i64_rx(
+     int_fast64_t function( float32_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -835,8 +1640,8 @@ static
 }
 
 static
- void
-  time_a_f32_z_ui32_x( uint_fast32_t function( float32_t, bool ), bool exact )
+void
+ time_a_f32_z_ui32_x( uint_fast32_t function( float32_t, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -869,8 +1674,8 @@ static
 }
 
 static
- void
-  time_a_f32_z_ui64_x( uint_fast64_t function( float32_t, bool ), bool exact )
+void
+ time_a_f32_z_ui64_x( uint_fast64_t function( float32_t, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -903,8 +1708,7 @@ static
 }
 
 static
- void
-  time_a_f32_z_i32_x( int_fast32_t function( float32_t, bool ), bool exact )
+void time_a_f32_z_i32_x( int_fast32_t function( float32_t, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -937,8 +1741,7 @@ static
 }
 
 static
- void
-  time_a_f32_z_i64_x( int_fast64_t function( float32_t, bool ), bool exact )
+void time_a_f32_z_i64_x( int_fast64_t function( float32_t, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -969,6 +1772,42 @@ static
     reportTime( count, endClock - startClock );
 
 }
+
+#ifdef FLOAT16
+
+static void time_a_f32_z_f16( float16_t function( float32_t ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui32_f32 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F32UI[inputNum];
+            function( uA.f );
+            inputNum = (inputNum + 1) & (numInputs_f32 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F32UI[inputNum];
+        function( uA.f );
+        inputNum = (inputNum + 1) & (numInputs_f32 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
 
 static void time_a_f32_z_f64( float64_t function( float32_t ) )
 {
@@ -1077,12 +1916,12 @@ static void time_a_f32_z_f128( void function( float32_t, float128_t * ) )
 #endif
 
 static
- void
-  time_az_f32_rx(
-      float32_t function( float32_t, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_az_f32_rx(
+     float32_t function( float32_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -1155,7 +1994,7 @@ static void time_abz_f32( float32_t function( float32_t, float32_t ) )
 }
 
 static
- void time_abcz_f32( float32_t function( float32_t, float32_t, float32_t ) )
+void time_abcz_f32( float32_t function( float32_t, float32_t, float32_t ) )
 {
     int_fast64_t count;
     int inputNumA, inputNumB, inputNumC;
@@ -1286,6 +2125,9 @@ static void time_az_f32_pos( float32_t function( float32_t ) )
 
 }
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 enum { numInputs_f64 = 32 };
 
 static const uint64_t inputs_F64UI[numInputs_f64] = {
@@ -1324,12 +2166,12 @@ static const uint64_t inputs_F64UI[numInputs_f64] = {
 };
 
 static
- void
-  time_a_f64_z_ui32_rx(
-      uint_fast32_t function( float64_t, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f64_z_ui32_rx(
+     uint_fast32_t function( float64_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -1362,12 +2204,12 @@ static
 }
 
 static
- void
-  time_a_f64_z_ui64_rx(
-      uint_fast64_t function( float64_t, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f64_z_ui64_rx(
+     uint_fast64_t function( float64_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -1400,12 +2242,12 @@ static
 }
 
 static
- void
-  time_a_f64_z_i32_rx(
-      int_fast32_t function( float64_t, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f64_z_i32_rx(
+     int_fast32_t function( float64_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -1438,12 +2280,12 @@ static
 }
 
 static
- void
-  time_a_f64_z_i64_rx(
-      int_fast64_t function( float64_t, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f64_z_i64_rx(
+     int_fast64_t function( float64_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -1476,8 +2318,8 @@ static
 }
 
 static
- void
-  time_a_f64_z_ui32_x( uint_fast32_t function( float64_t, bool ), bool exact )
+void
+ time_a_f64_z_ui32_x( uint_fast32_t function( float64_t, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -1510,8 +2352,8 @@ static
 }
 
 static
- void
-  time_a_f64_z_ui64_x( uint_fast64_t function( float64_t, bool ), bool exact )
+void
+ time_a_f64_z_ui64_x( uint_fast64_t function( float64_t, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -1544,8 +2386,7 @@ static
 }
 
 static
- void
-  time_a_f64_z_i32_x( int_fast32_t function( float64_t, bool ), bool exact )
+void time_a_f64_z_i32_x( int_fast32_t function( float64_t, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -1578,8 +2419,7 @@ static
 }
 
 static
- void
-  time_a_f64_z_i64_x( int_fast64_t function( float64_t, bool ), bool exact )
+void time_a_f64_z_i64_x( int_fast64_t function( float64_t, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -1610,6 +2450,42 @@ static
     reportTime( count, endClock - startClock );
 
 }
+
+#ifdef FLOAT16
+
+static void time_a_f64_z_f16( float16_t function( float64_t ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    union ui64_f64 uA;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            uA.ui = inputs_F64UI[inputNum];
+            function( uA.f );
+            inputNum = (inputNum + 1) & (numInputs_f64 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        uA.ui = inputs_F64UI[inputNum];
+        function( uA.f );
+        inputNum = (inputNum + 1) & (numInputs_f64 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
 
 static void time_a_f64_z_f32( float32_t function( float64_t ) )
 {
@@ -1718,12 +2594,12 @@ static void time_a_f64_z_f128( void function( float64_t, float128_t * ) )
 #endif
 
 static
- void
-  time_az_f64_rx(
-      float64_t function( float64_t, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_az_f64_rx(
+     float64_t function( float64_t, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -1796,7 +2672,7 @@ static void time_abz_f64( float64_t function( float64_t, float64_t ) )
 }
 
 static
- void time_abcz_f64( float64_t function( float64_t, float64_t, float64_t ) )
+void time_abcz_f64( float64_t function( float64_t, float64_t, float64_t ) )
 {
     int_fast64_t count;
     int inputNumA, inputNumB, inputNumC;
@@ -1951,6 +2827,9 @@ static void time_az_f64_pos( float64_t function( float64_t ) )
 
 }
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 #ifdef EXTFLOAT80
 
 #ifdef LITTLEENDIAN
@@ -1962,49 +2841,49 @@ static void time_az_f64_pos( float64_t function( float64_t ) )
 enum { numInputs_extF80 = 32 };
 
 static
- const union { struct extFloat80M s; extFloat80_t f; }
-     inputs_extF80[numInputs_extF80] = {
-    extF80Const( 0xC03F, 0xA9BE15A19C1E8B62 ),
-    extF80Const( 0x8000, 0x0000000000000000 ),
-    extF80Const( 0x75A8, 0xE59591E4788957A5 ),
-    extF80Const( 0xBFFF, 0xFFF0000000000040 ),
-    extF80Const( 0x0CD8, 0xFC000000000007FE ),
-    extF80Const( 0x43BA, 0x99A4000000000000 ),
-    extF80Const( 0x3FFF, 0x8000000000000000 ),
-    extF80Const( 0x4081, 0x94FBF1BCEB5545F0 ),
-    extF80Const( 0x403E, 0xFFF0000000002000 ),
-    extF80Const( 0x3FFE, 0xC860E3C75D224F28 ),
-    extF80Const( 0x407E, 0xFC00000FFFFFFFFE ),
-    extF80Const( 0x737A, 0x800000007FFDFFFE ),
-    extF80Const( 0x4044, 0xFFFFFF80000FFFFF ),
-    extF80Const( 0xBBFE, 0x8000040000001FFE ),
-    extF80Const( 0xC002, 0xFF80000000000020 ),
-    extF80Const( 0xDE8D, 0xFFFFFFFFFFE00004 ),
-    extF80Const( 0xC004, 0x8000000000003FFB ),
-    extF80Const( 0x407F, 0x800000000003FFFE ),
-    extF80Const( 0xC000, 0xA459EE6A5C16CA55 ),
-    extF80Const( 0x8003, 0xC42CBF7399AEEB94 ),
-    extF80Const( 0xBF7F, 0xF800000000000006 ),
-    extF80Const( 0xC07F, 0xBF56BE8871F28FEA ),
-    extF80Const( 0xC07E, 0xFFFF77FFFFFFFFFE ),
-    extF80Const( 0xADC9, 0x8000000FFFFFFFDE ),
-    extF80Const( 0xC001, 0xEFF7FFFFFFFFFFFF ),
-    extF80Const( 0x4001, 0xBE84F30125C497A6 ),
-    extF80Const( 0xC06B, 0xEFFFFFFFFFFFFFFF ),
-    extF80Const( 0x4080, 0xFFFFFFFFBFFFFFFF ),
-    extF80Const( 0x87E9, 0x81FFFFFFFFFFFBFF ),
-    extF80Const( 0xA63F, 0x801FFFFFFEFFFFFE ),
-    extF80Const( 0x403C, 0x801FFFFFFFF7FFFF ),
-    extF80Const( 0x4018, 0x8000000000080003 )
-};
+const union { struct extFloat80M s; extFloat80_t f; }
+    inputs_extF80[numInputs_extF80] = {
+        extF80Const( 0xC03F, 0xA9BE15A19C1E8B62 ),
+        extF80Const( 0x8000, 0x0000000000000000 ),
+        extF80Const( 0x75A8, 0xE59591E4788957A5 ),
+        extF80Const( 0xBFFF, 0xFFF0000000000040 ),
+        extF80Const( 0x0CD8, 0xFC000000000007FE ),
+        extF80Const( 0x43BA, 0x99A4000000000000 ),
+        extF80Const( 0x3FFF, 0x8000000000000000 ),
+        extF80Const( 0x4081, 0x94FBF1BCEB5545F0 ),
+        extF80Const( 0x403E, 0xFFF0000000002000 ),
+        extF80Const( 0x3FFE, 0xC860E3C75D224F28 ),
+        extF80Const( 0x407E, 0xFC00000FFFFFFFFE ),
+        extF80Const( 0x737A, 0x800000007FFDFFFE ),
+        extF80Const( 0x4044, 0xFFFFFF80000FFFFF ),
+        extF80Const( 0xBBFE, 0x8000040000001FFE ),
+        extF80Const( 0xC002, 0xFF80000000000020 ),
+        extF80Const( 0xDE8D, 0xFFFFFFFFFFE00004 ),
+        extF80Const( 0xC004, 0x8000000000003FFB ),
+        extF80Const( 0x407F, 0x800000000003FFFE ),
+        extF80Const( 0xC000, 0xA459EE6A5C16CA55 ),
+        extF80Const( 0x8003, 0xC42CBF7399AEEB94 ),
+        extF80Const( 0xBF7F, 0xF800000000000006 ),
+        extF80Const( 0xC07F, 0xBF56BE8871F28FEA ),
+        extF80Const( 0xC07E, 0xFFFF77FFFFFFFFFE ),
+        extF80Const( 0xADC9, 0x8000000FFFFFFFDE ),
+        extF80Const( 0xC001, 0xEFF7FFFFFFFFFFFF ),
+        extF80Const( 0x4001, 0xBE84F30125C497A6 ),
+        extF80Const( 0xC06B, 0xEFFFFFFFFFFFFFFF ),
+        extF80Const( 0x4080, 0xFFFFFFFFBFFFFFFF ),
+        extF80Const( 0x87E9, 0x81FFFFFFFFFFFBFF ),
+        extF80Const( 0xA63F, 0x801FFFFFFEFFFFFE ),
+        extF80Const( 0x403C, 0x801FFFFFFFF7FFFF ),
+        extF80Const( 0x4018, 0x8000000000080003 )
+    };
 
 static
- void
-  time_a_extF80_z_ui32_rx(
-      uint_fast32_t function( const extFloat80_t *, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_extF80_z_ui32_rx(
+     uint_fast32_t function( const extFloat80_t *, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -2034,12 +2913,12 @@ static
 }
 
 static
- void
-  time_a_extF80_z_ui64_rx(
-      uint_fast64_t function( const extFloat80_t *, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_extF80_z_ui64_rx(
+     uint_fast64_t function( const extFloat80_t *, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -2069,12 +2948,12 @@ static
 }
 
 static
- void
-  time_a_extF80_z_i32_rx(
-      int_fast32_t function( const extFloat80_t *, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_extF80_z_i32_rx(
+     int_fast32_t function( const extFloat80_t *, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -2104,12 +2983,12 @@ static
 }
 
 static
- void
-  time_a_extF80_z_i64_rx(
-      int_fast64_t function( const extFloat80_t *, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_extF80_z_i64_rx(
+     int_fast64_t function( const extFloat80_t *, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -2139,9 +3018,9 @@ static
 }
 
 static
- void
-  time_a_extF80_z_ui32_x(
-      uint_fast32_t function( const extFloat80_t *, bool ), bool exact )
+void
+ time_a_extF80_z_ui32_x(
+     uint_fast32_t function( const extFloat80_t *, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -2171,9 +3050,9 @@ static
 }
 
 static
- void
-  time_a_extF80_z_ui64_x(
-      uint_fast64_t function( const extFloat80_t *, bool ), bool exact )
+void
+ time_a_extF80_z_ui64_x(
+     uint_fast64_t function( const extFloat80_t *, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -2203,9 +3082,9 @@ static
 }
 
 static
- void
-  time_a_extF80_z_i32_x(
-      int_fast32_t function( const extFloat80_t *, bool ), bool exact )
+void
+ time_a_extF80_z_i32_x(
+     int_fast32_t function( const extFloat80_t *, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -2235,9 +3114,9 @@ static
 }
 
 static
- void
-  time_a_extF80_z_i64_x(
-      int_fast64_t function( const extFloat80_t *, bool ), bool exact )
+void
+ time_a_extF80_z_i64_x(
+     int_fast64_t function( const extFloat80_t *, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -2265,6 +3144,39 @@ static
     reportTime( count, endClock - startClock );
 
 }
+
+#ifdef FLOAT16
+
+static void time_a_extF80_z_f16( float16_t function( const extFloat80_t * ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            function( &inputs_extF80[inputNum].f );
+            inputNum = (inputNum + 1) & (numInputs_extF80 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        function( &inputs_extF80[inputNum].f );
+        inputNum = (inputNum + 1) & (numInputs_extF80 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
 
 static void time_a_extF80_z_f32( float32_t function( const extFloat80_t * ) )
 {
@@ -2327,8 +3239,8 @@ static void time_a_extF80_z_f64( float64_t function( const extFloat80_t * ) )
 #ifdef FLOAT128
 
 static
- void
-  time_a_extF80_z_f128( void function( const extFloat80_t *, float128_t * ) )
+void
+ time_a_extF80_z_f128( void function( const extFloat80_t *, float128_t * ) )
 {
     int_fast64_t count;
     int inputNum;
@@ -2361,13 +3273,12 @@ static
 #endif
 
 static
- void
-  time_az_extF80_rx(
-      void
-       function( const extFloat80_t *, uint_fast8_t, bool, extFloat80_t * ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_az_extF80_rx(
+     void function( const extFloat80_t *, uint_fast8_t, bool, extFloat80_t * ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -2398,11 +3309,11 @@ static
 }
 
 static
- void
-  time_abz_extF80(
-      void
-       function( const extFloat80_t *, const extFloat80_t *, extFloat80_t * )
-  )
+void
+ time_abz_extF80(
+     void
+      function( const extFloat80_t *, const extFloat80_t *, extFloat80_t * )
+ )
 {
     int_fast64_t count;
     int inputNumA, inputNumB;
@@ -2441,16 +3352,16 @@ static
 }
 
 static
- void
-  time_abcz_extF80(
-      void
-       function(
-           const extFloat80_t *,
-           const extFloat80_t *,
-           const extFloat80_t *,
-           extFloat80_t *
-       )
-  )
+void
+ time_abcz_extF80(
+     void
+      function(
+          const extFloat80_t *,
+          const extFloat80_t *,
+          const extFloat80_t *,
+          extFloat80_t *
+      )
+ )
 {
     int_fast64_t count;
     int inputNumA, inputNumB, inputNumC;
@@ -2503,9 +3414,9 @@ static
 }
 
 static
- void
-  time_ab_extF80_z_bool(
-      bool function( const extFloat80_t *, const extFloat80_t * ) )
+void
+ time_ab_extF80_z_bool(
+     bool function( const extFloat80_t *, const extFloat80_t * ) )
 {
     int_fast64_t count;
     int inputNumA, inputNumB;
@@ -2542,45 +3453,45 @@ static
 }
 
 static
- const union { struct extFloat80M s; extFloat80_t f; }
-     inputs_extF80_pos[numInputs_extF80] = {
-    extF80Const( 0x403F, 0xA9BE15A19C1E8B62 ),
-    extF80Const( 0x0000, 0x0000000000000000 ),
-    extF80Const( 0x75A8, 0xE59591E4788957A5 ),
-    extF80Const( 0x3FFF, 0xFFF0000000000040 ),
-    extF80Const( 0x0CD8, 0xFC000000000007FE ),
-    extF80Const( 0x43BA, 0x99A4000000000000 ),
-    extF80Const( 0x3FFF, 0x8000000000000000 ),
-    extF80Const( 0x4081, 0x94FBF1BCEB5545F0 ),
-    extF80Const( 0x403E, 0xFFF0000000002000 ),
-    extF80Const( 0x3FFE, 0xC860E3C75D224F28 ),
-    extF80Const( 0x407E, 0xFC00000FFFFFFFFE ),
-    extF80Const( 0x737A, 0x800000007FFDFFFE ),
-    extF80Const( 0x4044, 0xFFFFFF80000FFFFF ),
-    extF80Const( 0x3BFE, 0x8000040000001FFE ),
-    extF80Const( 0x4002, 0xFF80000000000020 ),
-    extF80Const( 0x5E8D, 0xFFFFFFFFFFE00004 ),
-    extF80Const( 0x4004, 0x8000000000003FFB ),
-    extF80Const( 0x407F, 0x800000000003FFFE ),
-    extF80Const( 0x4000, 0xA459EE6A5C16CA55 ),
-    extF80Const( 0x0003, 0xC42CBF7399AEEB94 ),
-    extF80Const( 0x3F7F, 0xF800000000000006 ),
-    extF80Const( 0x407F, 0xBF56BE8871F28FEA ),
-    extF80Const( 0x407E, 0xFFFF77FFFFFFFFFE ),
-    extF80Const( 0x2DC9, 0x8000000FFFFFFFDE ),
-    extF80Const( 0x4001, 0xEFF7FFFFFFFFFFFF ),
-    extF80Const( 0x4001, 0xBE84F30125C497A6 ),
-    extF80Const( 0x406B, 0xEFFFFFFFFFFFFFFF ),
-    extF80Const( 0x4080, 0xFFFFFFFFBFFFFFFF ),
-    extF80Const( 0x07E9, 0x81FFFFFFFFFFFBFF ),
-    extF80Const( 0x263F, 0x801FFFFFFEFFFFFE ),
-    extF80Const( 0x403C, 0x801FFFFFFFF7FFFF ),
-    extF80Const( 0x4018, 0x8000000000080003 )
-};
+const union { struct extFloat80M s; extFloat80_t f; }
+    inputs_extF80_pos[numInputs_extF80] = {
+        extF80Const( 0x403F, 0xA9BE15A19C1E8B62 ),
+        extF80Const( 0x0000, 0x0000000000000000 ),
+        extF80Const( 0x75A8, 0xE59591E4788957A5 ),
+        extF80Const( 0x3FFF, 0xFFF0000000000040 ),
+        extF80Const( 0x0CD8, 0xFC000000000007FE ),
+        extF80Const( 0x43BA, 0x99A4000000000000 ),
+        extF80Const( 0x3FFF, 0x8000000000000000 ),
+        extF80Const( 0x4081, 0x94FBF1BCEB5545F0 ),
+        extF80Const( 0x403E, 0xFFF0000000002000 ),
+        extF80Const( 0x3FFE, 0xC860E3C75D224F28 ),
+        extF80Const( 0x407E, 0xFC00000FFFFFFFFE ),
+        extF80Const( 0x737A, 0x800000007FFDFFFE ),
+        extF80Const( 0x4044, 0xFFFFFF80000FFFFF ),
+        extF80Const( 0x3BFE, 0x8000040000001FFE ),
+        extF80Const( 0x4002, 0xFF80000000000020 ),
+        extF80Const( 0x5E8D, 0xFFFFFFFFFFE00004 ),
+        extF80Const( 0x4004, 0x8000000000003FFB ),
+        extF80Const( 0x407F, 0x800000000003FFFE ),
+        extF80Const( 0x4000, 0xA459EE6A5C16CA55 ),
+        extF80Const( 0x0003, 0xC42CBF7399AEEB94 ),
+        extF80Const( 0x3F7F, 0xF800000000000006 ),
+        extF80Const( 0x407F, 0xBF56BE8871F28FEA ),
+        extF80Const( 0x407E, 0xFFFF77FFFFFFFFFE ),
+        extF80Const( 0x2DC9, 0x8000000FFFFFFFDE ),
+        extF80Const( 0x4001, 0xEFF7FFFFFFFFFFFF ),
+        extF80Const( 0x4001, 0xBE84F30125C497A6 ),
+        extF80Const( 0x406B, 0xEFFFFFFFFFFFFFFF ),
+        extF80Const( 0x4080, 0xFFFFFFFFBFFFFFFF ),
+        extF80Const( 0x07E9, 0x81FFFFFFFFFFFBFF ),
+        extF80Const( 0x263F, 0x801FFFFFFEFFFFFE ),
+        extF80Const( 0x403C, 0x801FFFFFFFF7FFFF ),
+        extF80Const( 0x4018, 0x8000000000080003 )
+    };
 
 static
- void
-  time_az_extF80_pos( void function( const extFloat80_t *, extFloat80_t * ) )
+void
+ time_az_extF80_pos( void function( const extFloat80_t *, extFloat80_t * ) )
 {
     int_fast64_t count;
     int inputNum;
@@ -2612,6 +3523,9 @@ static
 
 #endif
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 #ifdef FLOAT128
 
 #ifdef LITTLEENDIAN
@@ -2623,49 +3537,49 @@ static
 enum { numInputs_f128 = 32 };
 
 static
- const union { struct uint128 ui; float128_t f; }
-     inputs_f128[numInputs_f128] = {
-    f128Const( 0x3FDA200000100000, 0x0000000000000000 ),
-    f128Const( 0x3FFF000000000000, 0x0000000000000000 ),
-    f128Const( 0x85F14776190C8306, 0xD8715F4E3D54BB92 ),
-    f128Const( 0xF2B00000007FFFFF, 0xFFFFFFFFFFF7FFFF ),
-    f128Const( 0x8000000000000000, 0x0000000000000000 ),
-    f128Const( 0xBFFFFFFFFFE00000, 0x0000008000000000 ),
-    f128Const( 0x407F1719CE722F3E, 0xDA6B3FE5FF29425B ),
-    f128Const( 0x43FFFF8000000000, 0x0000000000400000 ),
-    f128Const( 0x401E000000000100, 0x0000000000002000 ),
-    f128Const( 0x3FFED71DACDA8E47, 0x4860E3C75D224F28 ),
-    f128Const( 0xBF7ECFC1E90647D1, 0x7A124FE55623EE44 ),
-    f128Const( 0x0DF7007FFFFFFFFF, 0xFFFFFFFFEFFFFFFF ),
-    f128Const( 0x3FE5FFEFFFFFFFFF, 0xFFFFFFFFFFFFEFFF ),
-    f128Const( 0x403FFFFFFFFFFFFF, 0xFFFFFFFFFFFFFBFE ),
-    f128Const( 0xBFFB2FBF7399AFEB, 0xA459EE6A5C16CA55 ),
-    f128Const( 0xBDB8FFFFFFFFFFFC, 0x0000000000000400 ),
-    f128Const( 0x3FC8FFDFFFFFFFFF, 0xFFFFFFFFF0000000 ),
-    f128Const( 0x3FFBFFFFFFDFFFFF, 0xFFF8000000000000 ),
-    f128Const( 0x407043C11737BE84, 0xDDD58212ADC937F4 ),
-    f128Const( 0x8001000000000000, 0x0000001000000001 ),
-    f128Const( 0xC036FFFFFFFFFFFF, 0xFE40000000000000 ),
-    f128Const( 0x4002FFFFFE000002, 0x0000000000000000 ),
-    f128Const( 0x4000C3FEDE897773, 0x326AC4FD8EFBE6DC ),
-    f128Const( 0xBFFF0000000FFFFF, 0xFFFFFE0000000000 ),
-    f128Const( 0x62C3E502146E426D, 0x43F3CAA0DC7DF1A0 ),
-    f128Const( 0xB5CBD32E52BB570E, 0xBCC477CB11C6236C ),
-    f128Const( 0xE228FFFFFFC00000, 0x0000000000000000 ),
-    f128Const( 0x3F80000000000000, 0x0000000080000008 ),
-    f128Const( 0xC1AFFFDFFFFFFFFF, 0xFFFC000000000000 ),
-    f128Const( 0xC96F000000000000, 0x00000001FFFBFFFF ),
-    f128Const( 0x3DE09BFE7923A338, 0xBCC8FBBD7CEC1F4F ),
-    f128Const( 0x401CFFFFFFFFFFFF, 0xFFFFFFFEFFFFFF80 )
-};
+const union { struct uint128 ui; float128_t f; }
+    inputs_f128[numInputs_f128] = {
+        f128Const( 0x3FDA200000100000, 0x0000000000000000 ),
+        f128Const( 0x3FFF000000000000, 0x0000000000000000 ),
+        f128Const( 0x85F14776190C8306, 0xD8715F4E3D54BB92 ),
+        f128Const( 0xF2B00000007FFFFF, 0xFFFFFFFFFFF7FFFF ),
+        f128Const( 0x8000000000000000, 0x0000000000000000 ),
+        f128Const( 0xBFFFFFFFFFE00000, 0x0000008000000000 ),
+        f128Const( 0x407F1719CE722F3E, 0xDA6B3FE5FF29425B ),
+        f128Const( 0x43FFFF8000000000, 0x0000000000400000 ),
+        f128Const( 0x401E000000000100, 0x0000000000002000 ),
+        f128Const( 0x3FFED71DACDA8E47, 0x4860E3C75D224F28 ),
+        f128Const( 0xBF7ECFC1E90647D1, 0x7A124FE55623EE44 ),
+        f128Const( 0x0DF7007FFFFFFFFF, 0xFFFFFFFFEFFFFFFF ),
+        f128Const( 0x3FE5FFEFFFFFFFFF, 0xFFFFFFFFFFFFEFFF ),
+        f128Const( 0x403FFFFFFFFFFFFF, 0xFFFFFFFFFFFFFBFE ),
+        f128Const( 0xBFFB2FBF7399AFEB, 0xA459EE6A5C16CA55 ),
+        f128Const( 0xBDB8FFFFFFFFFFFC, 0x0000000000000400 ),
+        f128Const( 0x3FC8FFDFFFFFFFFF, 0xFFFFFFFFF0000000 ),
+        f128Const( 0x3FFBFFFFFFDFFFFF, 0xFFF8000000000000 ),
+        f128Const( 0x407043C11737BE84, 0xDDD58212ADC937F4 ),
+        f128Const( 0x8001000000000000, 0x0000001000000001 ),
+        f128Const( 0xC036FFFFFFFFFFFF, 0xFE40000000000000 ),
+        f128Const( 0x4002FFFFFE000002, 0x0000000000000000 ),
+        f128Const( 0x4000C3FEDE897773, 0x326AC4FD8EFBE6DC ),
+        f128Const( 0xBFFF0000000FFFFF, 0xFFFFFE0000000000 ),
+        f128Const( 0x62C3E502146E426D, 0x43F3CAA0DC7DF1A0 ),
+        f128Const( 0xB5CBD32E52BB570E, 0xBCC477CB11C6236C ),
+        f128Const( 0xE228FFFFFFC00000, 0x0000000000000000 ),
+        f128Const( 0x3F80000000000000, 0x0000000080000008 ),
+        f128Const( 0xC1AFFFDFFFFFFFFF, 0xFFFC000000000000 ),
+        f128Const( 0xC96F000000000000, 0x00000001FFFBFFFF ),
+        f128Const( 0x3DE09BFE7923A338, 0xBCC8FBBD7CEC1F4F ),
+        f128Const( 0x401CFFFFFFFFFFFF, 0xFFFFFFFEFFFFFF80 )
+    };
 
 static
- void
-  time_a_f128_z_ui32_rx(
-      uint_fast32_t function( const float128_t *, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f128_z_ui32_rx(
+     uint_fast32_t function( const float128_t *, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -2695,12 +3609,12 @@ static
 }
 
 static
- void
-  time_a_f128_z_ui64_rx(
-      uint_fast64_t function( const float128_t *, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f128_z_ui64_rx(
+     uint_fast64_t function( const float128_t *, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -2730,12 +3644,12 @@ static
 }
 
 static
- void
-  time_a_f128_z_i32_rx(
-      int_fast32_t function( const float128_t *, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f128_z_i32_rx(
+     int_fast32_t function( const float128_t *, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -2765,12 +3679,12 @@ static
 }
 
 static
- void
-  time_a_f128_z_i64_rx(
-      int_fast64_t function( const float128_t *, uint_fast8_t, bool ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_a_f128_z_i64_rx(
+     int_fast64_t function( const float128_t *, uint_fast8_t, bool ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -2800,9 +3714,9 @@ static
 }
 
 static
- void
-  time_a_f128_z_ui32_x(
-      uint_fast32_t function( const float128_t *, bool ), bool exact )
+void
+ time_a_f128_z_ui32_x(
+     uint_fast32_t function( const float128_t *, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -2832,9 +3746,9 @@ static
 }
 
 static
- void
-  time_a_f128_z_ui64_x(
-      uint_fast64_t function( const float128_t *, bool ), bool exact )
+void
+ time_a_f128_z_ui64_x(
+     uint_fast64_t function( const float128_t *, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -2864,9 +3778,9 @@ static
 }
 
 static
- void
-  time_a_f128_z_i32_x(
-      int_fast32_t function( const float128_t *, bool ), bool exact )
+void
+ time_a_f128_z_i32_x(
+     int_fast32_t function( const float128_t *, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -2896,9 +3810,9 @@ static
 }
 
 static
- void
-  time_a_f128_z_i64_x(
-      int_fast64_t function( const float128_t *, bool ), bool exact )
+void
+ time_a_f128_z_i64_x(
+     int_fast64_t function( const float128_t *, bool ), bool exact )
 {
     int_fast64_t count;
     int inputNum;
@@ -2926,6 +3840,39 @@ static
     reportTime( count, endClock - startClock );
 
 }
+
+#ifdef FLOAT16
+
+static void time_a_f128_z_f16( float16_t function( const float128_t * ) )
+{
+    int_fast64_t count;
+    int inputNum;
+    clock_t startClock;
+    int_fast64_t i;
+    clock_t endClock;
+
+    count = 0;
+    inputNum = 0;
+    startClock = clock();
+    do {
+        for ( i = minIterations; i; --i ) {
+            function( &inputs_f128[inputNum].f );
+            inputNum = (inputNum + 1) & (numInputs_f128 - 1);
+        }
+        count += minIterations;
+    } while ( clock() - startClock < CLOCKS_PER_SEC );
+    inputNum = 0;
+    startClock = clock();
+    for ( i = count; i; --i ) {
+        function( &inputs_f128[inputNum].f );
+        inputNum = (inputNum + 1) & (numInputs_f128 - 1);
+    }
+    endClock = clock();
+    reportTime( count, endClock - startClock );
+
+}
+
+#endif
 
 static void time_a_f128_z_f32( float32_t function( const float128_t * ) )
 {
@@ -2988,8 +3935,8 @@ static void time_a_f128_z_f64( float64_t function( const float128_t * ) )
 #ifdef EXTFLOAT80
 
 static
- void
-  time_a_f128_z_extF80( void function( const float128_t *, extFloat80_t * ) )
+void
+ time_a_f128_z_extF80( void function( const float128_t *, extFloat80_t * ) )
 {
     int_fast64_t count;
     int inputNum;
@@ -3022,12 +3969,12 @@ static
 #endif
 
 static
- void
-  time_az_f128_rx(
-      void function( const float128_t *, uint_fast8_t, bool, float128_t * ),
-      uint_fast8_t roundingMode,
-      bool exact
-  )
+void
+ time_az_f128_rx(
+     void function( const float128_t *, uint_fast8_t, bool, float128_t * ),
+     uint_fast8_t roundingMode,
+     bool exact
+ )
 {
     int_fast64_t count;
     int inputNum;
@@ -3058,9 +4005,9 @@ static
 }
 
 static
- void
-  time_abz_f128(
-      void function( const float128_t *, const float128_t *, float128_t * ) )
+void
+ time_abz_f128(
+     void function( const float128_t *, const float128_t *, float128_t * ) )
 {
     int_fast64_t count;
     int inputNumA, inputNumB;
@@ -3098,16 +4045,16 @@ static
 }
 
 static
- void
-  time_abcz_f128(
-      void
-       function(
-           const float128_t *,
-           const float128_t *,
-           const float128_t *,
-           float128_t *
-       )
-  )
+void
+ time_abcz_f128(
+     void
+      function(
+          const float128_t *,
+          const float128_t *,
+          const float128_t *,
+          float128_t *
+      )
+ )
 {
     int_fast64_t count;
     int inputNumA, inputNumB, inputNumC;
@@ -3160,9 +4107,8 @@ static
 }
 
 static
- void
-  time_ab_f128_z_bool(
-      bool function( const float128_t *, const float128_t * ) )
+void
+ time_ab_f128_z_bool( bool function( const float128_t *, const float128_t * ) )
 {
     int_fast64_t count;
     int inputNumA, inputNumB;
@@ -3198,44 +4144,44 @@ static
 }
 
 static
- const union { struct uint128 ui; float128_t f; }
-     inputs_f128_pos[numInputs_f128] = {
-    f128Const( 0x3FDA200000100000, 0x0000000000000000 ),
-    f128Const( 0x3FFF000000000000, 0x0000000000000000 ),
-    f128Const( 0x05F14776190C8306, 0xD8715F4E3D54BB92 ),
-    f128Const( 0x72B00000007FFFFF, 0xFFFFFFFFFFF7FFFF ),
-    f128Const( 0x0000000000000000, 0x0000000000000000 ),
-    f128Const( 0x3FFFFFFFFFE00000, 0x0000008000000000 ),
-    f128Const( 0x407F1719CE722F3E, 0xDA6B3FE5FF29425B ),
-    f128Const( 0x43FFFF8000000000, 0x0000000000400000 ),
-    f128Const( 0x401E000000000100, 0x0000000000002000 ),
-    f128Const( 0x3FFED71DACDA8E47, 0x4860E3C75D224F28 ),
-    f128Const( 0x3F7ECFC1E90647D1, 0x7A124FE55623EE44 ),
-    f128Const( 0x0DF7007FFFFFFFFF, 0xFFFFFFFFEFFFFFFF ),
-    f128Const( 0x3FE5FFEFFFFFFFFF, 0xFFFFFFFFFFFFEFFF ),
-    f128Const( 0x403FFFFFFFFFFFFF, 0xFFFFFFFFFFFFFBFE ),
-    f128Const( 0x3FFB2FBF7399AFEB, 0xA459EE6A5C16CA55 ),
-    f128Const( 0x3DB8FFFFFFFFFFFC, 0x0000000000000400 ),
-    f128Const( 0x3FC8FFDFFFFFFFFF, 0xFFFFFFFFF0000000 ),
-    f128Const( 0x3FFBFFFFFFDFFFFF, 0xFFF8000000000000 ),
-    f128Const( 0x407043C11737BE84, 0xDDD58212ADC937F4 ),
-    f128Const( 0x0001000000000000, 0x0000001000000001 ),
-    f128Const( 0x4036FFFFFFFFFFFF, 0xFE40000000000000 ),
-    f128Const( 0x4002FFFFFE000002, 0x0000000000000000 ),
-    f128Const( 0x4000C3FEDE897773, 0x326AC4FD8EFBE6DC ),
-    f128Const( 0x3FFF0000000FFFFF, 0xFFFFFE0000000000 ),
-    f128Const( 0x62C3E502146E426D, 0x43F3CAA0DC7DF1A0 ),
-    f128Const( 0x35CBD32E52BB570E, 0xBCC477CB11C6236C ),
-    f128Const( 0x6228FFFFFFC00000, 0x0000000000000000 ),
-    f128Const( 0x3F80000000000000, 0x0000000080000008 ),
-    f128Const( 0x41AFFFDFFFFFFFFF, 0xFFFC000000000000 ),
-    f128Const( 0x496F000000000000, 0x00000001FFFBFFFF ),
-    f128Const( 0x3DE09BFE7923A338, 0xBCC8FBBD7CEC1F4F ),
-    f128Const( 0x401CFFFFFFFFFFFF, 0xFFFFFFFEFFFFFF80 )
-};
+const union { struct uint128 ui; float128_t f; }
+    inputs_f128_pos[numInputs_f128] = {
+        f128Const( 0x3FDA200000100000, 0x0000000000000000 ),
+        f128Const( 0x3FFF000000000000, 0x0000000000000000 ),
+        f128Const( 0x05F14776190C8306, 0xD8715F4E3D54BB92 ),
+        f128Const( 0x72B00000007FFFFF, 0xFFFFFFFFFFF7FFFF ),
+        f128Const( 0x0000000000000000, 0x0000000000000000 ),
+        f128Const( 0x3FFFFFFFFFE00000, 0x0000008000000000 ),
+        f128Const( 0x407F1719CE722F3E, 0xDA6B3FE5FF29425B ),
+        f128Const( 0x43FFFF8000000000, 0x0000000000400000 ),
+        f128Const( 0x401E000000000100, 0x0000000000002000 ),
+        f128Const( 0x3FFED71DACDA8E47, 0x4860E3C75D224F28 ),
+        f128Const( 0x3F7ECFC1E90647D1, 0x7A124FE55623EE44 ),
+        f128Const( 0x0DF7007FFFFFFFFF, 0xFFFFFFFFEFFFFFFF ),
+        f128Const( 0x3FE5FFEFFFFFFFFF, 0xFFFFFFFFFFFFEFFF ),
+        f128Const( 0x403FFFFFFFFFFFFF, 0xFFFFFFFFFFFFFBFE ),
+        f128Const( 0x3FFB2FBF7399AFEB, 0xA459EE6A5C16CA55 ),
+        f128Const( 0x3DB8FFFFFFFFFFFC, 0x0000000000000400 ),
+        f128Const( 0x3FC8FFDFFFFFFFFF, 0xFFFFFFFFF0000000 ),
+        f128Const( 0x3FFBFFFFFFDFFFFF, 0xFFF8000000000000 ),
+        f128Const( 0x407043C11737BE84, 0xDDD58212ADC937F4 ),
+        f128Const( 0x0001000000000000, 0x0000001000000001 ),
+        f128Const( 0x4036FFFFFFFFFFFF, 0xFE40000000000000 ),
+        f128Const( 0x4002FFFFFE000002, 0x0000000000000000 ),
+        f128Const( 0x4000C3FEDE897773, 0x326AC4FD8EFBE6DC ),
+        f128Const( 0x3FFF0000000FFFFF, 0xFFFFFE0000000000 ),
+        f128Const( 0x62C3E502146E426D, 0x43F3CAA0DC7DF1A0 ),
+        f128Const( 0x35CBD32E52BB570E, 0xBCC477CB11C6236C ),
+        f128Const( 0x6228FFFFFFC00000, 0x0000000000000000 ),
+        f128Const( 0x3F80000000000000, 0x0000000080000008 ),
+        f128Const( 0x41AFFFDFFFFFFFFF, 0xFFFC000000000000 ),
+        f128Const( 0x496F000000000000, 0x00000001FFFBFFFF ),
+        f128Const( 0x3DE09BFE7923A338, 0xBCC8FBBD7CEC1F4F ),
+        f128Const( 0x401CFFFFFFFFFFFF, 0xFFFFFFFEFFFFFF80 )
+    };
 
 static
- void time_az_f128_pos( void function( const float128_t *, float128_t * ) )
+void time_az_f128_pos( void function( const float128_t *, float128_t * ) )
 {
     int_fast64_t count;
     int inputNum;
@@ -3267,11 +4213,18 @@ static
 
 #endif
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 static
- void
-  timeFunctionInstance(
-      int functionCode, uint_fast8_t roundingMode, bool exact )
+void
+ timeFunctionInstance(
+     int functionCode, uint_fast8_t roundingMode, bool exact )
 {
+#ifdef FLOAT16
+    float16_t (*function_abz_f16)( float16_t, float16_t );
+    bool (*function_ab_f16_z_bool)( float16_t, float16_t );
+#endif
     float32_t (*function_abz_f32)( float32_t, float32_t );
     bool (*function_ab_f32_z_bool)( float32_t, float32_t );
     float64_t (*function_abz_f64)( float64_t, float64_t );
@@ -3294,6 +4247,11 @@ static
     switch ( functionCode ) {
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
+#ifdef FLOAT16
+     case UI32_TO_F16:
+        time_a_ui32_z_f16( ui32_to_f16 );
+        break;
+#endif
      case UI32_TO_F32:
         time_a_ui32_z_f32( ui32_to_f32 );
         break;
@@ -3308,6 +4266,11 @@ static
 #ifdef FLOAT128
      case UI32_TO_F128:
         time_a_ui32_z_f128( ui32_to_f128M );
+        break;
+#endif
+#ifdef FLOAT16
+     case UI64_TO_F16:
+        time_a_ui64_z_f16( ui64_to_f16 );
         break;
 #endif
      case UI64_TO_F32:
@@ -3326,6 +4289,11 @@ static
         time_a_ui64_z_f128( ui64_to_f128M );
         break;
 #endif
+#ifdef FLOAT16
+     case I32_TO_F16:
+        time_a_i32_z_f16( i32_to_f16 );
+        break;
+#endif
      case I32_TO_F32:
         time_a_i32_z_f32( i32_to_f32 );
         break;
@@ -3342,6 +4310,11 @@ static
         time_a_i32_z_f128( i32_to_f128M );
         break;
 #endif
+#ifdef FLOAT16
+     case I64_TO_F16:
+        time_a_i64_z_f16( i64_to_f16 );
+        break;
+#endif
      case I64_TO_F32:
         time_a_i64_z_f32( i64_to_f32 );
         break;
@@ -3356,6 +4329,96 @@ static
 #ifdef FLOAT128
      case I64_TO_F128:
         time_a_i64_z_f128( i64_to_f128M );
+        break;
+#endif
+        /*--------------------------------------------------------------------
+        *--------------------------------------------------------------------*/
+#ifdef FLOAT16
+     case F16_TO_UI32:
+        time_a_f16_z_ui32_rx( f16_to_ui32, roundingMode, exact );
+        break;
+     case F16_TO_UI64:
+        time_a_f16_z_ui64_rx( f16_to_ui64, roundingMode, exact );
+        break;
+     case F16_TO_I32:
+        time_a_f16_z_i32_rx( f16_to_i32, roundingMode, exact );
+        break;
+     case F16_TO_I64:
+        time_a_f16_z_i64_rx( f16_to_i64, roundingMode, exact );
+        break;
+     case F16_TO_UI32_R_MINMAG:
+        time_a_f16_z_ui32_x( f16_to_ui32_r_minMag, exact );
+        break;
+     case F16_TO_UI64_R_MINMAG:
+        time_a_f16_z_ui64_x( f16_to_ui64_r_minMag, exact );
+        break;
+     case F16_TO_I32_R_MINMAG:
+        time_a_f16_z_i32_x( f16_to_i32_r_minMag, exact );
+        break;
+     case F16_TO_I64_R_MINMAG:
+        time_a_f16_z_i64_x( f16_to_i64_r_minMag, exact );
+        break;
+     case F16_TO_F32:
+        time_a_f16_z_f32( f16_to_f32 );
+        break;
+     case F16_TO_F64:
+        time_a_f16_z_f64( f16_to_f64 );
+        break;
+#ifdef EXTFLOAT80
+     case F16_TO_EXTF80:
+        time_a_f16_z_extF80( f16_to_extF80M );
+        break;
+#endif
+#ifdef FLOAT128
+     case F16_TO_F128:
+        time_a_f16_z_f128( f16_to_f128M );
+        break;
+#endif
+     case F16_ROUNDTOINT:
+        time_az_f16_rx( f16_roundToInt, roundingMode, exact );
+        break;
+     case F16_ADD:
+        function_abz_f16 = f16_add;
+        goto time_abz_f16;
+     case F16_SUB:
+        function_abz_f16 = f16_sub;
+        goto time_abz_f16;
+     case F16_MUL:
+        function_abz_f16 = f16_mul;
+        goto time_abz_f16;
+     case F16_DIV:
+        function_abz_f16 = f16_div;
+        goto time_abz_f16;
+     case F16_REM:
+        function_abz_f16 = f16_rem;
+     time_abz_f16:
+        time_abz_f16( function_abz_f16 );
+        break;
+     case F16_MULADD:
+        time_abcz_f16( f16_mulAdd );
+        break;
+     case F16_SQRT:
+        time_az_f16_pos( f16_sqrt );
+        break;
+     case F16_EQ:
+        function_ab_f16_z_bool = f16_eq;
+        goto time_ab_f16_z_bool;
+     case F16_LE:
+        function_ab_f16_z_bool = f16_le;
+        goto time_ab_f16_z_bool;
+     case F16_LT:
+        function_ab_f16_z_bool = f16_lt;
+        goto time_ab_f16_z_bool;
+     case F16_EQ_SIGNALING:
+        function_ab_f16_z_bool = f16_eq_signaling;
+        goto time_ab_f16_z_bool;
+     case F16_LE_QUIET:
+        function_ab_f16_z_bool = f16_le_quiet;
+        goto time_ab_f16_z_bool;
+     case F16_LT_QUIET:
+        function_ab_f16_z_bool = f16_lt_quiet;
+     time_ab_f16_z_bool:
+        time_ab_f16_z_bool( function_ab_f16_z_bool );
         break;
 #endif
         /*--------------------------------------------------------------------
@@ -3384,6 +4447,11 @@ static
      case F32_TO_I64_R_MINMAG:
         time_a_f32_z_i64_x( f32_to_i64_r_minMag, exact );
         break;
+#ifdef FLOAT16
+     case F32_TO_F16:
+        time_a_f32_z_f16( f32_to_f16 );
+        break;
+#endif
      case F32_TO_F64:
         time_a_f32_z_f64( f32_to_f64 );
         break;
@@ -3469,6 +4537,11 @@ static
      case F64_TO_I64_R_MINMAG:
         time_a_f64_z_i64_x( f64_to_i64_r_minMag, exact );
         break;
+#ifdef FLOAT16
+     case F64_TO_F16:
+        time_a_f64_z_f16( f64_to_f16 );
+        break;
+#endif
      case F64_TO_F32:
         time_a_f64_z_f32( f64_to_f32 );
         break;
@@ -3555,6 +4628,11 @@ static
      case EXTF80_TO_I64_R_MINMAG:
         time_a_extF80_z_i64_x( extF80M_to_i64_r_minMag, exact );
         break;
+#ifdef FLOAT16
+     case EXTF80_TO_F16:
+        time_a_extF80_z_f16( extF80M_to_f16 );
+        break;
+#endif
      case EXTF80_TO_F32:
         time_a_extF80_z_f32( extF80M_to_f32 );
         break;
@@ -3637,6 +4715,11 @@ static
      case F128_TO_I64_R_MINMAG:
         time_a_f128_z_i64_x( f128M_to_i64_r_minMag, exact );
         break;
+#ifdef FLOAT16
+     case F128_TO_F16:
+        time_a_f128_z_f16( f128M_to_f16 );
+        break;
+#endif
      case F128_TO_F32:
         time_a_f128_z_f32( f128M_to_f32 );
         break;
@@ -3702,14 +4785,14 @@ static
 enum { EXACT_FALSE = 1, EXACT_TRUE };
 
 static
- void
-  timeFunction(
-      int functionCode,
-      uint_fast8_t roundingPrecisionIn,
-      int roundingCodeIn,
-      int tininessCodeIn,
-      int exactCodeIn
-  )
+void
+ timeFunction(
+     int functionCode,
+     uint_fast8_t roundingPrecisionIn,
+     int roundingCodeIn,
+     int tininessCodeIn,
+     int exactCodeIn
+ )
 {
     int functionAttribs, exactCode;
     uint_fast8_t roundingMode, tininessMode;
@@ -3858,6 +4941,9 @@ int main( int argc, char *argv[] )
 "    i32              --Signed 32-bit integer.\n"
 "    i64              --Signed 64-bit integer.\n"
 "  <float>:\n"
+#ifdef FLOAT16
+"    f16              --Binary 16-bit floating-point (half-precision).\n"
+#endif
 "    f32              --Binary 32-bit floating-point (single-precision).\n"
 "    f64              --Binary 64-bit floating-point (double-precision).\n"
 #ifdef EXTFLOAT80
@@ -3947,8 +5033,8 @@ int main( int argc, char *argv[] )
             if (
                 ! numOperands
                     || (functionInfos[functionCode].attribs
-                            & (numOperands == 1) ? FUNC_ARG_UNARY
-                                  : FUNC_ARG_BINARY)
+                            & ((numOperands == 1) ? FUNC_ARG_UNARY
+                                   : FUNC_ARG_BINARY))
             ) {
                 timeFunction(
                     functionCode,

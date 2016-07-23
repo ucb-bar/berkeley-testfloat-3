@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
+This C source file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
 California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -65,6 +65,10 @@ int main( int argc, char *argv[] )
     long i;
     int functionAttribs;
     uint_fast8_t roundingMode;
+#ifdef FLOAT16
+    float16_t (*trueFunction_abz_f16)( float16_t, float16_t );
+    bool (*trueFunction_ab_f16_z_bool)( float16_t, float16_t );
+#endif
     float32_t (*trueFunction_abz_f32)( float32_t, float32_t );
     bool (*trueFunction_ab_f32_z_bool)( float32_t, float32_t );
     float64_t (*trueFunction_abz_f64)( float64_t, float64_t );
@@ -89,7 +93,7 @@ int main( int argc, char *argv[] )
     *------------------------------------------------------------------------*/
     fail_programName = "testfloat_ver";
     if ( argc <= 1 ) goto writeHelpMessage;
-    softfloat_detectTininess = softfloat_tininess_beforeRounding;
+    softfloat_detectTininess = softfloat_tininess_afterRounding;
 #ifdef EXTFLOAT80
     extF80_roundingPrecision = 80;
 #endif
@@ -99,7 +103,7 @@ int main( int argc, char *argv[] )
     verLoops_trueFlagsPtr = &softfloat_exceptionFlags;
     functionCode = 0;
     roundingCode = ROUND_NEAR_EVEN;
-    tininessCode = TININESS_BEFORE_ROUNDING;
+    tininessCode = TININESS_AFTER_ROUNDING;
     for (;;) {
         --argc;
         if ( ! argc ) break;
@@ -128,8 +132,8 @@ int main( int argc, char *argv[] )
 "    -rmin            --Round to minimum (down).\n"
 "    -rmax            --Round to maximum (up).\n"
 "    -rnear_maxMag    --Round to nearest/maximum magnitude (nearest/away).\n"
-" *  -tininessbefore  --Detect underflow tininess before rounding.\n"
-"    -tininessafter   --Detect underflow tininess after rounding.\n"
+"    -tininessbefore  --Detect underflow tininess before rounding.\n"
+" *  -tininessafter   --Detect underflow tininess after rounding.\n"
 " *  -notexact        --Rounding to integer is not exact (no inexact\n"
 "                         exceptions).\n"
 "    -exact           --Rounding to integer is exact (raising inexact\n"
@@ -148,6 +152,9 @@ int main( int argc, char *argv[] )
 "    i32              --Signed 32-bit integer.\n"
 "    i64              --Signed 64-bit integer.\n"
 "  <float>:\n"
+#ifdef FLOAT16
+"    f16              --Binary 16-bit floating-point (half-precision).\n"
+#endif
 "    f32              --Binary 32-bit floating-point (single-precision).\n"
 "    f64              --Binary 64-bit floating-point (double-precision).\n"
 #ifdef EXTFLOAT80
@@ -262,6 +269,11 @@ int main( int argc, char *argv[] )
     switch ( functionCode ) {
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
+#ifdef FLOAT16
+     case UI32_TO_F16:
+        ver_a_ui32_z_f16( ui32_to_f16 );
+        break;
+#endif
      case UI32_TO_F32:
         ver_a_ui32_z_f32( ui32_to_f32 );
         break;
@@ -276,6 +288,11 @@ int main( int argc, char *argv[] )
 #ifdef FLOAT128
      case UI32_TO_F128:
         ver_a_ui32_z_f128( ui32_to_f128M );
+        break;
+#endif
+#ifdef FLOAT16
+     case UI64_TO_F16:
+        ver_a_ui64_z_f16( ui64_to_f16 );
         break;
 #endif
      case UI64_TO_F32:
@@ -294,6 +311,11 @@ int main( int argc, char *argv[] )
         ver_a_ui64_z_f128( ui64_to_f128M );
         break;
 #endif
+#ifdef FLOAT16
+     case I32_TO_F16:
+        ver_a_i32_z_f16( i32_to_f16 );
+        break;
+#endif
      case I32_TO_F32:
         ver_a_i32_z_f32( i32_to_f32 );
         break;
@@ -308,6 +330,11 @@ int main( int argc, char *argv[] )
 #ifdef FLOAT128
      case I32_TO_F128:
         ver_a_i32_z_f128( i32_to_f128M );
+        break;
+#endif
+#ifdef FLOAT16
+     case I64_TO_F16:
+        ver_a_i64_z_f16( i64_to_f16 );
         break;
 #endif
      case I64_TO_F32:
@@ -328,6 +355,84 @@ int main( int argc, char *argv[] )
 #endif
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
+#ifdef FLOAT16
+     case F16_TO_UI32:
+        ver_a_f16_z_ui32_rx( f16_to_ui32, roundingMode, exact );
+        break;
+     case F16_TO_UI64:
+        ver_a_f16_z_ui64_rx( f16_to_ui64, roundingMode, exact );
+        break;
+     case F16_TO_I32:
+        ver_a_f16_z_i32_rx( f16_to_i32, roundingMode, exact );
+        break;
+     case F16_TO_I64:
+        ver_a_f16_z_i64_rx( f16_to_i64, roundingMode, exact );
+        break;
+     case F16_TO_F32:
+        ver_a_f16_z_f32( f16_to_f32 );
+        break;
+     case F16_TO_F64:
+        ver_a_f16_z_f64( f16_to_f64 );
+        break;
+#ifdef EXTFLOAT80
+     case F16_TO_EXTF80:
+        ver_a_f16_z_extF80( f16_to_extF80M );
+        break;
+#endif
+#ifdef FLOAT128
+     case F16_TO_F128:
+        ver_a_f16_z_f128( f16_to_f128M );
+        break;
+#endif
+     case F16_ROUNDTOINT:
+        ver_az_f16_rx( f16_roundToInt, roundingMode, exact );
+        break;
+     case F16_ADD:
+        trueFunction_abz_f16 = f16_add;
+        goto ver_abz_f16;
+     case F16_SUB:
+        trueFunction_abz_f16 = f16_sub;
+        goto ver_abz_f16;
+     case F16_MUL:
+        trueFunction_abz_f16 = f16_mul;
+        goto ver_abz_f16;
+     case F16_DIV:
+        trueFunction_abz_f16 = f16_div;
+        goto ver_abz_f16;
+     case F16_REM:
+        trueFunction_abz_f16 = f16_rem;
+     ver_abz_f16:
+        ver_abz_f16( trueFunction_abz_f16 );
+        break;
+     case F16_MULADD:
+        ver_abcz_f16( f16_mulAdd );
+        break;
+     case F16_SQRT:
+        ver_az_f16( f16_sqrt );
+        break;
+     case F16_EQ:
+        trueFunction_ab_f16_z_bool = f16_eq;
+        goto ver_ab_f16_z_bool;
+     case F16_LE:
+        trueFunction_ab_f16_z_bool = f16_le;
+        goto ver_ab_f16_z_bool;
+     case F16_LT:
+        trueFunction_ab_f16_z_bool = f16_lt;
+        goto ver_ab_f16_z_bool;
+     case F16_EQ_SIGNALING:
+        trueFunction_ab_f16_z_bool = f16_eq_signaling;
+        goto ver_ab_f16_z_bool;
+     case F16_LE_QUIET:
+        trueFunction_ab_f16_z_bool = f16_le_quiet;
+        goto ver_ab_f16_z_bool;
+     case F16_LT_QUIET:
+        trueFunction_ab_f16_z_bool = f16_lt_quiet;
+     ver_ab_f16_z_bool:
+        ver_ab_f16_z_bool( trueFunction_ab_f16_z_bool );
+        break;
+#endif
+        /*--------------------------------------------------------------------
+        *--------------------------------------------------------------------*/
      case F32_TO_UI32:
         ver_a_f32_z_ui32_rx( f32_to_ui32, roundingMode, exact );
         break;
@@ -340,6 +445,11 @@ int main( int argc, char *argv[] )
      case F32_TO_I64:
         ver_a_f32_z_i64_rx( f32_to_i64, roundingMode, exact );
         break;
+#ifdef FLOAT16
+     case F32_TO_F16:
+        ver_a_f32_z_f16( f32_to_f16 );
+        break;
+#endif
      case F32_TO_F64:
         ver_a_f32_z_f64( f32_to_f64 );
         break;
@@ -413,6 +523,11 @@ int main( int argc, char *argv[] )
      case F64_TO_I64:
         ver_a_f64_z_i64_rx( f64_to_i64, roundingMode, exact );
         break;
+#ifdef FLOAT16
+     case F64_TO_F16:
+        ver_a_f64_z_f16( f64_to_f16 );
+        break;
+#endif
      case F64_TO_F32:
         ver_a_f64_z_f32( f64_to_f32 );
         break;
@@ -487,6 +602,11 @@ int main( int argc, char *argv[] )
      case EXTF80_TO_I64:
         ver_a_extF80_z_i64_rx( extF80M_to_i64, roundingMode, exact );
         break;
+#ifdef FLOAT16
+     case EXTF80_TO_F16:
+        ver_a_extF80_z_f16( extF80M_to_f16 );
+        break;
+#endif
      case EXTF80_TO_F32:
         ver_a_extF80_z_f32( extF80M_to_f32 );
         break;
@@ -557,6 +677,11 @@ int main( int argc, char *argv[] )
      case F128_TO_I64:
         ver_a_f128_z_i64_rx( f128M_to_i64, roundingMode, exact );
         break;
+#ifdef FLOAT16
+     case F128_TO_F16:
+        ver_a_f128_z_f16( f128M_to_f16 );
+        break;
+#endif
      case F128_TO_F32:
         ver_a_f128_z_f32( f128M_to_f32 );
         break;
@@ -621,8 +746,6 @@ int main( int argc, char *argv[] )
     *------------------------------------------------------------------------*/
  optionError:
     fail( "`%s' option requires numeric argument", *argv );
-    /*------------------------------------------------------------------------
-    *------------------------------------------------------------------------*/
  invalidArg:
     fail( "Invalid argument `%s'", *argv );
 

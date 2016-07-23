@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3a, a package of programs for
+This C header file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -41,6 +41,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 extern uint_fast8_t *verLoops_trueFlagsPtr;
 
+#ifdef FLOAT16
+void ver_a_ui32_z_f16( float16_t ( uint32_t ) );
+#endif
 void ver_a_ui32_z_f32( float32_t ( uint32_t ) );
 void ver_a_ui32_z_f64( float64_t ( uint32_t ) );
 #ifdef EXTFLOAT80
@@ -48,6 +51,9 @@ void ver_a_ui32_z_extF80( void ( uint32_t, extFloat80_t * ) );
 #endif
 #ifdef FLOAT128
 void ver_a_ui32_z_f128( void ( uint32_t, float128_t * ) );
+#endif
+#ifdef FLOAT16
+void ver_a_ui64_z_f16( float16_t ( uint64_t ) );
 #endif
 void ver_a_ui64_z_f32( float32_t ( uint64_t ) );
 void ver_a_ui64_z_f64( float64_t ( uint64_t ) );
@@ -57,6 +63,9 @@ void ver_a_ui64_z_extF80( void ( uint64_t, extFloat80_t * ) );
 #ifdef FLOAT128
 void ver_a_ui64_z_f128( void ( uint64_t, float128_t * ) );
 #endif
+#ifdef FLOAT16
+void ver_a_i32_z_f16( float16_t ( int32_t ) );
+#endif
 void ver_a_i32_z_f32( float32_t ( int32_t ) );
 void ver_a_i32_z_f64( float64_t ( int32_t ) );
 #ifdef EXTFLOAT80
@@ -65,6 +74,9 @@ void ver_a_i32_z_extF80( void ( int32_t, extFloat80_t * ) );
 #ifdef FLOAT128
 void ver_a_i32_z_f128( void ( int32_t, float128_t * ) );
 #endif
+#ifdef FLOAT16
+void ver_a_i64_z_f16( float16_t ( int64_t ) );
+#endif
 void ver_a_i64_z_f32( float32_t ( int64_t ) );
 void ver_a_i64_z_f64( float64_t ( int64_t ) );
 #ifdef EXTFLOAT80
@@ -72,6 +84,40 @@ void ver_a_i64_z_extF80( void ( int64_t, extFloat80_t * ) );
 #endif
 #ifdef FLOAT128
 void ver_a_i64_z_f128( void ( int64_t, float128_t * ) );
+#endif
+
+#ifdef FLOAT16
+void
+ ver_a_f16_z_ui32_rx(
+     uint_fast32_t ( float16_t, uint_fast8_t, bool ), uint_fast8_t, bool );
+void
+ ver_a_f16_z_ui64_rx(
+     uint_fast64_t ( float16_t, uint_fast8_t, bool ), uint_fast8_t, bool );
+void
+ ver_a_f16_z_i32_rx(
+     int_fast32_t ( float16_t, uint_fast8_t, bool ), uint_fast8_t, bool );
+void
+ ver_a_f16_z_i64_rx(
+     int_fast64_t ( float16_t, uint_fast8_t, bool ), uint_fast8_t, bool );
+void ver_a_f16_z_ui32_x( uint_fast32_t ( float16_t, bool ), bool );
+void ver_a_f16_z_ui64_x( uint_fast64_t ( float16_t, bool ), bool );
+void ver_a_f16_z_i32_x( int_fast32_t ( float16_t, bool ), bool );
+void ver_a_f16_z_i64_x( int_fast64_t ( float16_t, bool ), bool );
+void ver_a_f16_z_f32( float32_t ( float16_t ) );
+void ver_a_f16_z_f64( float64_t ( float16_t ) );
+#ifdef EXTFLOAT80
+void ver_a_f16_z_extF80( void ( float16_t, extFloat80_t * ) );
+#endif
+#ifdef FLOAT128
+void ver_a_f16_z_f128( void ( float16_t, float128_t * ) );
+#endif
+void ver_az_f16( float16_t ( float16_t ) );
+void
+ ver_az_f16_rx(
+     float16_t ( float16_t, uint_fast8_t, bool ), uint_fast8_t, bool );
+void ver_abz_f16( float16_t ( float16_t, float16_t ) );
+void ver_abcz_f16( float16_t ( float16_t, float16_t, float16_t ) );
+void ver_ab_f16_z_bool( bool ( float16_t, float16_t ) );
 #endif
 
 void
@@ -90,6 +136,9 @@ void ver_a_f32_z_ui32_x( uint_fast32_t ( float32_t, bool ), bool );
 void ver_a_f32_z_ui64_x( uint_fast64_t ( float32_t, bool ), bool );
 void ver_a_f32_z_i32_x( int_fast32_t ( float32_t, bool ), bool );
 void ver_a_f32_z_i64_x( int_fast64_t ( float32_t, bool ), bool );
+#ifdef FLOAT16
+void ver_a_f32_z_f16( float16_t ( float32_t ) );
+#endif
 void ver_a_f32_z_f64( float64_t ( float32_t ) );
 #ifdef EXTFLOAT80
 void ver_a_f32_z_extF80( void ( float32_t, extFloat80_t * ) );
@@ -121,6 +170,9 @@ void ver_a_f64_z_ui32_x( uint_fast32_t ( float64_t, bool ), bool );
 void ver_a_f64_z_ui64_x( uint_fast64_t ( float64_t, bool ), bool );
 void ver_a_f64_z_i32_x( int_fast32_t ( float64_t, bool ), bool );
 void ver_a_f64_z_i64_x( int_fast64_t ( float64_t, bool ), bool );
+#ifdef FLOAT16
+void ver_a_f64_z_f16( float16_t ( float64_t ) );
+#endif
 void ver_a_f64_z_f32( float32_t ( float64_t ) );
 #ifdef EXTFLOAT80
 void ver_a_f64_z_extF80( void ( float64_t, extFloat80_t * ) );
@@ -167,6 +219,9 @@ void
  ver_a_extF80_z_ui64_x( uint_fast64_t ( const extFloat80_t *, bool ), bool );
 void ver_a_extF80_z_i32_x( int_fast32_t ( const extFloat80_t *, bool ), bool );
 void ver_a_extF80_z_i64_x( int_fast64_t ( const extFloat80_t *, bool ), bool );
+#ifdef FLOAT16
+void ver_a_extF80_z_f16( float16_t ( const extFloat80_t * ) );
+#endif
 void ver_a_extF80_z_f32( float32_t ( const extFloat80_t * ) );
 void ver_a_extF80_z_f64( float64_t ( const extFloat80_t * ) );
 #ifdef FLOAT128
@@ -225,6 +280,9 @@ void ver_a_f128_z_ui32_x( uint_fast32_t ( const float128_t *, bool ), bool );
 void ver_a_f128_z_ui64_x( uint_fast64_t ( const float128_t *, bool ), bool );
 void ver_a_f128_z_i32_x( int_fast32_t ( const float128_t *, bool ), bool );
 void ver_a_f128_z_i64_x( int_fast64_t ( const float128_t *, bool ), bool );
+#ifdef FLOAT16
+void ver_a_f128_z_f16( float16_t ( const float128_t * ) );
+#endif
 void ver_a_f128_z_f32( float32_t ( const float128_t * ) );
 void ver_a_f128_z_f64( float64_t ( const float128_t * ) );
 #ifdef EXTFLOAT80

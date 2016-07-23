@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3a, a package of programs for
+This C source file is part of TestFloat, Release 3b, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
 California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -70,10 +70,16 @@ static uint_fast8_t softfloat_clearExceptionFlags( void )
 }
 
 static
- void
-  testFunctionInstance(
-      int functionCode, uint_fast8_t roundingMode, bool exact )
+void
+ testFunctionInstance(
+     int functionCode, uint_fast8_t roundingMode, bool exact )
 {
+#ifdef FLOAT16
+    float16_t (*trueFunction_abz_f16)( float16_t, float16_t );
+    float16_t (*subjFunction_abz_f16)( float16_t, float16_t );
+    bool (*trueFunction_ab_f16_z_bool)( float16_t, float16_t );
+    bool (*subjFunction_ab_f16_z_bool)( float16_t, float16_t );
+#endif
     float32_t (*trueFunction_abz_f32)( float32_t, float32_t );
     float32_t (*subjFunction_abz_f32)( float32_t, float32_t );
     bool (*trueFunction_ab_f32_z_bool)( float32_t, float32_t );
@@ -109,6 +115,11 @@ static
     switch ( functionCode ) {
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
+#ifdef FLOAT16
+     case UI32_TO_F16:
+        test_a_ui32_z_f16( slow_ui32_to_f16, ui32_to_f16 );
+        break;
+#endif
      case UI32_TO_F32:
         test_a_ui32_z_f32( slow_ui32_to_f32, ui32_to_f32 );
         break;
@@ -123,6 +134,11 @@ static
 #ifdef FLOAT128
      case UI32_TO_F128:
         test_a_ui32_z_f128( slow_ui32_to_f128M, ui32_to_f128M );
+        break;
+#endif
+#ifdef FLOAT16
+     case UI64_TO_F16:
+        test_a_ui64_z_f16( slow_ui64_to_f16, ui64_to_f16 );
         break;
 #endif
      case UI64_TO_F32:
@@ -141,6 +157,11 @@ static
         test_a_ui64_z_f128( slow_ui64_to_f128M, ui64_to_f128M );
         break;
 #endif
+#ifdef FLOAT16
+     case I32_TO_F16:
+        test_a_i32_z_f16( slow_i32_to_f16, i32_to_f16 );
+        break;
+#endif
      case I32_TO_F32:
         test_a_i32_z_f32( slow_i32_to_f32, i32_to_f32 );
         break;
@@ -157,6 +178,11 @@ static
         test_a_i32_z_f128( slow_i32_to_f128M, i32_to_f128M );
         break;
 #endif
+#ifdef FLOAT16
+     case I64_TO_F16:
+        test_a_i64_z_f16( slow_i64_to_f16, i64_to_f16 );
+        break;
+#endif
      case I64_TO_F32:
         test_a_i64_z_f32( slow_i64_to_f32, i64_to_f32 );
         break;
@@ -171,6 +197,117 @@ static
 #ifdef FLOAT128
      case I64_TO_F128:
         test_a_i64_z_f128( slow_i64_to_f128M, i64_to_f128M );
+        break;
+#endif
+        /*--------------------------------------------------------------------
+        *--------------------------------------------------------------------*/
+#ifdef FLOAT16
+     case F16_TO_UI32:
+        test_a_f16_z_ui32_rx(
+            slow_f16_to_ui32, f16_to_ui32, roundingMode, exact );
+        break;
+     case F16_TO_UI64:
+        test_a_f16_z_ui64_rx(
+            slow_f16_to_ui64, f16_to_ui64, roundingMode, exact );
+        break;
+     case F16_TO_I32:
+        test_a_f16_z_i32_rx(
+            slow_f16_to_i32, f16_to_i32, roundingMode, exact );
+        break;
+     case F16_TO_I64:
+        test_a_f16_z_i64_rx(
+            slow_f16_to_i64, f16_to_i64, roundingMode, exact );
+        break;
+     case F16_TO_UI32_R_MINMAG:
+        test_a_f16_z_ui32_x(
+            slow_f16_to_ui32_r_minMag, f16_to_ui32_r_minMag, exact );
+        break;
+     case F16_TO_UI64_R_MINMAG:
+        test_a_f16_z_ui64_x(
+            slow_f16_to_ui64_r_minMag, f16_to_ui64_r_minMag, exact );
+        break;
+     case F16_TO_I32_R_MINMAG:
+        test_a_f16_z_i32_x(
+            slow_f16_to_i32_r_minMag, f16_to_i32_r_minMag, exact );
+        break;
+     case F16_TO_I64_R_MINMAG:
+        test_a_f16_z_i64_x(
+            slow_f16_to_i64_r_minMag, f16_to_i64_r_minMag, exact );
+        break;
+     case F16_TO_F32:
+        test_a_f16_z_f32( slow_f16_to_f32, f16_to_f32 );
+        break;
+     case F16_TO_F64:
+        test_a_f16_z_f64( slow_f16_to_f64, f16_to_f64 );
+        break;
+#ifdef EXTFLOAT80
+     case F16_TO_EXTF80:
+        test_a_f16_z_extF80( slow_f16_to_extF80M, f16_to_extF80M );
+        break;
+#endif
+#ifdef FLOAT128
+     case F16_TO_F128:
+        test_a_f16_z_f128( slow_f16_to_f128M, f16_to_f128M );
+        break;
+#endif
+     case F16_ROUNDTOINT:
+        test_az_f16_rx(
+            slow_f16_roundToInt, f16_roundToInt, roundingMode, exact );
+        break;
+     case F16_ADD:
+        trueFunction_abz_f16 = slow_f16_add;
+        subjFunction_abz_f16 = f16_add;
+        goto test_abz_f16;
+     case F16_SUB:
+        trueFunction_abz_f16 = slow_f16_sub;
+        subjFunction_abz_f16 = f16_sub;
+        goto test_abz_f16;
+     case F16_MUL:
+        trueFunction_abz_f16 = slow_f16_mul;
+        subjFunction_abz_f16 = f16_mul;
+        goto test_abz_f16;
+     case F16_DIV:
+        trueFunction_abz_f16 = slow_f16_div;
+        subjFunction_abz_f16 = f16_div;
+        goto test_abz_f16;
+     case F16_REM:
+        trueFunction_abz_f16 = slow_f16_rem;
+        subjFunction_abz_f16 = f16_rem;
+     test_abz_f16:
+        test_abz_f16( trueFunction_abz_f16, subjFunction_abz_f16 );
+        break;
+     case F16_MULADD:
+        test_abcz_f16( slow_f16_mulAdd, f16_mulAdd );
+        break;
+     case F16_SQRT:
+        test_az_f16( slow_f16_sqrt, f16_sqrt );
+        break;
+     case F16_EQ:
+        trueFunction_ab_f16_z_bool = slow_f16_eq;
+        subjFunction_ab_f16_z_bool = f16_eq;
+        goto test_ab_f16_z_bool;
+     case F16_LE:
+        trueFunction_ab_f16_z_bool = slow_f16_le;
+        subjFunction_ab_f16_z_bool = f16_le;
+        goto test_ab_f16_z_bool;
+     case F16_LT:
+        trueFunction_ab_f16_z_bool = slow_f16_lt;
+        subjFunction_ab_f16_z_bool = f16_lt;
+        goto test_ab_f16_z_bool;
+     case F16_EQ_SIGNALING:
+        trueFunction_ab_f16_z_bool = slow_f16_eq_signaling;
+        subjFunction_ab_f16_z_bool = f16_eq_signaling;
+        goto test_ab_f16_z_bool;
+     case F16_LE_QUIET:
+        trueFunction_ab_f16_z_bool = slow_f16_le_quiet;
+        subjFunction_ab_f16_z_bool = f16_le_quiet;
+        goto test_ab_f16_z_bool;
+     case F16_LT_QUIET:
+        trueFunction_ab_f16_z_bool = slow_f16_lt_quiet;
+        subjFunction_ab_f16_z_bool = f16_lt_quiet;
+     test_ab_f16_z_bool:
+        test_ab_f16_z_bool(
+            trueFunction_ab_f16_z_bool, subjFunction_ab_f16_z_bool );
         break;
 #endif
         /*--------------------------------------------------------------------
@@ -207,6 +344,11 @@ static
         test_a_f32_z_i64_x(
             slow_f32_to_i64_r_minMag, f32_to_i64_r_minMag, exact );
         break;
+#ifdef FLOAT16
+     case F32_TO_F16:
+        test_a_f32_z_f16( slow_f32_to_f16, f32_to_f16 );
+        break;
+#endif
      case F32_TO_F64:
         test_a_f32_z_f64( slow_f32_to_f64, f32_to_f64 );
         break;
@@ -313,6 +455,11 @@ static
         test_a_f64_z_i64_x(
             slow_f64_to_i64_r_minMag, f64_to_i64_r_minMag, exact );
         break;
+#ifdef FLOAT16
+     case F64_TO_F16:
+        test_a_f64_z_f16( slow_f64_to_f16, f64_to_f16 );
+        break;
+#endif
      case F64_TO_F32:
         test_a_f64_z_f32( slow_f64_to_f32, f64_to_f32 );
         break;
@@ -420,6 +567,11 @@ static
         test_a_extF80_z_i64_x(
             slow_extF80M_to_i64_r_minMag, extF80M_to_i64_r_minMag, exact );
         break;
+#ifdef FLOAT16
+     case EXTF80_TO_F16:
+        test_a_extF80_z_f16( slow_extF80M_to_f16, extF80M_to_f16 );
+        break;
+#endif
      case EXTF80_TO_F32:
         test_a_extF80_z_f32( slow_extF80M_to_f32, extF80M_to_f32 );
         break;
@@ -523,6 +675,11 @@ static
         test_a_f128_z_i64_x(
             slow_f128M_to_i64_r_minMag, f128M_to_i64_r_minMag, exact );
         break;
+#ifdef FLOAT16
+     case F128_TO_F16:
+        test_a_f128_z_f16( slow_f128M_to_f16, f128M_to_f16 );
+        break;
+#endif
      case F128_TO_F32:
         test_a_f128_z_f32( slow_f128M_to_f32, f128M_to_f32 );
         break;
@@ -604,14 +761,14 @@ static
 enum { EXACT_FALSE = 1, EXACT_TRUE };
 
 static
- void
-  testFunction(
-      int functionCode,
-      uint_fast8_t roundingPrecisionIn,
-      int roundingCodeIn,
-      int tininessCodeIn,
-      int exactCodeIn
-  )
+void
+ testFunction(
+     int functionCode,
+     uint_fast8_t roundingPrecisionIn,
+     int roundingCodeIn,
+     int tininessCodeIn,
+     int exactCodeIn
+ )
 {
     int functionAttribs;
     uint_fast8_t roundingPrecision;
@@ -716,6 +873,7 @@ int main( int argc, char *argv[] )
     uint_fast8_t roundingPrecision;
     int roundingCode, tininessCode, exactCode;
     const char *argPtr;
+    unsigned long ui;
     long i;
 
     /*------------------------------------------------------------------------
@@ -748,6 +906,8 @@ int main( int argc, char *argv[] )
 "testsoftfloat [<option>...] <function>\n"
 "  <option>:  (* is default)\n"
 "    -help            --Write this message and exit.\n"
+"    -seed <num>      --Set pseudo-random number generator seed to <num>.\n"
+" *  -seed 1\n"
 "    -level <num>     --Testing level <num> (1 or 2).\n"
 " *  -level 1\n"
 "    -errors <num>    --Stop each function test after <num> errors.\n"
@@ -787,6 +947,9 @@ int main( int argc, char *argv[] )
 "    i32              --Signed 32-bit integer.\n"
 "    i64              --Signed 64-bit integer.\n"
 "  <float>:\n"
+#ifdef FLOAT16
+"    f16              --Binary 16-bit floating-point (half-precision).\n"
+#endif
 "    f32              --Binary 32-bit floating-point (single-precision).\n"
 "    f64              --Binary 64-bit floating-point (double-precision).\n"
 #ifdef EXTFLOAT80
@@ -799,6 +962,13 @@ int main( int argc, char *argv[] )
                 stdout
             );
             return EXIT_SUCCESS;
+        } else if ( ! strcmp( argPtr, "seed" ) ) {
+            if ( argc < 2 ) goto optionError;
+            ui = strtoul( argv[1], (char **) &argPtr, 10 );
+            if ( *argPtr ) goto optionError;
+            srand( ui );
+            --argc;
+            ++argv;
         } else if ( ! strcmp( argPtr, "level" ) ) {
             if ( argc < 2 ) goto optionError;
             i = strtol( argv[1], (char **) &argPtr, 10 );

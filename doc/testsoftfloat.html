@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3a: <CODE>testsoftfloat</CODE></H1>
+<H1>Berkeley TestFloat Release 3b: <CODE>testsoftfloat</CODE></H1>
 
 <P>
 John R. Hauser<BR>
-2015 October 23<BR>
+2016 July 22<BR>
 </P>
 
 
@@ -85,6 +85,19 @@ If mutually contradictory options are given, the last one has priority.
 <P>
 The <CODE>-help</CODE> option causes a summary of program usage to be written,
 after which the program exits.
+</P>
+
+<H3><CODE>-seed &lt;num&gt;</CODE></H3>
+
+<P>
+The <CODE>-seed</CODE> option sets the seed for the pseudo-random number
+generator used for generating test cases.
+The argument to <CODE>-seed</CODE> is a nonnegative integer.
+Executing the same <CODE>testsoftfloat</CODE> program with the same arguments
+(including the same pseudo-random number seed) should always perform the same
+sequence of tests, whereas changing the pseudo-random number seed should result
+in a different sequence of tests.
+The default seed number <NOBR>is 1</NOBR>.
 </P>
 
 <H3><CODE>-level &lt;num&gt;</CODE></H3>
@@ -194,7 +207,7 @@ Just as <CODE>testsoftfloat</CODE> can test a function for all five rounding
 modes in sequence, multiple functions can be tested with a single execution of
 <CODE>testsoftfloat</CODE>.
 Two sets are recognized:  <CODE>-all1</CODE> and <CODE>-all2</CODE>.
-The set <CODE>-all1</CODE> comprises all one-operand operations, while
+The set <CODE>-all1</CODE> is all one-operand operations, while
 <CODE>-all2</CODE> is all two-operand operations.
 A function set is used in place of a function name in the
 <CODE>testsoftfloat</CODE> command line, such as

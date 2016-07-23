@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3a: <CODE>timesoftfloat</CODE></H1>
+<H1>Berkeley TestFloat Release 3b: <CODE>timesoftfloat</CODE></H1>
 
 <P>
 John R. Hauser<BR>
-2015 October 23<BR>
+2016 July 22<BR>
 </P>
 
 
@@ -25,7 +25,7 @@ package, a small collection of programs for testing that an implementation of
 floating-point conforms to the IEEE Standard for Binary Floating-Point
 Arithmetic.
 Although <CODE>timesoftfloat</CODE> does not test floating-point correctness
-like other TestFloat programs, nevertheless <CODE>timesoftfloat</CODE> is a
+like the other TestFloat programs, nevertheless <CODE>timesoftfloat</CODE> is a
 partner to TestFloat&rsquo;s <CODE>testsoftfloat</CODE> program.
 For more about TestFloat generally and <CODE>testsoftfloat</CODE> specifically,
 see file
@@ -63,9 +63,9 @@ Your actual experience with SoftFloat may differ from the speeds reported by
 </P>
 
 <P>
-Note that the remainder operations (<CODE>f32_rem</CODE>, <CODE>f64_rem</CODE>,
-<CODE>extF80_rem</CODE>, and <CODE>f128_rem</CODE>) will be markedly slower
-than other operations, particularly for double-extended-precision
+Note that the remainder operations for larger formats (<CODE>f64_rem</CODE>,
+<CODE>extF80_rem</CODE>, and <CODE>f128_rem</CODE>) can be markedly slower than
+other operations, particularly for double-extended-precision
 (<CODE>extF80_rem</CODE>) and quadruple precision (<CODE>f128_rem</CODE>).
 This is inherent to the remainder operation itself and is not a failing of the
 SoftFloat implementation.
@@ -166,9 +166,8 @@ modes in sequence, multiple functions can be timed with a single execution of
 <CODE>timesoftfloat</CODE>.
 Three sets are recognized:
 <CODE>-all1</CODE>, <CODE>-all2</CODE>, and <CODE>-all</CODE>.
-The set <CODE>-all1</CODE> comprises all one-operand operations,
-<CODE>-all2</CODE> is all two-operand operations, and <CODE>-all</CODE> is
-obviously all operations.
+The set <CODE>-all1</CODE> is all one-operand operations, <CODE>-all2</CODE> is
+all two-operand operations, and <CODE>-all</CODE> is obviously all operations.
 A function set is used in place of a function name in the
 <CODE>timesoftfloat</CODE> command line, such as
 <BLOCKQUOTE>
