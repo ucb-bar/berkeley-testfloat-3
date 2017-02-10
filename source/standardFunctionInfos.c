@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -52,7 +52,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "ui32_to_f16",    UI32_TO_F16,    0, 0 },
 #endif
     { "ui32_to_f32",    UI32_TO_F32,    0, 0 },
+#ifdef FLOAT64
     { "ui32_to_f64",    UI32_TO_F64,    0, 0 },
+#endif
 #ifdef EXTFLOAT80
     { "ui32_to_extF80", UI32_TO_EXTF80, 0, 0 },
 #endif
@@ -63,7 +65,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "ui64_to_f16",    UI64_TO_F16,    0, 0 },
 #endif
     { "ui64_to_f32",    UI64_TO_F32,    0, 0 },
+#ifdef FLOAT64
     { "ui64_to_f64",    UI64_TO_F64,    0, 0 },
+#endif
 #ifdef EXTFLOAT80
     { "ui64_to_extF80", UI64_TO_EXTF80, 0, 0 },
 #endif
@@ -74,7 +78,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "i32_to_f16",     I32_TO_F16,     0, 0 },
 #endif
     { "i32_to_f32",     I32_TO_F32,     0, 0 },
+#ifdef FLOAT64
     { "i32_to_f64",     I32_TO_F64,     0, 0 },
+#endif
 #ifdef EXTFLOAT80
     { "i32_to_extF80",  I32_TO_EXTF80,  0, 0 },
 #endif
@@ -85,7 +91,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "i64_to_f16",     I64_TO_F16,     0, 0 },
 #endif
     { "i64_to_f32",     I64_TO_F32,     0, 0 },
+#ifdef FLOAT64
     { "i64_to_f64",     I64_TO_F64,     0, 0 },
+#endif
 #ifdef EXTFLOAT80
     { "i64_to_extF80",  I64_TO_EXTF80,  0, 0 },
 #endif
@@ -136,7 +144,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "f16_to_i64_rx_max",               F16_TO_I64,          RMAX,   true  },
     { "f16_to_i64_rx_near_maxMag",       F16_TO_I64,          RNMAXM, true  },
     { "f16_to_f32",                      F16_TO_F32,          0,      0     },
+#ifdef FLOAT64
     { "f16_to_f64",                      F16_TO_F64,          0,      0     },
+#endif
 #ifdef EXTFLOAT80
     { "f16_to_extF80",                   F16_TO_EXTF80,       0,      0     },
 #endif
@@ -208,7 +218,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
 #ifdef FLOAT16
     { "f32_to_f16",                      F32_TO_F16,          0,      0     },
 #endif
+#ifdef FLOAT64
     { "f32_to_f64",                      F32_TO_F64,          0,      0     },
+#endif
 #ifdef EXTFLOAT80
     { "f32_to_extF80",                   F32_TO_EXTF80,       0,      0     },
 #endif
@@ -236,6 +248,7 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "f32_lt_quiet",                    F32_LT_QUIET,        0,      0     },
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
+#ifdef FLOAT64
     { "f64_to_ui32_r_near_even",         F64_TO_UI32,         RNEVEN, false },
     { "f64_to_ui32_r_minMag",            F64_TO_UI32,         RMINM,  false },
     { "f64_to_ui32_r_min",               F64_TO_UI32,         RMIN,   false },
@@ -305,6 +318,7 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "f64_eq_signaling",                F64_EQ_SIGNALING,    0,      0     },
     { "f64_le_quiet",                    F64_LE_QUIET,        0,      0     },
     { "f64_lt_quiet",                    F64_LT_QUIET,        0,      0     },
+#endif
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
 #ifdef EXTFLOAT80
@@ -352,7 +366,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "extF80_to_f16",                   EXTF80_TO_F16,       0,      0     },
 #endif
     { "extF80_to_f32",                   EXTF80_TO_F32,       0,      0     },
+#ifdef FLOAT64
     { "extF80_to_f64",                   EXTF80_TO_F64,       0,      0     },
+#endif
 #ifdef FLOAT128
     { "extF80_to_f128",                  EXTF80_TO_F128,      0,      0     },
 #endif
@@ -422,7 +438,9 @@ const struct standardFunctionInfo standardFunctionInfos[] = {
     { "f128_to_f16",                     F128_TO_F16,         0,      0     },
 #endif
     { "f128_to_f32",                     F128_TO_F32,         0,      0     },
+#ifdef FLOAT64
     { "f128_to_f64",                     F128_TO_F64,         0,      0     },
+#endif
 #ifdef EXTFLOAT80
     { "f128_to_extF80",                  F128_TO_EXTF80,      0,      0     },
 #endif

@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -70,7 +70,10 @@ static void reportTime( int_fast64_t count, clock_t clockTicks )
         ", rounding minMag",
         ", rounding min",
         ", rounding max",
-        ", rounding near_maxMag"
+        ", rounding near_maxMag",
+#ifdef FLOAT_ROUND_ODD
+        ", rounding odd"
+#endif
     };
 
     printf(
@@ -107,7 +110,9 @@ static void reportTime( int_fast64_t count, clock_t clockTicks )
 union ui16_f16 { uint16_t ui; float16_t f; };
 #endif
 union ui32_f32 { uint32_t ui; float32_t f; };
+#ifdef FLOAT64
 union ui64_f64 { uint64_t ui; float64_t f; };
+#endif
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
@@ -187,6 +192,8 @@ static void time_a_ui32_z_f32( float32_t function( uint32_t ) )
 
 }
 
+#ifdef FLOAT64
+
 static void time_a_ui32_z_f64( float64_t function( uint32_t ) )
 {
     int_fast64_t count;
@@ -215,6 +222,8 @@ static void time_a_ui32_z_f64( float64_t function( uint32_t ) )
     reportTime( count, endClock - startClock );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -370,6 +379,8 @@ static void time_a_ui64_z_f32( float32_t function( uint64_t ) )
 
 }
 
+#ifdef FLOAT64
+
 static void time_a_ui64_z_f64( float64_t function( uint64_t ) )
 {
     int_fast64_t count;
@@ -398,6 +409,8 @@ static void time_a_ui64_z_f64( float64_t function( uint64_t ) )
     reportTime( count, endClock - startClock );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -545,6 +558,8 @@ static void time_a_i32_z_f32( float32_t function( int32_t ) )
 
 }
 
+#ifdef FLOAT64
+
 static void time_a_i32_z_f64( float64_t function( int32_t ) )
 {
     int_fast64_t count;
@@ -573,6 +588,8 @@ static void time_a_i32_z_f64( float64_t function( int32_t ) )
     reportTime( count, endClock - startClock );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -728,6 +745,8 @@ static void time_a_i64_z_f32( float32_t function( int64_t ) )
 
 }
 
+#ifdef FLOAT64
+
 static void time_a_i64_z_f64( float64_t function( int64_t ) )
 {
     int_fast64_t count;
@@ -756,6 +775,8 @@ static void time_a_i64_z_f64( float64_t function( int64_t ) )
     reportTime( count, endClock - startClock );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -1157,6 +1178,8 @@ static void time_a_f16_z_f32( float32_t function( float16_t ) )
 
 }
 
+#ifdef FLOAT64
+
 static void time_a_f16_z_f64( float64_t function( float16_t ) )
 {
     int_fast64_t count;
@@ -1188,6 +1211,8 @@ static void time_a_f16_z_f64( float64_t function( float16_t ) )
     reportTime( count, endClock - startClock );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -1809,6 +1834,8 @@ static void time_a_f32_z_f16( float16_t function( float32_t ) )
 
 #endif
 
+#ifdef FLOAT64
+
 static void time_a_f32_z_f64( float64_t function( float32_t ) )
 {
     int_fast64_t count;
@@ -1840,6 +1867,8 @@ static void time_a_f32_z_f64( float64_t function( float32_t ) )
     reportTime( count, endClock - startClock );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -2127,6 +2156,8 @@ static void time_az_f32_pos( float32_t function( float32_t ) )
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
+#ifdef FLOAT64
 
 enum { numInputs_f64 = 32 };
 
@@ -2827,6 +2858,8 @@ static void time_az_f64_pos( float64_t function( float64_t ) )
 
 }
 
+#endif
+
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
 
@@ -3207,6 +3240,8 @@ static void time_a_extF80_z_f32( float32_t function( const extFloat80_t * ) )
 
 }
 
+#ifdef FLOAT64
+
 static void time_a_extF80_z_f64( float64_t function( const extFloat80_t * ) )
 {
     int_fast64_t count;
@@ -3235,6 +3270,8 @@ static void time_a_extF80_z_f64( float64_t function( const extFloat80_t * ) )
     reportTime( count, endClock - startClock );
 
 }
+
+#endif
 
 #ifdef FLOAT128
 
@@ -3345,68 +3382,6 @@ void
         inputNumA = (inputNumA + 1) & (numInputs_extF80 - 1);
         if ( ! inputNumA ) ++inputNumB;
         inputNumB = (inputNumB + 1) & (numInputs_extF80 - 1);
-    }
-    endClock = clock();
-    reportTime( count, endClock - startClock );
-
-}
-
-static
-void
- time_abcz_extF80(
-     void
-      function(
-          const extFloat80_t *,
-          const extFloat80_t *,
-          const extFloat80_t *,
-          extFloat80_t *
-      )
- )
-{
-    int_fast64_t count;
-    int inputNumA, inputNumB, inputNumC;
-    clock_t startClock;
-    int_fast64_t i;
-    extFloat80_t z;
-    clock_t endClock;
-
-    count = 0;
-    inputNumA = 0;
-    inputNumB = 0;
-    inputNumC = 0;
-    startClock = clock();
-    do {
-        for ( i = minIterations; i; --i ) {
-            function(
-                &inputs_extF80[inputNumA].f,
-                &inputs_extF80[inputNumB].f,
-                &inputs_extF80[inputNumC].f,
-                &z
-            );
-            inputNumA = (inputNumA + 1) & (numInputs_extF80 - 1);
-            if ( ! inputNumA ) ++inputNumB;
-            inputNumB = (inputNumB + 1) & (numInputs_extF80 - 1);
-            if ( ! inputNumB ) ++inputNumC;
-            inputNumC = (inputNumC + 1) & (numInputs_extF80 - 1);
-        }
-        count += minIterations;
-    } while ( clock() - startClock < CLOCKS_PER_SEC );
-    inputNumA = 0;
-    inputNumB = 0;
-    inputNumC = 0;
-    startClock = clock();
-    for ( i = count; i; --i ) {
-        function(
-            &inputs_extF80[inputNumA].f,
-            &inputs_extF80[inputNumB].f,
-            &inputs_extF80[inputNumC].f,
-            &z
-        );
-        inputNumA = (inputNumA + 1) & (numInputs_extF80 - 1);
-        if ( ! inputNumA ) ++inputNumB;
-        inputNumB = (inputNumB + 1) & (numInputs_extF80 - 1);
-        if ( ! inputNumB ) ++inputNumC;
-        inputNumC = (inputNumC + 1) & (numInputs_extF80 - 1);
     }
     endClock = clock();
     reportTime( count, endClock - startClock );
@@ -3903,6 +3878,8 @@ static void time_a_f128_z_f32( float32_t function( const float128_t * ) )
 
 }
 
+#ifdef FLOAT64
+
 static void time_a_f128_z_f64( float64_t function( const float128_t * ) )
 {
     int_fast64_t count;
@@ -3931,6 +3908,8 @@ static void time_a_f128_z_f64( float64_t function( const float128_t * ) )
     reportTime( count, endClock - startClock );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -4227,8 +4206,10 @@ void
 #endif
     float32_t (*function_abz_f32)( float32_t, float32_t );
     bool (*function_ab_f32_z_bool)( float32_t, float32_t );
+#ifdef FLOAT64
     float64_t (*function_abz_f64)( float64_t, float64_t );
     bool (*function_ab_f64_z_bool)( float64_t, float64_t );
+#endif
 #ifdef EXTFLOAT80
     void
      (*function_abz_extF80)(
@@ -4236,9 +4217,9 @@ void
     bool
      (*function_ab_extF80_z_bool)(
          const extFloat80_t *, const extFloat80_t * );
-    void
 #endif
 #ifdef FLOAT128
+    void
      (*function_abz_f128)(
          const float128_t *, const float128_t *, float128_t * );
     bool (*function_ab_f128_z_bool)( const float128_t *, const float128_t * );
@@ -4255,9 +4236,11 @@ void
      case UI32_TO_F32:
         time_a_ui32_z_f32( ui32_to_f32 );
         break;
+#ifdef FLOAT64
      case UI32_TO_F64:
         time_a_ui32_z_f64( ui32_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case UI32_TO_EXTF80:
         time_a_ui32_z_extF80( ui32_to_extF80M );
@@ -4276,9 +4259,11 @@ void
      case UI64_TO_F32:
         time_a_ui64_z_f32( ui64_to_f32 );
         break;
+#ifdef FLOAT64
      case UI64_TO_F64:
         time_a_ui64_z_f64( ui64_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case UI64_TO_EXTF80:
         time_a_ui64_z_extF80( ui64_to_extF80M );
@@ -4297,9 +4282,11 @@ void
      case I32_TO_F32:
         time_a_i32_z_f32( i32_to_f32 );
         break;
+#ifdef FLOAT64
      case I32_TO_F64:
         time_a_i32_z_f64( i32_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case I32_TO_EXTF80:
         time_a_i32_z_extF80( i32_to_extF80M );
@@ -4318,9 +4305,11 @@ void
      case I64_TO_F32:
         time_a_i64_z_f32( i64_to_f32 );
         break;
+#ifdef FLOAT64
      case I64_TO_F64:
         time_a_i64_z_f64( i64_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case I64_TO_EXTF80:
         time_a_i64_z_extF80( i64_to_extF80M );
@@ -4361,9 +4350,11 @@ void
      case F16_TO_F32:
         time_a_f16_z_f32( f16_to_f32 );
         break;
+#ifdef FLOAT64
      case F16_TO_F64:
         time_a_f16_z_f64( f16_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case F16_TO_EXTF80:
         time_a_f16_z_extF80( f16_to_extF80M );
@@ -4452,9 +4443,11 @@ void
         time_a_f32_z_f16( f32_to_f16 );
         break;
 #endif
+#ifdef FLOAT64
      case F32_TO_F64:
         time_a_f32_z_f64( f32_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case F32_TO_EXTF80:
         time_a_f32_z_extF80( f32_to_extF80M );
@@ -4513,6 +4506,7 @@ void
         break;
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
+#ifdef FLOAT64
      case F64_TO_UI32:
         time_a_f64_z_ui32_rx( f64_to_ui32, roundingMode, exact );
         break;
@@ -4601,6 +4595,7 @@ void
      time_ab_f64_z_bool:
         time_ab_f64_z_bool( function_ab_f64_z_bool );
         break;
+#endif
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
 #ifdef EXTFLOAT80
@@ -4636,9 +4631,11 @@ void
      case EXTF80_TO_F32:
         time_a_extF80_z_f32( extF80M_to_f32 );
         break;
+#ifdef FLOAT64
      case EXTF80_TO_F64:
         time_a_extF80_z_f64( extF80M_to_f64 );
         break;
+#endif
 #ifdef FLOAT128
      case EXTF80_TO_F128:
         time_a_extF80_z_f128( extF80M_to_f128M );
@@ -4723,9 +4720,11 @@ void
      case F128_TO_F32:
         time_a_f128_z_f32( f128M_to_f32 );
         break;
+#ifdef FLOAT64
      case F128_TO_F64:
         time_a_f128_z_f64( f128M_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case F128_TO_EXTF80:
         time_a_f128_z_extF80( f128M_to_extF80M );
@@ -4918,6 +4917,9 @@ int main( int argc, char *argv[] )
 "    -rmax            --Time only rounding to maximum (up).\n"
 "    -rnear_maxMag    --Time only rounding to nearest/maximum magnitude\n"
 "                         (nearest/away).\n"
+#ifdef FLOAT_ROUND_ODD
+"    -rodd            --Time only rounding to odd (jamming).\n"
+#endif
 "    -tininessbefore  --Time only underflow tininess detected before rounding.\n"
 "    -tininessafter   --Time only underflow tininess detected after rounding.\n"
 "    -notexact        --Time only non-exact rounding to integer (no inexact\n"
@@ -4945,7 +4947,9 @@ int main( int argc, char *argv[] )
 "    f16              --Binary 16-bit floating-point (half-precision).\n"
 #endif
 "    f32              --Binary 32-bit floating-point (single-precision).\n"
+#ifdef FLOAT64
 "    f64              --Binary 64-bit floating-point (double-precision).\n"
+#endif
 #ifdef EXTFLOAT80
 "    extF80           --Binary 80-bit extended floating-point.\n"
 #endif
@@ -4986,6 +4990,10 @@ int main( int argc, char *argv[] )
             || ! strcmp( argPtr, "rnearest_maxMag" )
         ) {
             roundingCode = ROUND_NEAR_MAXMAG;
+#ifdef FLOAT_ROUND_ODD
+        } else if ( ! strcmp( argPtr, "rodd" ) ) {
+            roundingCode = ROUND_ODD;
+#endif
         } else if ( ! strcmp( argPtr, "tininessbefore" ) ) {
             tininessCode = TININESS_BEFORE_ROUNDING;
         } else if ( ! strcmp( argPtr, "tininessafter" ) ) {
@@ -5011,7 +5019,7 @@ int main( int argc, char *argv[] )
             while ( strcmp( argPtr, functionInfos[functionCode].namePtr ) ) {
                 ++functionCode;
                 if ( functionCode == NUM_FUNCTIONS ) {
-                    fail( "Invalid argument `%s'", *argv );
+                    fail( "Invalid argument '%s'", *argv );
                 }
             }
             haveFunctionArg = true;

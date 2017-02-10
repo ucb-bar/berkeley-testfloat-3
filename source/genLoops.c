@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -38,6 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <signal.h>
 #include "platform.h"
 #include "uint128.h"
 #include "fail.h"
@@ -46,7 +47,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "writeHex.h"
 #include "genLoops.h"
 
-volatile bool genLoops_stop = false;
+volatile sig_atomic_t genLoops_stop = false;
 
 bool genLoops_forever;
 bool genLoops_givenCount;
@@ -57,7 +58,9 @@ uint_fast8_t *genLoops_trueFlagsPtr;
 union ui16_f16 { uint16_t ui; float16_t f; };
 #endif
 union ui32_f32 { uint32_t ui; float32_t f; };
+#ifdef FLOAT64
 union ui64_f64 { uint64_t ui; float64_t f; };
+#endif
 
 static void checkEnoughCases( void )
 {
@@ -391,6 +394,8 @@ void gen_abc_f32( void )
 
 }
 
+#ifdef FLOAT64
+
 void gen_a_f64( void )
 {
     union ui64_f64 uA;
@@ -450,6 +455,8 @@ void gen_abc_f64( void )
     }
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -601,6 +608,8 @@ void gen_a_ui32_z_f32( float32_t trueFunction( uint32_t ) )
 
 }
 
+#ifdef FLOAT64
+
 void gen_a_ui32_z_f64( float64_t trueFunction( uint32_t ) )
 {
     union ui64_f64 uTrueZ;
@@ -618,6 +627,8 @@ void gen_a_ui32_z_f64( float64_t trueFunction( uint32_t ) )
     }
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -703,6 +714,8 @@ void gen_a_ui64_z_f32( float32_t trueFunction( uint64_t ) )
 
 }
 
+#ifdef FLOAT64
+
 void gen_a_ui64_z_f64( float64_t trueFunction( uint64_t ) )
 {
     union ui64_f64 uTrueZ;
@@ -720,6 +733,8 @@ void gen_a_ui64_z_f64( float64_t trueFunction( uint64_t ) )
     }
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -805,6 +820,8 @@ void gen_a_i32_z_f32( float32_t trueFunction( int32_t ) )
 
 }
 
+#ifdef FLOAT64
+
 void gen_a_i32_z_f64( float64_t trueFunction( int32_t ) )
 {
     union ui64_f64 uTrueZ;
@@ -822,6 +839,8 @@ void gen_a_i32_z_f64( float64_t trueFunction( int32_t ) )
     }
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -907,6 +926,8 @@ void gen_a_i64_z_f32( float32_t trueFunction( int64_t ) )
 
 }
 
+#ifdef FLOAT64
+
 void gen_a_i64_z_f64( float64_t trueFunction( int64_t ) )
 {
     union ui64_f64 uTrueZ;
@@ -924,6 +945,8 @@ void gen_a_i64_z_f64( float64_t trueFunction( int64_t ) )
     }
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -1177,6 +1200,8 @@ void gen_a_f16_z_f32( float32_t trueFunction( float16_t ) )
 
 }
 
+#ifdef FLOAT64
+
 void gen_a_f16_z_f64( float64_t trueFunction( float16_t ) )
 {
     union ui16_f16 uA;
@@ -1196,6 +1221,8 @@ void gen_a_f16_z_f64( float64_t trueFunction( float16_t ) )
     }
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -1566,6 +1593,8 @@ void gen_a_f32_z_f16( float16_t trueFunction( float32_t ) )
 
 #endif
 
+#ifdef FLOAT64
+
 void gen_a_f32_z_f64( float64_t trueFunction( float32_t ) )
 {
     union ui32_f32 uA;
@@ -1585,6 +1614,8 @@ void gen_a_f32_z_f64( float64_t trueFunction( float32_t ) )
     }
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -1742,6 +1773,8 @@ void gen_ab_f32_z_bool( bool trueFunction( float32_t, float32_t ) )
     }
 
 }
+
+#ifdef FLOAT64
 
 void
  gen_a_f64_z_ui32_rx(
@@ -2130,6 +2163,8 @@ void gen_ab_f64_z_bool( bool trueFunction( float64_t, float64_t ) )
 
 }
 
+#endif
+
 #ifdef EXTFLOAT80
 
 void
@@ -2344,6 +2379,8 @@ void gen_a_extF80_z_f32( float32_t trueFunction( const extFloat80_t * ) )
 
 }
 
+#ifdef FLOAT64
+
 void gen_a_extF80_z_f64( float64_t trueFunction( const extFloat80_t * ) )
 {
     union ui64_f64 uTrueZ;
@@ -2361,6 +2398,8 @@ void gen_a_extF80_z_f64( float64_t trueFunction( const extFloat80_t * ) )
     }
 
 }
+
+#endif
 
 #ifdef FLOAT128
 
@@ -2445,37 +2484,6 @@ void
         writeHex_uiExtF80M( &genCases_extF80_b, ' ' );
         *genLoops_trueFlagsPtr = 0;
         trueFunction( &genCases_extF80_a, &genCases_extF80_b, &trueZ );
-        trueFlags = *genLoops_trueFlagsPtr;
-        if ( writeGenOutputs_extF80M( &trueZ, trueFlags ) ) break;
-    }
-
-}
-
-void
- gen_abcz_extF80(
-     void
-      trueFunction(
-          const extFloat80_t *,
-          const extFloat80_t *,
-          const extFloat80_t *,
-          extFloat80_t *
-      )
- )
-{
-    extFloat80_t trueZ;
-    uint_fast8_t trueFlags;
-
-    genCases_extF80_abc_init();
-    checkEnoughCases();
-    while ( ! genLoops_stop && (! genCases_done || genLoops_forever) ) {
-        genCases_extF80_abc_next();
-        writeHex_uiExtF80M( &genCases_extF80_a, ' ' );
-        writeHex_uiExtF80M( &genCases_extF80_b, ' ' );
-        writeHex_uiExtF80M( &genCases_extF80_c, ' ' );
-        *genLoops_trueFlagsPtr = 0;
-        trueFunction(
-            &genCases_extF80_a, &genCases_extF80_b, &genCases_extF80_c, &trueZ
-        );
         trueFlags = *genLoops_trueFlagsPtr;
         if ( writeGenOutputs_extF80M( &trueZ, trueFlags ) ) break;
     }
@@ -2719,6 +2727,8 @@ void gen_a_f128_z_f32( float32_t trueFunction( const float128_t * ) )
 
 }
 
+#ifdef FLOAT64
+
 void gen_a_f128_z_f64( float64_t trueFunction( const float128_t * ) )
 {
     union ui64_f64 uTrueZ;
@@ -2736,6 +2746,8 @@ void gen_a_f128_z_f64( float64_t trueFunction( const float128_t * ) )
     }
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 

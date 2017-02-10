@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>History of Berkeley TestFloat, to Release 3b</H1>
+<H1>History of Berkeley TestFloat, to Release 3c</H1>
 
 <P>
 John R. Hauser<BR>
-2016 July 22<BR>
+2017 February 10<BR>
 </P>
 
 
@@ -21,6 +21,33 @@ on which TestFloat is based.
 Each TestFloat release necessarily incorporates all bug fixes from the
 corresponding release of SoftFloat.
 </P>
+
+
+<H3>Release 3c (2017 February)</H3>
+
+<UL>
+
+<LI>
+Added support for testing rounding mode <CODE>odd</CODE> (jamming).
+
+<LI>
+Made support for testing <NOBR>64-bit</NOBR> double-precistion floating-point
+be subject to macro <CODE>FLOAT64</CODE> (akin to macros <CODE>FLOAT16</CODE>,
+<CODE>EXTFLOAT80</CODE>, and <CODE>FLOAT128</CODE> from before).
+
+<LI>
+Fixed some bugs that caused compilation to fail with certain combinations of
+option macro settings.
+
+<LI>
+Corrected the types of two internal variables to be <CODE>sig_atomic_t</CODE>
+instead of <CODE>bool</CODE>.
+
+<LI>
+Improved the formatting of some error reports (concerning where lines are
+broken when they exceed 79 characters in length).
+
+</UL>
 
 
 <H3>Release 3b (2016 July)</H3>

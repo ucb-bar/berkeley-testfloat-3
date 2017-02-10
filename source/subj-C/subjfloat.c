@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2017 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -95,7 +95,6 @@ uint_fast8_t subjfloat_clearExceptionFlags( void )
 }
 
 union f32_f { float32_t f32; float f; };
-union f64_d { float64_t f64; double d; };
 
 float32_t subj_ui32_to_f32( uint32_t a )
 {
@@ -103,15 +102,6 @@ float32_t subj_ui32_to_f32( uint32_t a )
 
     uZ.f = a;
     return uZ.f32;
-
-}
-
-float64_t subj_ui32_to_f64( uint32_t a )
-{
-    union f64_d uZ;
-
-    uZ.d = a;
-    return uZ.f64;
 
 }
 
@@ -124,15 +114,6 @@ float32_t subj_ui64_to_f32( uint64_t a )
 
 }
 
-float64_t subj_ui64_to_f64( uint64_t a )
-{
-    union f64_d uZ;
-
-    uZ.d = a;
-    return uZ.f64;
-
-}
-
 float32_t subj_i32_to_f32( int32_t a )
 {
     union f32_f uZ;
@@ -142,30 +123,12 @@ float32_t subj_i32_to_f32( int32_t a )
 
 }
 
-float64_t subj_i32_to_f64( int32_t a )
-{
-    union f64_d uZ;
-
-    uZ.d = a;
-    return uZ.f64;
-
-}
-
 float32_t subj_i64_to_f32( int64_t a )
 {
     union f32_f uZ;
 
     uZ.f = a;
     return uZ.f32;
-
-}
-
-float64_t subj_i64_to_f64( int64_t a )
-{
-    union f64_d uZ;
-
-    uZ.d = a;
-    return uZ.f64;
 
 }
 
@@ -202,17 +165,6 @@ int_fast64_t subj_f32_to_i64_rx_minMag( float32_t a )
 
     uA.f32 = a;
     return (int64_t) uA.f;
-
-}
-
-float64_t subj_f32_to_f64( float32_t a )
-{
-    union f32_f uA;
-    union f64_d uZ;
-
-    uA.f32 = a;
-    uZ.d = uA.f;
-    return uZ.f64;
 
 }
 
@@ -287,6 +239,60 @@ bool subj_f32_lt( float32_t a, float32_t b )
     uA.f32 = a;
     uB.f32 = b;
     return (uA.f < uB.f);
+
+}
+
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
+#ifdef FLOAT64
+
+union f64_d { float64_t f64; double d; };
+
+float64_t subj_ui32_to_f64( uint32_t a )
+{
+    union f64_d uZ;
+
+    uZ.d = a;
+    return uZ.f64;
+
+}
+
+float64_t subj_ui64_to_f64( uint64_t a )
+{
+    union f64_d uZ;
+
+    uZ.d = a;
+    return uZ.f64;
+
+}
+
+float64_t subj_i32_to_f64( int32_t a )
+{
+    union f64_d uZ;
+
+    uZ.d = a;
+    return uZ.f64;
+
+}
+
+float64_t subj_i64_to_f64( int64_t a )
+{
+    union f64_d uZ;
+
+    uZ.d = a;
+    return uZ.f64;
+
+}
+
+float64_t subj_f32_to_f64( float32_t a )
+{
+    union f32_f uA;
+    union f64_d uZ;
+
+    uA.f32 = a;
+    uZ.d = uA.f;
+    return uZ.f64;
 
 }
 
@@ -421,6 +427,11 @@ bool subj_f64_lt( float64_t a, float64_t b )
 
 }
 
+#endif
+
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 #if defined EXTFLOAT80 && defined LONG_DOUBLE_IS_EXTFLOAT80
 
 void subj_ui32_to_extF80M( uint32_t a, extFloat80_t *zPtr )
@@ -460,6 +471,8 @@ void subj_f32_to_extF80M( float32_t a, extFloat80_t *zPtr )
 
 }
 
+#ifdef FLOAT64
+
 void subj_f64_to_extF80M( float64_t a, extFloat80_t *zPtr )
 {
     union f64_d uA;
@@ -468,6 +481,8 @@ void subj_f64_to_extF80M( float64_t a, extFloat80_t *zPtr )
     *((long double *) zPtr) = uA.d;
 
 }
+
+#endif
 
 uint_fast32_t subj_extF80M_to_ui32_rx_minMag( const extFloat80_t *aPtr )
 {
@@ -506,6 +521,8 @@ float32_t subj_extF80M_to_f32( const extFloat80_t *aPtr )
 
 }
 
+#ifdef FLOAT64
+
 float64_t subj_extF80M_to_f64( const extFloat80_t *aPtr )
 {
     union f64_d uZ;
@@ -514,6 +531,8 @@ float64_t subj_extF80M_to_f64( const extFloat80_t *aPtr )
     return uZ.f64;
 
 }
+
+#endif
 
 void
  subj_extF80M_add(
@@ -578,6 +597,9 @@ bool subj_extF80M_lt( const extFloat80_t *aPtr, const extFloat80_t *bPtr )
 
 #endif
 
+/*----------------------------------------------------------------------------
+*----------------------------------------------------------------------------*/
+
 #if defined FLOAT128 && defined LONG_DOUBLE_IS_FLOAT128
 
 void subj_ui32_to_f128M( uint32_t a, float128_t *zPtr )
@@ -617,6 +639,8 @@ void subj_f32_to_f128M( float32_t a, float128_t *zPtr )
 
 }
 
+#ifdef FLOAT64
+
 void subj_f64_to_f128M( float64_t a, float128_t *zPtr )
 {
     union f64_d uA;
@@ -625,6 +649,8 @@ void subj_f64_to_f128M( float64_t a, float128_t *zPtr )
     *((long double *) zPtr) = uA.d;
 
 }
+
+#endif
 
 uint_fast32_t subj_f128M_to_ui32_rx_minMag( const float128_t *aPtr )
 {
@@ -663,6 +689,8 @@ float32_t subj_f128M_to_f32( const float128_t *aPtr )
 
 }
 
+#ifdef FLOAT64
+
 float64_t subj_f128M_to_f64( const float128_t *aPtr )
 {
     union f64_d uZ;
@@ -671,6 +699,8 @@ float64_t subj_f128M_to_f64( const float128_t *aPtr )
     return uZ.f64;
 
 }
+
+#endif
 
 void
  subj_f128M_add(

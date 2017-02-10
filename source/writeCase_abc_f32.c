@@ -1,7 +1,7 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
@@ -41,9 +41,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "writeHex.h"
 #include "writeCase.h"
 
-void
- writeCase_abc_f32(
-     float32_t a, float32_t b, float32_t c, const char *sepStringPtr )
+void writeCase_abc_f32( float32_t a, float32_t b, float32_t c )
 {
 
     writeHex_f32( a, 0 );
@@ -51,7 +49,7 @@ void
     writeHex_f32( b, 0 );
     fputs( "  ", stdout );
     writeHex_f32( c, 0 );
-    fputs( sepStringPtr, stdout );
+    fputs( "\n\t", stdout );
 
 }
 

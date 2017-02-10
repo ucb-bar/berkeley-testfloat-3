@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3b, a package of programs for
+This C header file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -75,6 +75,8 @@ bool f32_isNaN( float32_t a )
     return 0x7F800000 < (uA.ui & 0x7FFFFFFF);
 }
 
+#ifdef FLOAT64
+
 bool f64_same( float64_t a, float64_t b )
 {
     union { uint64_t ui; float64_t f; } uA, uB;
@@ -91,6 +93,8 @@ bool f64_isNaN( float64_t a )
         UINT64_C( 0x7FF0000000000000 )
             < (uA.ui & UINT64_C( 0x7FFFFFFFFFFFFFFF ));
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 

@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -59,7 +59,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "ui32_to_f16",    ARG_1 | EFF_R },
 #endif
     { "ui32_to_f32",    ARG_1 | EFF_R },
+#ifdef FLOAT64
     { "ui32_to_f64",    ARG_1         },
+#endif
 #ifdef EXTFLOAT80
     { "ui32_to_extF80", ARG_1         },
 #endif
@@ -70,7 +72,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "ui64_to_f16",    ARG_1 | EFF_R },
 #endif
     { "ui64_to_f32",    ARG_1 | EFF_R },
+#ifdef FLOAT64
     { "ui64_to_f64",    ARG_1 | EFF_R },
+#endif
 #ifdef EXTFLOAT80
     { "ui64_to_extF80", ARG_1         },
 #endif
@@ -81,7 +85,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "i32_to_f16",     ARG_1 | EFF_R },
 #endif
     { "i32_to_f32",     ARG_1 | EFF_R },
+#ifdef FLOAT64
     { "i32_to_f64",     ARG_1         },
+#endif
 #ifdef EXTFLOAT80
     { "i32_to_extF80",  ARG_1         },
 #endif
@@ -92,7 +98,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "i64_to_f16",     ARG_1 | EFF_R },
 #endif
     { "i64_to_f32",     ARG_1 | EFF_R },
+#ifdef FLOAT64
     { "i64_to_f64",     ARG_1 | EFF_R },
+#endif
 #ifdef EXTFLOAT80
     { "i64_to_extF80",  ARG_1         },
 #endif
@@ -111,7 +119,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "f16_to_i32_r_minMag",  ARG_1 | ARG_E },
     { "f16_to_i64_r_minMag",  ARG_1 | ARG_E },
     { "f16_to_f32",    ARG_1 },
+#ifdef FLOAT64
     { "f16_to_f64",    ARG_1 },
+#endif
 #ifdef EXTFLOAT80
     { "f16_to_extF80", ARG_1 },
 #endif
@@ -146,7 +156,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
 #ifdef FLOAT16
     { "f32_to_f16", ARG_1 | EFF_R | EFF_T },
 #endif
+#ifdef FLOAT64
     { "f32_to_f64",    ARG_1 },
+#endif
 #ifdef EXTFLOAT80
     { "f32_to_extF80", ARG_1 },
 #endif
@@ -169,6 +181,7 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "f32_lt_quiet",     ARG_2                 },
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
+#ifdef FLOAT64
     { "f64_to_ui32", ARG_1 | ARG_R | ARG_E },
     { "f64_to_ui64", ARG_1 | ARG_R | ARG_E },
     { "f64_to_i32",  ARG_1 | ARG_R | ARG_E },
@@ -201,6 +214,7 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "f64_eq_signaling", ARG_2                 },
     { "f64_le_quiet",     ARG_2                 },
     { "f64_lt_quiet",     ARG_2                 },
+#endif
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
 #ifdef EXTFLOAT80
@@ -216,7 +230,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "extF80_to_f16", ARG_1 | EFF_R | EFF_T },
 #endif
     { "extF80_to_f32", ARG_1 | EFF_R | EFF_T },
+#ifdef FLOAT64
     { "extF80_to_f64", ARG_1 | EFF_R | EFF_T },
+#endif
 #ifdef FLOAT128
     { "extF80_to_f128", ARG_1 },
 #endif
@@ -249,7 +265,9 @@ const struct functionInfo functionInfos[NUM_FUNCTIONS] = {
     { "f128_to_f16",    ARG_1 | EFF_R | EFF_T },
 #endif
     { "f128_to_f32",    ARG_1 | EFF_R | EFF_T },
+#ifdef FLOAT64
     { "f128_to_f64",    ARG_1 | EFF_R | EFF_T },
+#endif
 #ifdef EXTFLOAT80
     { "f128_to_extF80", ARG_1 | EFF_R | EFF_T },
 #endif

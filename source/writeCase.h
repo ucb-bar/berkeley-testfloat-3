@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3b, a package of programs for
+This C header file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -44,37 +44,30 @@ void writeCase_a_ui64( uint_fast64_t, const char * );
 #define writeCase_a_i32 writeCase_a_ui32
 #define writeCase_a_i64 writeCase_a_ui64
 #ifdef FLOAT16
-void writeCase_a_f16( float16_t, const char * );
-void writeCase_ab_f16( float16_t, float16_t, const char * );
-void writeCase_abc_f16( float16_t, float16_t, float16_t, const char * );
+void writeCase_a_f16( float16_t );
+void writeCase_ab_f16( float16_t, float16_t );
+void writeCase_abc_f16( float16_t, float16_t, float16_t );
 #endif
 void writeCase_a_f32( float32_t, const char * );
-void writeCase_ab_f32( float32_t, float32_t, const char * );
-void writeCase_abc_f32( float32_t, float32_t, float32_t, const char * );
+void writeCase_ab_f32( float32_t, float32_t );
+void writeCase_abc_f32( float32_t, float32_t, float32_t );
+#ifdef FLOAT64
 void writeCase_a_f64( float64_t, const char * );
 void writeCase_ab_f64( float64_t, float64_t, const char * );
-void writeCase_abc_f64( float64_t, float64_t, float64_t, const char * );
+void writeCase_abc_f64( float64_t, float64_t, float64_t );
+#endif
 #ifdef EXTFLOAT80
 void writeCase_a_extF80M( const extFloat80_t *, const char * );
 void
  writeCase_ab_extF80M(
      const extFloat80_t *, const extFloat80_t *, const char * );
-void
- writeCase_abc_extF80M(
-     const extFloat80_t *,
-     const extFloat80_t *,
-     const extFloat80_t *,
-     const char *
- );
 #endif
 #ifdef FLOAT128
 void writeCase_a_f128M( const float128_t *, const char * );
-void
- writeCase_ab_f128M( const float128_t *, const float128_t *, const char * );
+void writeCase_ab_f128M( const float128_t *, const float128_t * );
 void
  writeCase_abc_f128M(
-     const float128_t *, const float128_t *, const float128_t *, const char *
- );
+     const float128_t *, const float128_t *, const float128_t * );
 #endif
 
 void writeCase_z_bool( bool, uint_fast8_t, bool, uint_fast8_t );
@@ -88,7 +81,9 @@ void
 void writeCase_z_f16( float16_t, uint_fast8_t, float16_t, uint_fast8_t );
 #endif
 void writeCase_z_f32( float32_t, uint_fast8_t, float32_t, uint_fast8_t );
+#ifdef FLOAT64
 void writeCase_z_f64( float64_t, uint_fast8_t, float64_t, uint_fast8_t );
+#endif
 #ifdef EXTFLOAT80
 void
  writeCase_z_extF80M(

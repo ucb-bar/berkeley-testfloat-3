@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3b: <CODE>testsoftfloat</CODE></H1>
+<H1>Berkeley TestFloat Release 3c: <CODE>testsoftfloat</CODE></H1>
 
 <P>
 John R. Hauser<BR>
-2016 July 22<BR>
+2017 February 10<BR>
 </P>
 
 
@@ -37,8 +37,9 @@ build process, such as an incompatible compiler option or a compiler bug.
 
 <P>
 The <CODE>testsoftfloat</CODE> program will ordinarily test a function for all
-rounding modes defined by the IEEE Floating-Point Standard, one after the
-other.
+five rounding modes defined by the IEEE Floating-Point Standard, one after the
+other, plus possibly a sixth mode, <I>round to odd</I> (depending on the
+options selected when <CODE>testsoftfloat</CODE> was compiled).
 If an operation is not supposed to require rounding, it will by default be
 tested only with the rounding mode set to <CODE>near_even</CODE>
 (nearest/even).
@@ -60,13 +61,13 @@ The <CODE>testsoftfloat</CODE> program is executed as a command with this
 syntax:
 <BLOCKQUOTE>
 <PRE>
-testsoftfloat [&lt;option&gt;...] &lt;function&gt;
+testsoftfloat [&lt;<I>option</I>&gt;...] &lt;<I>function</I>&gt;
 </PRE>
 </BLOCKQUOTE>
 Square brackets (<CODE>[ ]</CODE>) denote optional arguments,
-<CODE>&lt;option&gt;</CODE> is a supported option, and
-<CODE>&lt;function&gt;</CODE> is the name of either a testable function or a
-function set.
+<CODE>&lt;<I>option</I>&gt;</CODE> is a supported option, and
+<CODE>&lt;<I>function</I>&gt;</CODE> is the name of either a testable function
+or a function set.
 The available options and function sets are documented below.
 If <CODE>testsoftfloat</CODE> is executed without any arguments, a summary of
 usage is written.
@@ -87,7 +88,7 @@ The <CODE>-help</CODE> option causes a summary of program usage to be written,
 after which the program exits.
 </P>
 
-<H3><CODE>-seed &lt;num&gt;</CODE></H3>
+<H3><CODE>-seed &lt;<I>num</I>&gt;</CODE></H3>
 
 <P>
 The <CODE>-seed</CODE> option sets the seed for the pseudo-random number
@@ -100,7 +101,7 @@ in a different sequence of tests.
 The default seed number <NOBR>is 1</NOBR>.
 </P>
 
-<H3><CODE>-level &lt;num&gt;</CODE></H3>
+<H3><CODE>-level &lt;<I>num</I>&gt;</CODE></H3>
 
 <P>
 The <CODE>-level</CODE> option sets the level of testing.
@@ -110,7 +111,7 @@ Level 2 performs many more tests than <NOBR>level 1</NOBR> and thus can reveal
 bugs not found by <NOBR>level 1</NOBR>.
 </P>
 
-<H3><CODE>-errors &lt;num&gt;</CODE></H3>
+<H3><CODE>-errors &lt;<I>num</I>&gt;</CODE></H3>
 
 <P>
 The <CODE>-errors</CODE> option instructs <CODE>testsoftfloat</CODE> to report
@@ -164,7 +165,7 @@ All these options are ignored for operations not affected by rounding precision
 control.
 </P>
 
-<H3><CODE>-rnear_even, -rnear_maxMag, -rminMag, -rmin, -rmax</CODE></H3>
+<H3><CODE>-rnear_even, -rnear_maxMag, -rminMag, -rmin, -rmax, -rodd</CODE></H3>
 
 <P>
 The <CODE>-rnear_even</CODE> option restricts testing to only the cases in
@@ -173,8 +174,9 @@ The other rounding mode choices are not tested.
 Likewise, <CODE>-rnear_maxMag</CODE> forces rounding to nearest/maximum
 magnitude (nearest-away), <CODE>-rminMag</CODE> forces rounding to minimum
 magnitude (toward zero), <CODE>-rmin</CODE> forces rounding to minimum (down,
-toward negative infinity), and <CODE>-rmax</CODE> forces rounding to maximum
-(up, toward positive infinity).
+toward negative infinity), <CODE>-rmax</CODE> forces rounding to maximum (up,
+toward positive infinity), and <CODE>-rodd</CODE>, if supported, forces
+rounding to odd.
 These options are ignored for operations that are exact and thus do not round.
 </P>
 
@@ -203,9 +205,9 @@ for which the <CODE><I>exact</I></CODE> operand is <CODE>true</CODE>.
 <H2>Function Sets</H2>
 
 <P>
-Just as <CODE>testsoftfloat</CODE> can test a function for all five rounding
-modes in sequence, multiple functions can be tested with a single execution of
-<CODE>testsoftfloat</CODE>.
+Just as <CODE>testsoftfloat</CODE> can test a function for all five or six
+rounding modes in sequence, multiple functions can be tested with a single
+execution of <CODE>testsoftfloat</CODE>.
 Two sets are recognized:  <CODE>-all1</CODE> and <CODE>-all2</CODE>.
 The set <CODE>-all1</CODE> is all one-operand operations, while
 <CODE>-all2</CODE> is all two-operand operations.
@@ -213,7 +215,7 @@ A function set is used in place of a function name in the
 <CODE>testsoftfloat</CODE> command line, such as
 <BLOCKQUOTE>
 <PRE>
-testsoftfloat [&lt;option&gt;...] -all1
+testsoftfloat [&lt;<I>option</I>&gt;...] -all1
 </PRE>
 </BLOCKQUOTE>
 </P>

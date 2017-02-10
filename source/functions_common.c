@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2017 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -46,7 +46,10 @@ const uint_fast8_t roundingModes[NUM_ROUNDINGMODES] = {
     softfloat_round_minMag,
     softfloat_round_min,
     softfloat_round_max,
-    softfloat_round_near_maxMag
+    softfloat_round_near_maxMag,
+#ifdef FLOAT_ROUND_ODD
+    softfloat_round_odd
+#endif
 };
 
 const uint_fast8_t tininessModes[NUM_TININESSMODES] = {

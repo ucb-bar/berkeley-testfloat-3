@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2017 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -43,15 +43,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef FLOAT128
 
-void
- writeCase_ab_f128M(
-     const float128_t *aPtr, const float128_t *bPtr, const char *sepStringPtr )
+void writeCase_ab_f128M( const float128_t *aPtr, const float128_t *bPtr )
 {
 
     writeHex_f128M( aPtr, 0 );
     fputs( "  ", stdout );
     writeHex_f128M( bPtr, 0 );
-    fputs( sepStringPtr, stdout );
+    fputs( "\n\t", stdout );
 
 }
 

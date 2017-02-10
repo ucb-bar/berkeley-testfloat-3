@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
+Copyright 2011, 2012, 2013, 2014, 2015, 2017 The Regents of the University of
 California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -94,7 +94,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_ab_f16( genCases_f16_a, genCases_f16_b, "  " );
+                writeCase_ab_f16( genCases_f16_a, genCases_f16_b );
                 writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }

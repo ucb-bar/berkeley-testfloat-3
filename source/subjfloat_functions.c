@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -66,10 +66,12 @@ genericFuncType *const subjfloat_functions[] = {
 #else
     0,
 #endif
+#ifdef FLOAT64
 #ifdef SUBJ_UI32_TO_F64
     (genericFuncType *) subj_ui32_to_f64,
 #else
     0,
+#endif
 #endif
 #ifdef EXTFLOAT80
 #ifdef SUBJ_UI32_TO_EXTF80
@@ -97,10 +99,12 @@ genericFuncType *const subjfloat_functions[] = {
 #else
     0,
 #endif
+#ifdef FLOAT64
 #ifdef SUBJ_UI64_TO_F64
     (genericFuncType *) subj_ui64_to_f64,
 #else
     0,
+#endif
 #endif
 #ifdef EXTFLOAT80
 #ifdef SUBJ_UI64_TO_EXTF80
@@ -128,10 +132,12 @@ genericFuncType *const subjfloat_functions[] = {
 #else
     0,
 #endif
+#ifdef FLOAT64
 #ifdef SUBJ_I32_TO_F64
     (genericFuncType *) subj_i32_to_f64,
 #else
     0,
+#endif
 #endif
 #ifdef EXTFLOAT80
 #ifdef SUBJ_I32_TO_EXTF80
@@ -159,10 +165,12 @@ genericFuncType *const subjfloat_functions[] = {
 #else
     0,
 #endif
+#ifdef FLOAT64
 #ifdef SUBJ_I64_TO_F64
     (genericFuncType *) subj_i64_to_f64,
 #else
     0,
+#endif
 #endif
 #ifdef EXTFLOAT80
 #ifdef SUBJ_I64_TO_EXTF80
@@ -386,10 +394,12 @@ genericFuncType *const subjfloat_functions[] = {
 #else
     0,
 #endif
+#ifdef FLOAT64
 #ifdef SUBJ_F16_TO_F64
     (genericFuncType *) subj_f16_to_f64,
 #else
     0,
+#endif
 #endif
 #ifdef EXTFLOAT80
 #ifdef SUBJ_F16_TO_EXTF80
@@ -710,10 +720,12 @@ genericFuncType *const subjfloat_functions[] = {
     0,
 #endif
 #endif
+#ifdef FLOAT64
 #ifdef SUBJ_F32_TO_F64
     (genericFuncType *) subj_f32_to_f64,
 #else
     0,
+#endif
 #endif
 #ifdef EXTFLOAT80
 #ifdef SUBJ_F32_TO_EXTF80
@@ -826,6 +838,7 @@ genericFuncType *const subjfloat_functions[] = {
 #endif
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
+#ifdef FLOAT64
 #ifdef SUBJ_F64_TO_UI32_R_NEAR_EVEN
     (genericFuncType *) subj_f64_to_ui32_r_near_even,
 #else
@@ -1147,6 +1160,7 @@ genericFuncType *const subjfloat_functions[] = {
 #else
     0,
 #endif
+#endif
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
 #ifdef EXTFLOAT80
@@ -1362,10 +1376,12 @@ genericFuncType *const subjfloat_functions[] = {
 #else
     0,
 #endif
+#ifdef FLOAT64
 #ifdef SUBJ_EXTF80_TO_F64
     (genericFuncType *) subj_extF80M_to_f64,
 #else
     0,
+#endif
 #endif
 #ifdef FLOAT128
 #ifdef SUBJ_EXTF80_TO_F128
@@ -1680,10 +1696,12 @@ genericFuncType *const subjfloat_functions[] = {
 #else
     0,
 #endif
+#ifdef FLOAT64
 #ifdef SUBJ_F128_TO_F64
     (genericFuncType *) subj_f128M_to_f64,
 #else
     0,
+#endif
 #endif
 #ifdef EXTFLOAT80
 #ifdef SUBJ_F128_TO_EXTF80

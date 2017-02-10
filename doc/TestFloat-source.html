@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3b: Source Documentation</H1>
+<H1>Berkeley TestFloat Release 3c: Source Documentation</H1>
 
 <P>
 John R. Hauser<BR>
-2016 July 22<BR>
+2017 February 10<BR>
 </P>
 
 
@@ -66,7 +66,7 @@ TestFloat has been successfully compiled with the GNU C Compiler
 <P>
 <NOBR>Release 3</NOBR> of TestFloat was a complete rewrite relative to
 <NOBR>Release 2</NOBR> or earlier.
-The current version of TestFloat is <NOBR>Release 3b</NOBR>.
+The current version of TestFloat is <NOBR>Release 3c</NOBR>.
 </P>
 
 <P>
@@ -120,7 +120,7 @@ and <CODE>&lt;stdint.h&gt;</CODE></I>.
 The TestFloat package was written by me, <NOBR>John R.</NOBR> Hauser.
 <NOBR>Release 3</NOBR> of TestFloat was a completely new implementation
 supplanting earlier releases.
-The project to create <NOBR>Release 3</NOBR> (now <NOBR>through 3b</NOBR>) was
+The project to create <NOBR>Release 3</NOBR> (now <NOBR>through 3c</NOBR>) was
 done in the employ of the University of California, Berkeley, within the
 Department of Electrical Engineering and Computer Sciences, first for the
 Parallel Computing Laboratory (Par Lab) and then for the ASPIRE Lab.
@@ -154,13 +154,13 @@ Oracle, and Samsung.
 </P>
 
 <P>
-The following applies to the whole of TestFloat <NOBR>Release 3b</NOBR> as well
+The following applies to the whole of TestFloat <NOBR>Release 3c</NOBR> as well
 as to each source file individually.
 </P>
 
 <P>
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.
 All rights reserved.
 </P>
 
@@ -241,7 +241,7 @@ subject of the test.
 If <CODE>testfloat</CODE> is retargeted to test other floating-point
 implementations, the corresponding source files would be expected to be in
 other subdirectories alongside <NOBR><CODE>subj-C</CODE></NOBR>, with names of
-the form <NOBR><CODE>subj-&lt;target&gt;</CODE></NOBR>.
+the form <NOBR><CODE>subj-&lt;<I>target</I>&gt;</CODE></NOBR>.
 More about retargeting <CODE>testfloat</CODE> is found in
 <NOBR>section 6.4</NOBR>, <I>Specializing the <CODE>testfloat</CODE>
 Program</I>.
@@ -259,13 +259,13 @@ contains sample files for creating new target directories.
 <P>
 Ignoring the <CODE>template</CODE> directory, the supplied target directories
 are intended to follow a naming system of
-<NOBR><CODE>&lt;execution-environment&gt;-&lt;compiler&gt;</CODE></NOBR>.
+<NOBR><CODE>&lt;<I>execution-environment</I>&gt;-&lt;<I>compiler</I>&gt;</CODE></NOBR>.
 For the example targets,
-<NOBR><CODE>&lt;execution-environment&gt;</CODE></NOBR> is
+<NOBR><CODE>&lt;<I>execution-environment</I>&gt;</CODE></NOBR> is
 <NOBR><CODE>Linux-386</CODE></NOBR>, <NOBR><CODE>Linux-386-SSE2</CODE></NOBR>,
 <NOBR><CODE>Linux-x86_64</CODE></NOBR>, <CODE>Win32</CODE>,
 <NOBR><CODE>Win32-SSE2</CODE></NOBR>, or <CODE>Win64</CODE>, and
-<NOBR><CODE>&lt;compiler&gt;</CODE></NOBR> is <CODE>GCC</CODE>,
+<NOBR><CODE>&lt;<I>compiler</I>&gt;</CODE></NOBR> is <CODE>GCC</CODE>,
 <CODE>MinGW</CODE>, or <NOBR><CODE>MinGW-w64</CODE></NOBR>.
 </P>
 
@@ -381,6 +381,7 @@ uint_fast8_t
 uint_fast16_t
 uint_fast32_t
 uint_fast64_t
+int_fast8_t
 int_fast16_t
 int_fast32_t
 int_fast64_t
@@ -418,7 +419,7 @@ below, <I>Specializing the <CODE>testfloat</CODE> Program</I>.
 <H3>6.3. Macros for Build Options</H3>
 
 <P>
-The TestFloat source files are affected by a few C preprocessor macros:
+The TestFloat source files are affected by several C preprocessor macros:
 <BLOCKQUOTE>
 <DL>
 <DT><CODE>LITTLEENDIAN</CODE>
@@ -442,7 +443,7 @@ Can be defined to a sequence of tokens that, when appearing at the start of a
 variable declaration, indicates to the C compiler that the variable is
 <I>per-thread</I>, meaning that each execution thread gets its own separate
 instance of the variable.
-This macro is used in the supplied version of SoftFloat&rsquo;s header
+This macro is used in the supplied version of Berkeley SoftFloat&rsquo;s header
 <CODE>softfloat.h</CODE>, in the declarations of variables
 <CODE>softfloat_roundingMode</CODE>, <CODE>softfloat_detectTininess</CODE>,
 <CODE>extF80_roundingPrecision</CODE>, and
@@ -450,10 +451,16 @@ This macro is used in the supplied version of SoftFloat&rsquo;s header
 To use the supplied, unmodified header <CODE>softfloat.h</CODE>, this macro
 must be defined (or not defined) the same as when the SoftFloat library was
 built.
+</DL>
+<DL>
 <DT><CODE>FLOAT16</CODE>
 <DD>
 Must be defined if the TestFloat programs are to support the
 <NOBR>16-bit</NOBR> half-precision floating-point format.
+<DT><CODE>FLOAT64</CODE>
+<DD>
+Must be defined if the TestFloat programs are to support the
+<NOBR>64-bit</NOBR> double-precision floating-point format.
 <DT><CODE>EXTFLOAT80</CODE>
 <DD>
 Must be defined if the TestFloat programs are to support the
@@ -462,6 +469,12 @@ Must be defined if the TestFloat programs are to support the
 <DD>
 Must be defined if the TestFloat programs are to support the
 <NOBR>128-bit</NOBR> quadruple-precision floating-point format.
+<DT><CODE>FLOAT_ROUND_ODD</CODE>
+<DD>
+Must be defined if the TestFloat programs are to support rounding to odd
+(jamming).
+To be useful, this option also requires that the Berkeley SoftFloat library was
+compiled with macro <CODE>SOFTFLOAT_ROUND_ODD</CODE> defined.
 </DL>
 </BLOCKQUOTE>
 Following the usual custom <NOBR>for C</NOBR>, for all the macros except
@@ -475,9 +488,8 @@ It is recommended that any definition of macros <CODE>LITTLEENDIAN</CODE>,
 <CODE>INLINE</CODE>, and <CODE>THREAD_LOCAL</CODE> be made in a build
 target&rsquo;s <CODE>platform.h</CODE> header file, because these macros are
 expected to be determined inflexibly by the target machine and compiler.
-On the other hand, the <CODE>FLOAT16</CODE>, <CODE>EXTFLOAT80</CODE>, and
-<CODE>FLOAT128</CODE> macros are not dictated by the target and hence might be
-better located in the target&rsquo;s Makefile (or its equivalent).
+The other five macros select build options, and hence might be better located
+in the target&rsquo;s Makefile (or its equivalent).
 </P>
 
 
@@ -507,14 +519,17 @@ By default, <CODE>testfloat</CODE> assumes that only the IEEE Standard&rsquo;s
 original four rounding modes (<CODE>near_even</CODE>, <CODE>minMag</CODE>,
 <CODE>min</CODE>, and <CODE>max</CODE>) are supported by the floating-point
 being tested.
-If the fifth rounding mode, <CODE>near_maxMag</CODE>, is also supported, an
-additional macro can be defined:
+For other rounding modes, additional macro can be defined:
 <BLOCKQUOTE>
 <DL>
 <DT><CODE>SUBJFLOAT_ROUND_NEAR_MAXMAG</CODE>
 <DD>
 Indicates that the subject floating-point supports rounding mode
 <CODE>near_maxMag</CODE> (nearest/away).
+<DT><CODE>SUBJFLOAT_ROUND_ODD</CODE>
+<DD>
+Indicates that the subject floating-point supports rounding mode
+<CODE>odd</CODE> (jamming).
 </DL>
 </BLOCKQUOTE>
 </P>
@@ -536,8 +551,9 @@ contained in directory <NOBR><CODE>source/subj-C</CODE></NOBR> as discussed
 earlier.
 For a different subject floating-point, it is recommended that appropriate
 versions of <CODE>subjfloat_config.h</CODE> and <CODE>subjfloat.c</CODE> be
-stored in a sibling <NOBR><CODE>subj-&lt;target&gt;</CODE></NOBR> directory,
-where <CODE>&lt;target&gt;</CODE> names the particular target.
+stored in a sibling <NOBR><CODE>subj-&lt;<I>target</I>&gt;</CODE></NOBR>
+directory, where <CODE>&lt;<I>target</I>&gt;</CODE> names the particular
+target.
 </P>
 
 <P>
@@ -565,9 +581,11 @@ In the source code as supplied, macros <CODE>LONG_DOUBLE_IS_EXTFLOAT80</CODE>
 and <CODE>LONG_DOUBLE_IS_FLOAT128</CODE> affect only the target-specific source
 files in <NOBR><CODE>source/subj-C</CODE></NOBR>, so these macros can be
 ignored for any other subject floating-point that does not depend on them.
-On the other hand, macro <CODE>SUBJFLOAT_ROUND_NEAR_MAXMAG</CODE> always
-determines whether the <CODE>testfloat</CODE> program attempts to test rounding
-mode <CODE>near_maxMag</CODE>, regardless of the subject floating-point.
+On the other hand, macros <CODE>SUBJFLOAT_ROUND_NEAR_MAXMAG</CODE> and
+<CODE>SUBJFLOAT_ROUND_ODD</CODE> always determine whether the
+<CODE>testfloat</CODE> program attempts to test rounding modes
+<CODE>near_maxMag</CODE> and <CODE>odd</CODE>, regardless of the subject
+floating-point.
 </P>
 
 

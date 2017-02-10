@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -136,6 +136,8 @@ static void readVerInput_f32( float32_t *aPtr )
 
 }
 
+#ifdef FLOAT64
+
 static void readVerInput_f64( float64_t *aPtr )
 {
     union { uint64_t ui; float64_t f; } uA;
@@ -144,6 +146,8 @@ static void readVerInput_f64( float64_t *aPtr )
     *aPtr = uA.f;
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -293,6 +297,8 @@ void ver_a_ui32_z_f32( float32_t trueFunction( uint32_t ) )
 
 }
 
+#ifdef FLOAT64
+
 void ver_a_ui32_z_f64( float64_t trueFunction( uint32_t ) )
 {
     int count;
@@ -337,6 +343,8 @@ void ver_a_ui32_z_f64( float64_t trueFunction( uint32_t ) )
 
 }
 
+#endif
+
 #ifdef EXTFLOAT80
 
 void ver_a_ui32_z_extF80( void trueFunction( uint32_t, extFloat80_t * ) )
@@ -373,7 +381,7 @@ void ver_a_ui32_z_extF80( void trueFunction( uint32_t, extFloat80_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_ui32( a, "  " );
+                writeCase_a_ui32( a, "\n\t" );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -528,6 +536,8 @@ void ver_a_ui64_z_f32( float32_t trueFunction( uint64_t ) )
 
 }
 
+#ifdef FLOAT64
+
 void ver_a_ui64_z_f64( float64_t trueFunction( uint64_t ) )
 {
     int count;
@@ -562,7 +572,7 @@ void ver_a_ui64_z_f64( float64_t trueFunction( uint64_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_ui64( a, "  " );
+                writeCase_a_ui64( a, "\n\t" );
                 writeCase_z_f64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -571,6 +581,8 @@ void ver_a_ui64_z_f64( float64_t trueFunction( uint64_t ) )
     verCases_writeTestsPerformed( 10000 - count );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -608,7 +620,7 @@ void ver_a_ui64_z_extF80( void trueFunction( uint64_t, extFloat80_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_ui64( a, "  " );
+                writeCase_a_ui64( a, "\n\t" );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -763,6 +775,8 @@ void ver_a_i32_z_f32( float32_t trueFunction( int32_t ) )
 
 }
 
+#ifdef FLOAT64
+
 void ver_a_i32_z_f64( float64_t trueFunction( int32_t ) )
 {
     int count;
@@ -807,6 +821,8 @@ void ver_a_i32_z_f64( float64_t trueFunction( int32_t ) )
 
 }
 
+#endif
+
 #ifdef EXTFLOAT80
 
 void ver_a_i32_z_extF80( void trueFunction( int32_t, extFloat80_t * ) )
@@ -843,7 +859,7 @@ void ver_a_i32_z_extF80( void trueFunction( int32_t, extFloat80_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_i32( a, "  " );
+                writeCase_a_i32( a, "\n\t" );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -998,6 +1014,8 @@ void ver_a_i64_z_f32( float32_t trueFunction( int64_t ) )
 
 }
 
+#ifdef FLOAT64
+
 void ver_a_i64_z_f64( float64_t trueFunction( int64_t ) )
 {
     int count;
@@ -1032,7 +1050,7 @@ void ver_a_i64_z_f64( float64_t trueFunction( int64_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_i64( a, "  " );
+                writeCase_a_i64( a, "\n\t" );
                 writeCase_z_f64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1041,6 +1059,8 @@ void ver_a_i64_z_f64( float64_t trueFunction( int64_t ) )
     verCases_writeTestsPerformed( 10000 - count );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -1078,7 +1098,7 @@ void ver_a_i64_z_extF80( void trueFunction( int64_t, extFloat80_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_i64( a, "  " );
+                writeCase_a_i64( a, "\n\t" );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1184,7 +1204,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_ui32( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1235,7 +1255,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_ui64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1286,7 +1306,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_i32( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1338,7 +1358,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_i64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1386,7 +1406,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_ui32( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1434,7 +1454,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_ui64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1482,7 +1502,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_i32( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1531,7 +1551,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_i64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1578,7 +1598,7 @@ void ver_a_f16_z_f32( float32_t trueFunction( float16_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_f32( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1587,6 +1607,8 @@ void ver_a_f16_z_f32( float32_t trueFunction( float16_t ) )
     verCases_writeTestsPerformed( 10000 - count );
 
 }
+
+#ifdef FLOAT64
 
 void ver_a_f16_z_f64( float64_t trueFunction( float16_t ) )
 {
@@ -1625,7 +1647,7 @@ void ver_a_f16_z_f64( float64_t trueFunction( float16_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_f64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1634,6 +1656,8 @@ void ver_a_f16_z_f64( float64_t trueFunction( float16_t ) )
     verCases_writeTestsPerformed( 10000 - count );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -1674,7 +1698,7 @@ void ver_a_f16_z_extF80( void trueFunction( float16_t, extFloat80_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1725,7 +1749,7 @@ void ver_a_f16_z_f128( void trueFunction( float16_t, float128_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_f128M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1773,7 +1797,7 @@ void ver_az_f16( float16_t trueFunction( float16_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1824,7 +1848,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f16( a, "  " );
+                writeCase_a_f16( a );
                 writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1874,7 +1898,7 @@ void ver_abz_f16( float16_t trueFunction( float16_t, float16_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_ab_f16( a, b, "  " );
+                writeCase_ab_f16( a, b );
                 writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1926,7 +1950,7 @@ void ver_abcz_f16( float16_t trueFunction( float16_t, float16_t, float16_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_abc_f16( a, b, c, "\n\t" );
+                writeCase_abc_f16( a, b, c );
                 writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -1971,7 +1995,7 @@ void ver_ab_f16_z_bool( bool trueFunction( float16_t, float16_t ) )
             if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_ab_f16( a, b, "  " );
+                writeCase_ab_f16( a, b );
                 writeCase_z_bool( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -2435,6 +2459,8 @@ void ver_a_f32_z_f16( float16_t trueFunction( float32_t ) )
 
 #endif
 
+#ifdef FLOAT64
+
 void ver_a_f32_z_f64( float64_t trueFunction( float32_t ) )
 {
     int count;
@@ -2482,6 +2508,8 @@ void ver_a_f32_z_f64( float64_t trueFunction( float32_t ) )
 
 }
 
+#endif
+
 #ifdef EXTFLOAT80
 
 void ver_a_f32_z_extF80( void trueFunction( float32_t, extFloat80_t * ) )
@@ -2521,7 +2549,7 @@ void ver_a_f32_z_extF80( void trueFunction( float32_t, extFloat80_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f32( a, "  " );
+                writeCase_a_f32( a, "\n\t" );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -2721,7 +2749,7 @@ void ver_abz_f32( float32_t trueFunction( float32_t, float32_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_ab_f32( a, b, "  " );
+                writeCase_ab_f32( a, b );
                 writeCase_z_f32( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -2773,7 +2801,7 @@ void ver_abcz_f32( float32_t trueFunction( float32_t, float32_t, float32_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_abc_f32( a, b, c, "\n\t" );
+                writeCase_abc_f32( a, b, c );
                 writeCase_z_f32( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -2818,7 +2846,7 @@ void ver_ab_f32_z_bool( bool trueFunction( float32_t, float32_t ) )
             if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_ab_f32( a, b, "  " );
+                writeCase_ab_f32( a, b );
                 writeCase_z_bool( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -2830,6 +2858,8 @@ void ver_ab_f32_z_bool( bool trueFunction( float32_t, float32_t ) )
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+
+#ifdef FLOAT64
 
 void
  ver_a_f64_z_ui32_rx(
@@ -3366,7 +3396,7 @@ void ver_a_f64_z_extF80( void trueFunction( float64_t, extFloat80_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f64( a, "  " );
+                writeCase_a_f64( a, "\n\t" );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -3465,7 +3495,7 @@ void ver_az_f64( float64_t trueFunction( float64_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f64( a, "  " );
+                writeCase_a_f64( a, "\n\t" );
                 writeCase_z_f64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -3516,7 +3546,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f64( a, "  " );
+                writeCase_a_f64( a, "\n\t" );
                 writeCase_z_f64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -3618,7 +3648,7 @@ void ver_abcz_f64( float64_t trueFunction( float64_t, float64_t, float64_t ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_abc_f64( a, b, c, "\n\t" );
+                writeCase_abc_f64( a, b, c );
                 writeCase_z_f64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -3672,6 +3702,8 @@ void ver_ab_f64_z_bool( bool trueFunction( float64_t, float64_t ) )
     verCases_writeTestsPerformed( 10000 - count );
 
 }
+
+#endif
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
@@ -4115,7 +4147,7 @@ void ver_a_extF80_z_f16( float16_t trueFunction( const extFloat80_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_extF80M( &a, "\n\t" );
+                writeCase_a_extF80M( &a, "  " );
                 writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -4164,7 +4196,7 @@ void ver_a_extF80_z_f32( float32_t trueFunction( const extFloat80_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_extF80M( &a, "\n\t" );
+                writeCase_a_extF80M( &a, "  " );
                 writeCase_z_f32( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -4173,6 +4205,8 @@ void ver_a_extF80_z_f32( float32_t trueFunction( const extFloat80_t * ) )
     verCases_writeTestsPerformed( 10000 - count );
 
 }
+
+#ifdef FLOAT64
 
 void ver_a_extF80_z_f64( float64_t trueFunction( const extFloat80_t * ) )
 {
@@ -4221,6 +4255,8 @@ void ver_a_extF80_z_f64( float64_t trueFunction( const extFloat80_t * ) )
 
 }
 
+#endif
+
 #ifdef FLOAT128
 
 void
@@ -4261,7 +4297,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_extF80M( &a, "\n\t" );
+                writeCase_a_extF80M( &a, "  " );
                 writeCase_z_f128M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -4309,7 +4345,7 @@ void ver_az_extF80( void trueFunction( const extFloat80_t *, extFloat80_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_extF80M( &a, "  " );
+                writeCase_a_extF80M( &a, "\n\t" );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -4361,7 +4397,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_extF80M( &a, "  " );
+                writeCase_a_extF80M( &a, "\n\t" );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -4417,70 +4453,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_ab_extF80M( &a, &b, "  " );
-                writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
-                if ( verCases_errorCount == verCases_maxErrorCount ) break;
-            }
-        }
-    }
-    verCases_writeTestsPerformed( 10000 - count );
-
-}
-
-void
- ver_abcz_extF80(
-     void
-      trueFunction(
-          const extFloat80_t *,
-          const extFloat80_t *,
-          const extFloat80_t *,
-          extFloat80_t *
-      )
- )
-{
-    int count;
-    extFloat80_t a, b, c, subjZ;
-    uint_fast8_t subjFlags;
-    extFloat80_t trueZ;
-    uint_fast8_t trueFlags;
-
-    verCases_errorCount = 0;
-    verCases_tenThousandsCount = 0;
-    count = 10000;
-    while ( ! atEndOfInput() ) {
-        readVerInput_extF80( &a );
-        readVerInput_extF80( &b );
-        readVerInput_extF80( &c );
-        readVerInput_extF80( &subjZ );
-        readVerInput_flags( &subjFlags );
-        *verLoops_trueFlagsPtr = 0;
-        trueFunction( &a, &b, &c, &trueZ );
-        trueFlags = *verLoops_trueFlagsPtr;
-        --count;
-        if ( ! count ) {
-            verCases_perTenThousand();
-            count = 10000;
-        }
-        if ( ! extF80M_same( &trueZ, &subjZ ) || (trueFlags != subjFlags) ) {
-            if (
-                ! verCases_checkNaNs
-                    && (   extF80M_isSignalingNaN( &a )
-                        || extF80M_isSignalingNaN( &b )
-                        || extF80M_isSignalingNaN( &c )
-                       )
-            ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
-            if (
-                   verCases_checkNaNs
-                || ! extF80M_isNaN( &trueZ )
-                || ! extF80M_isNaN( &subjZ )
-                || extF80M_isSignalingNaN( &subjZ )
-                || (trueFlags != subjFlags)
-            ) {
-                ++verCases_errorCount;
-                verCases_writeErrorFound( 10000 - count );
-                writeCase_abc_extF80M( &a, &b, &c, "\n\t" );
+                writeCase_ab_extF80M( &a, &b, "\n\t" );
                 writeCase_z_extF80M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -4982,7 +4955,7 @@ void ver_a_f128_z_f16( float16_t trueFunction( const float128_t * ) )
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_f128M( &a, "\n\t" );
+                writeCase_a_f128M( &a, "  " );
                 writeCase_z_f16( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -5041,6 +5014,8 @@ void ver_a_f128_z_f32( float32_t trueFunction( const float128_t * ) )
 
 }
 
+#ifdef FLOAT64
+
 void ver_a_f128_z_f64( float64_t trueFunction( const float128_t * ) )
 {
     int count;
@@ -5087,6 +5062,8 @@ void ver_a_f128_z_f64( float64_t trueFunction( const float128_t * ) )
     verCases_writeTestsPerformed( 10000 - count );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -5281,7 +5258,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_ab_f128M( &a, &b, "\n\t" );
+                writeCase_ab_f128M( &a, &b );
                 writeCase_z_f128M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -5344,7 +5321,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_abc_f128M( &a, &b, &c, "\n\t" );
+                writeCase_abc_f128M( &a, &b, &c );
                 writeCase_z_f128M( &trueZ, trueFlags, &subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
@@ -5392,7 +5369,7 @@ void
             if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_ab_f128M( &a, &b, "  " );
+                writeCase_ab_f128M( &a, &b );
                 writeCase_z_bool( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }

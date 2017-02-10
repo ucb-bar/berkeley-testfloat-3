@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3b, a package of programs for
+This C header file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -49,7 +49,9 @@ enum {
 #else
     UI32_TO_F32 = 1,
 #endif
+#ifdef FLOAT64
     UI32_TO_F64,
+#endif
 #ifdef EXTFLOAT80
     UI32_TO_EXTF80,
 #endif
@@ -60,7 +62,9 @@ enum {
     UI64_TO_F16,
 #endif
     UI64_TO_F32,
+#ifdef FLOAT64
     UI64_TO_F64,
+#endif
 #ifdef EXTFLOAT80
     UI64_TO_EXTF80,
 #endif
@@ -71,7 +75,9 @@ enum {
     I32_TO_F16,
 #endif
     I32_TO_F32,
+#ifdef FLOAT64
     I32_TO_F64,
+#endif
 #ifdef EXTFLOAT80
     I32_TO_EXTF80,
 #endif
@@ -82,7 +88,9 @@ enum {
     I64_TO_F16,
 #endif
     I64_TO_F32,
+#ifdef FLOAT64
     I64_TO_F64,
+#endif
 #ifdef EXTFLOAT80
     I64_TO_EXTF80,
 #endif
@@ -101,7 +109,9 @@ enum {
     F16_TO_I32_R_MINMAG,
     F16_TO_I64_R_MINMAG,
     F16_TO_F32,
+#ifdef FLOAT64
     F16_TO_F64,
+#endif
 #ifdef EXTFLOAT80
     F16_TO_EXTF80,
 #endif
@@ -136,7 +146,9 @@ enum {
 #ifdef FLOAT16
     F32_TO_F16,
 #endif
+#ifdef FLOAT64
     F32_TO_F64,
+#endif
 #ifdef EXTFLOAT80
     F32_TO_EXTF80,
 #endif
@@ -159,6 +171,7 @@ enum {
     F32_LT_QUIET,
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
+#ifdef FLOAT64
     F64_TO_UI32,
     F64_TO_UI64,
     F64_TO_I32,
@@ -191,6 +204,7 @@ enum {
     F64_EQ_SIGNALING,
     F64_LE_QUIET,
     F64_LT_QUIET,
+#endif
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
 #ifdef EXTFLOAT80
@@ -206,7 +220,9 @@ enum {
     EXTF80_TO_F16,
 #endif
     EXTF80_TO_F32,
+#ifdef FLOAT64
     EXTF80_TO_F64,
+#endif
 #ifdef FLOAT128
     EXTF80_TO_F128,
 #endif
@@ -239,7 +255,9 @@ enum {
     F128_TO_F16,
 #endif
     F128_TO_F32,
+#ifdef FLOAT64
     F128_TO_F64,
+#endif
 #ifdef EXTFLOAT80
     F128_TO_EXTF80,
 #endif
@@ -267,6 +285,9 @@ enum {
     ROUND_MIN,
     ROUND_MAX,
     ROUND_NEAR_MAXMAG,
+#ifdef FLOAT_ROUND_ODD
+    ROUND_ODD,
+#endif
     NUM_ROUNDINGMODES
 };
 enum {

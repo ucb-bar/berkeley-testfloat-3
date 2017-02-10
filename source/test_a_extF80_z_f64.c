@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2017 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -43,7 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "writeCase.h"
 #include "testLoops.h"
 
-#ifdef EXTFLOAT80
+#if defined FLOAT64 && defined EXTFLOAT80
 
 #pragma STDC FENV_ACCESS ON
 
@@ -93,7 +93,7 @@ void
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_extF80M( &genCases_extF80_a, "  " );
+                writeCase_a_extF80M( &genCases_extF80_a, "\n\t" );
                 writeCase_z_f64( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }

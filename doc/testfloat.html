@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3b: <CODE>testfloat</CODE></H1>
+<H1>Berkeley TestFloat Release 3c: <CODE>testfloat</CODE></H1>
 
 <P>
 John R. Hauser<BR>
-2016 July 22<BR>
+2017 February 10<BR>
 </P>
 
 
@@ -58,8 +58,9 @@ or may not be the same as the computer&rsquo;s floating-point hardware, if any.
 
 <P>
 The <CODE>testfloat</CODE> program will ordinarily test an operation for all
-rounding modes defined by the IEEE Floating-Point Standard, one after the
-other.
+five rounding modes defined by the IEEE Floating-Point Standard, one after the
+other, plus possibly a sixth mode, <I>round to odd</I> (depending on the
+options selected when <CODE>testfloat</CODE> was compiled).
 If the rounding mode is not supposed to have any affect on the
 results&mdash;for instance, some operations do not require rounding&mdash;only
 the nearest/even rounding mode is checked.
@@ -83,13 +84,13 @@ output, refer to
 The <CODE>testfloat</CODE> program is executed as a command with this syntax:
 <BLOCKQUOTE>
 <PRE>
-testfloat [&lt;option&gt;...] &lt;function&gt;
+testfloat [&lt;<I>option</I>&gt;...] &lt;<I>function</I>&gt;
 </PRE>
 </BLOCKQUOTE>
 Square brackets (<CODE>[ ]</CODE>) denote optional arguments,
-<CODE>&lt;option&gt;</CODE> is a supported option, and
-<CODE>&lt;function&gt;</CODE> is the name of either a testable operation or a
-function set.
+<CODE>&lt;<I>option</I>&gt;</CODE> is a supported option, and
+<CODE>&lt;<I>function</I>&gt;</CODE> is the name of either a testable operation
+or a function set.
 The available options and function sets are documented below.
 The <CODE>-list</CODE> option can be used to obtain a list of all testable
 operations for a given build of <CODE>testfloat</CODE>.
@@ -117,11 +118,11 @@ after which the program exits.
 <P>
 The <CODE>-list</CODE> option causes a list of testable operations to be
 written, after which the program exits.
-The set of testable operations is just the set of operations that this build of
-<CODE>testfloat</CODE> has some way to invoke for testing.
+An operation is testable by <CODE>testfloat</CODE> if the program knows some
+way to invoke the operation.
 </P>
 
-<H3><CODE>-seed &lt;num&gt;</CODE></H3>
+<H3><CODE>-seed &lt;<I>num</I>&gt;</CODE></H3>
 
 <P>
 The <CODE>-seed</CODE> option sets the seed for the pseudo-random number
@@ -134,7 +135,7 @@ should result in a different sequence of tests.
 The default seed number <NOBR>is 1</NOBR>.
 </P>
 
-<H3><CODE>-level &lt;num&gt;</CODE></H3>
+<H3><CODE>-level &lt;<I>num</I>&gt;</CODE></H3>
 
 <P>
 The <CODE>-level</CODE> option sets the level of testing.
@@ -144,7 +145,7 @@ Level 2 performs many more tests than <NOBR>level 1</NOBR> and thus can reveal
 bugs not found by <NOBR>level 1</NOBR>.
 </P>
 
-<H3><CODE>-errors &lt;num&gt;</CODE></H3>
+<H3><CODE>-errors &lt;<I>num</I>&gt;</CODE></H3>
 
 <P>
 The <CODE>-errors</CODE> option instructs <CODE>testfloat</CODE> to report no
@@ -209,11 +210,11 @@ control.
 </P>
 
 <P>
-The precision-control options may not be accepted at all if no
+The precision-control options may not be supported at all if no
 double-extended-precision operations are testable.
 </P>
 
-<H3><CODE>-rnear_even, -rnear_maxMag, -rminMag, -rmin, -rmax</CODE></H3>
+<H3><CODE>-rnear_even, -rnear_maxMag, -rminMag, -rmin, -rmax, -rodd</CODE></H3>
 
 <P>
 The <CODE>-rnear_even</CODE> option restricts testing to only the cases in
@@ -222,9 +223,12 @@ The other rounding mode choices are not tested.
 Likewise, <CODE>-rnear_maxMag</CODE> forces rounding to nearest/maximum
 magnitude (nearest-away), <CODE>-rminMag</CODE> forces rounding to minimum
 magnitude (toward zero), <CODE>-rmin</CODE> forces rounding to minimum (down,
-toward negative infinity), and <CODE>-rmax</CODE> forces rounding to maximum
-(up, toward positive infinity).
-These options are ignored for operations that are exact and thus do not round.
+toward negative infinity), <CODE>-rmax</CODE> forces rounding to maximum (up,
+toward positive infinity), and <CODE>-rodd</CODE>, if supported, forces
+rounding to odd.
+These options are ignored for operations that are exact and thus do not round,
+or that have the rounding mode included in the function name (such as
+<CODE>f32_to_i32_r_near_maxMag</CODE>).
 </P>
 
 <H3><CODE>-tininessbefore, -tininessafter</CODE></H3>
@@ -245,9 +249,9 @@ Choosing the wrong one of these two options should cause error reports for some
 <H2>Function Sets</H2>
 
 <P>
-Just as <CODE>testfloat</CODE> can test an operation for all five rounding
-modes in sequence, multiple operations can be tested with a single execution of
-<CODE>testfloat</CODE>.
+Just as <CODE>testfloat</CODE> can test an operation for all five or six
+rounding modes in sequence, multiple operations can be tested with a single
+execution of <CODE>testfloat</CODE>.
 Two sets are recognized:  <CODE>-all1</CODE> and <CODE>-all2</CODE>.
 The set <CODE>-all1</CODE> is all one-operand operations, while
 <CODE>-all2</CODE> is all two-operand operations.
@@ -255,7 +259,7 @@ A function set is used in place of an operation name in the
 <CODE>testfloat</CODE> command line, such as
 <BLOCKQUOTE>
 <PRE>
-testfloat [&lt;option&gt;...] -all1
+testfloat [&lt;<I>option</I>&gt;...] -all1
 </PRE>
 </BLOCKQUOTE>
 </P>

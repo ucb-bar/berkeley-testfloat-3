@@ -7,18 +7,18 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3b: <CODE>testfloat_ver</CODE></H1>
+<H1>Berkeley TestFloat Release 3c: <CODE>testfloat_ver</CODE></H1>
 
 <P>
 John R. Hauser<BR>
-2016 July 22<BR>
+2017 February 10<BR>
 </P>
 
 
 <H2>Overview</H2>
 
 <P>
-The <CODE>testfloat_ver</CODE> program takes test-case results obtained from
+The <CODE>testfloat_ver</CODE> program accepts test-case results obtained from
 exercising an implementation of floating-point arithmetic and verifies that
 those results conform to the IEEE Standard for Binary Floating-Point
 Arithmetic.
@@ -61,12 +61,12 @@ The <CODE>testfloat_ver</CODE> program is executed as a command with this
 syntax:
 <BLOCKQUOTE>
 <PRE>
-testfloat_ver [&lt;option&gt;...] &lt;function&gt;
+testfloat_ver [&lt;<I>option</I>&gt;...] &lt;<I>function</I>&gt;
 </PRE>
 </BLOCKQUOTE>
 Square brackets (<CODE>[ ]</CODE>) denote optional arguments,
-<CODE>&lt;option&gt;</CODE> is a supported option, and
-<CODE>&lt;function&gt;</CODE> is the name of a testable operation.
+<CODE>&lt;<I>option</I>&gt;</CODE> is a supported option, and
+<CODE>&lt;<I>function</I>&gt;</CODE> is the name of a testable operation.
 The available options are documented below.
 The testable operation names are listed in
 <A HREF="TestFloat-general.html"><NOBR><CODE>TestFloat-general.html</CODE></NOBR></A>.
@@ -89,7 +89,7 @@ The <CODE>-help</CODE> option causes a summary of program usage to be written,
 after which the program exits.
 </P>
 
-<H3><CODE>-errors &lt;num&gt;</CODE></H3>
+<H3><CODE>-errors &lt;<I>num</I>&gt;</CODE></H3>
 
 <P>
 The <CODE>-errors</CODE> option instructs <CODE>testfloat_ver</CODE> to report
@@ -119,7 +119,7 @@ tested.
 <H3><CODE>-precision32, -precision64, -precision80</CODE></H3>
 
 <P>
-When <CODE>&lt;function&gt;</CODE> is an <NOBR>80-bit</NOBR>
+When <CODE>&lt;<I>function</I>&gt;</CODE> is an <NOBR>80-bit</NOBR>
 double-extended-precision operation affected by rounding precision control, the
 <CODE>-precision32</CODE> option indicates that the rounding precision should
 be <NOBR>32 bits</NOBR>, equivalent to <NOBR>32-bit</NOBR> single-precision.
@@ -134,16 +134,17 @@ When rounding precision is applicable but not specified, the default assumption
 is the full <NOBR>80 bits</NOBR>, same as <CODE>-precision80</CODE>.
 </P>
 
-<H3><CODE>-rnear_even, -rnear_maxMag, -rminMag, -rmin, -rmax</CODE></H3>
+<H3><CODE>-rnear_even, -rnear_maxMag, -rminMag, -rmin, -rmax, -rodd</CODE></H3>
 
 <P>
-When <CODE>&lt;function&gt;</CODE> is an operation that requires rounding, the
-<CODE>-rnear_even</CODE> option indicates that rounding should be to
-nearest/even, <CODE>-rnear_maxMag</CODE> indicates rounding to nearest/maximum
-magnitude (nearest-away), <CODE>-rminMag</CODE> indicates rounding to minimum
-magnitude (toward zero), <CODE>-rmin</CODE> indicates rounding to minimum
-(down, toward negative infinity), and <CODE>-rmax</CODE> indicates rounding to
-maximum (up, toward positive infinity).
+When <CODE>&lt;<I>function</I>&gt;</CODE> is an operation that requires
+rounding, the <CODE>-rnear_even</CODE> option indicates that rounding should be
+to nearest/even, <CODE>-rnear_maxMag</CODE> indicates rounding to
+nearest/maximum magnitude (nearest-away), <CODE>-rminMag</CODE> indicates
+rounding to minimum magnitude (toward zero), <CODE>-rmin</CODE> indicates
+rounding to minimum (down, toward negative infinity), <CODE>-rmax</CODE>
+indicates rounding to maximum (up, toward positive infinity), and
+<CODE>-rodd</CODE>, if supported, indicates rounding to odd.
 These options are ignored for operations that are exact and thus do not round.
 When rounding mode is relevant but not specified, the default assumption is
 rounding to nearest/even, same as <CODE>-rnear_even</CODE>.
@@ -152,10 +153,10 @@ rounding to nearest/even, same as <CODE>-rnear_even</CODE>.
 <H3><CODE>-tininessbefore, -tininessafter</CODE></H3>
 
 <P>
-When <CODE>&lt;function&gt;</CODE> is an operation that requires rounding, the
-<CODE>-tininessbefore</CODE> option indicates that tininess on underflow should
-be detected before rounding, while <CODE>-tininessafter</CODE> indicates that
-tininess on underflow should be detected after rounding.
+When <CODE>&lt;<I>function</I>&gt;</CODE> is an operation that requires
+rounding, the <CODE>-tininessbefore</CODE> option indicates that tininess on
+underflow should be detected before rounding, while <CODE>-tininessafter</CODE>
+indicates that tininess on underflow should be detected after rounding.
 These options are ignored for operations that are exact and thus do not round.
 When the method of tininess detection matters but is not specified, the default
 assumption is that tininess should be detected after rounding, same as
@@ -165,11 +166,11 @@ assumption is that tininess should be detected after rounding, same as
 <H3><CODE>-notexact, -exact</CODE></H3>
 
 <P>
-When <CODE>&lt;function&gt;</CODE> is an operation that rounds to an integer
-(either conversion to an integer type or a <CODE>roundToInt</CODE> operation),
-the <CODE>-notexact</CODE> option indicates that the <I>inexact</I> exception
-flag should never be raised, while <CODE>-exact</CODE> indicates that the
-<I>inexact</I> exception flag should be raised when the result is inexact.
+When <CODE>&lt;<I>function</I>&gt;</CODE> is an operation that rounds to an
+integer (either conversion to an integer type or a <CODE>roundToInt</CODE>
+operation), the <CODE>-notexact</CODE> option indicates that the <I>inexact</I>
+exception flag should never be raised, while <CODE>-exact</CODE> indicates that
+the <I>inexact</I> exception flag should be raised when the result is inexact.
 For other operations, these options are ignored.
 If neither option is specified, the default assumption is that the
 <I>inexact</I> exception flag should not be raised when rounding to an integer,
@@ -180,8 +181,9 @@ same as <CODE>-notexact</CODE>.
 <H2>Input Format</H2>
 
 <P>
-For a given <CODE>&lt;function&gt;</CODE> argument, the input format expected
-by <CODE>testfloat_ver</CODE> is the same as the output generated by program
+For a given <CODE>&lt;<I>function</I>&gt;</CODE> argument, the input format
+expected by <CODE>testfloat_ver</CODE> is the same as the output generated by
+program
 <A HREF="testfloat_gen.html"><NOBR><CODE>testfloat_gen</CODE></NOBR></A> for
 the same argument.
 </P>

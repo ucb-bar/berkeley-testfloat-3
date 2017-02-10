@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3b, a package of programs for
+This C header file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -38,6 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <signal.h>
 #include "uint128.h"
 #include "softfloat.h"
 
@@ -55,7 +56,7 @@ extern bool verCases_errorStop;
 
 void verCases_writeFunctionName( FILE * );
 
-extern volatile bool verCases_stop;
+extern volatile sig_atomic_t verCases_stop;
 
 extern bool verCases_anyErrors;
 
@@ -100,6 +101,8 @@ INLINE bool f32_isNaN( float32_t a )
     return 0x7F800000 < (uA.ui & 0x7FFFFFFF);
 }
 
+#ifdef FLOAT64
+
 INLINE bool f64_same( float64_t a, float64_t b )
 {
     union { uint64_t ui; float64_t f; } uA, uB;
@@ -116,6 +119,8 @@ INLINE bool f64_isNaN( float64_t a )
         UINT64_C( 0x7FF0000000000000 )
             < (uA.ui & UINT64_C( 0x7FFFFFFFFFFFFFFF ));
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -165,8 +170,10 @@ bool f16_isNaN( float16_t );
 #endif
 bool f32_same( float32_t, float32_t );
 bool f32_isNaN( float32_t );
+#ifdef FLOAT64
 bool f64_same( float64_t, float64_t );
 bool f64_isNaN( float64_t );
+#endif
 #ifdef EXTFLOAT80
 bool extF80M_same( const extFloat80_t *, const extFloat80_t * );
 bool extF80M_isNaN( const extFloat80_t * );

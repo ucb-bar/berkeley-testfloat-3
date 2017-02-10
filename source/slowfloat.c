@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -53,7 +53,9 @@ uint_fast8_t slow_extF80_roundingPrecision;
 union ui16_f16 { uint16_t ui; float16_t f; };
 #endif
 union ui32_f32 { uint32_t ui; float32_t f; };
+#ifdef FLOAT64
 union ui64_f64 { uint64_t ui; float64_t f; };
+#endif
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
@@ -108,6 +110,11 @@ void
          case softfloat_round_near_maxMag:
             if ( roundBits < UINT64_C( 0x100000000000 ) ) goto noIncrement;
             break;
+#ifdef FLOAT_ROUND_ODD
+         case softfloat_round_odd:
+            sigX64 |= UINT64_C( 0x200000000000 );
+            goto noIncrement;
+#endif
         }
         sigX64 += UINT64_C( 0x200000000000 );
         if ( sigX64 == UINT64_C( 0x0100000000000000 ) ) {
@@ -156,6 +163,11 @@ void
          case softfloat_round_near_maxMag:
             if ( roundBits < 0x80000000 ) goto noIncrement;
             break;
+#ifdef FLOAT_ROUND_ODD
+         case softfloat_round_odd:
+            sigX64 |= UINT64_C( 0x100000000 );
+            goto noIncrement;
+#endif
         }
         sigX64 += UINT64_C( 0x100000000 );
         if ( sigX64 == UINT64_C( 0x0100000000000000 ) ) {
@@ -199,6 +211,11 @@ void
          case softfloat_round_near_maxMag:
             if ( roundBits < 4 ) goto noIncrement;
             break;
+#ifdef FLOAT_ROUND_ODD
+         case softfloat_round_odd:
+            sigX64 |= 8;
+            goto noIncrement;
+#endif
         }
         sigX64 += 8;
         if ( sigX64 == UINT64_C( 0x0100000000000000 ) ) {
@@ -246,8 +263,13 @@ void
          case softfloat_round_near_maxMag:
             if ( roundBits < UINT64_C( 0x0080000000000000 ) ) goto noIncrement;
             break;
+#ifdef FLOAT_ROUND_ODD
+         case softfloat_round_odd:
+            sigX0 |= UINT64_C( 0x100000000000000 );
+            goto noIncrement;
+#endif
         }
-        sigX0 += UINT64_C( 0x0100000000000000 );
+        sigX0 += UINT64_C( 0x100000000000000 );
         sigX64 = xPtr->sig.v64 + ! sigX0;
         if ( sigX64 == UINT64_C( 0x0100000000000000 ) ) {
             ++xPtr->exp;
@@ -291,6 +313,11 @@ void
          case softfloat_round_near_maxMag:
             if ( roundBits < 0x40 ) goto noIncrement;
             break;
+#ifdef FLOAT_ROUND_ODD
+         case softfloat_round_odd:
+            sigX0 |= 0x80;
+            goto noIncrement;
+#endif
         }
         sigX0 += 0x80;
         sigX64 = xPtr->sig.v64 + ! sigX0;
@@ -346,6 +373,9 @@ uint_fast32_t
         return (xPtr->isInf && xPtr->sign) ? 0 : 0xFFFFFFFF;
     }
     if ( xPtr->isZero ) return 0;
+    if ( roundingMode == softfloat_round_odd ) {
+        roundingMode = softfloat_round_minMag;
+    }
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
     shiftDist = 52 - x.exp;
@@ -412,6 +442,9 @@ uint_fast64_t
             (xPtr->isInf && xPtr->sign) ? 0 : UINT64_C( 0xFFFFFFFFFFFFFFFF );
     }
     if ( xPtr->isZero ) return 0;
+    if ( roundingMode == softfloat_round_odd ) {
+        roundingMode = softfloat_round_minMag;
+    }
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
     shiftDist = 112 - x.exp;
@@ -479,6 +512,9 @@ int_fast32_t
         return (xPtr->isInf && xPtr->sign) ? -0x7FFFFFFF - 1 : 0x7FFFFFFF;
     }
     if ( xPtr->isZero ) return 0;
+    if ( roundingMode == softfloat_round_odd ) {
+        roundingMode = softfloat_round_minMag;
+    }
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
     shiftDist = 52 - x.exp;
@@ -552,6 +588,9 @@ int_fast64_t
                 : INT64_C( 0x7FFFFFFFFFFFFFFF );
     }
     if ( xPtr->isZero ) return 0;
+    if ( roundingMode == softfloat_round_odd ) {
+        roundingMode = softfloat_round_minMag;
+    }
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
     shiftDist = 112 - x.exp;
@@ -672,6 +711,7 @@ static float16_t floatXToF16( const struct floatX *xPtr )
                 break;
              case softfloat_round_minMag:
              case softfloat_round_max:
+             case softfloat_round_odd:
                 uiZ = 0xFBFF;
                 break;
             }
@@ -684,6 +724,7 @@ static float16_t floatXToF16( const struct floatX *xPtr )
                 break;
              case softfloat_round_minMag:
              case softfloat_round_min:
+             case softfloat_round_odd:
                 uiZ = 0x7BFF;
                 break;
             }
@@ -806,6 +847,7 @@ static float32_t floatXToF32( const struct floatX *xPtr )
                 break;
              case softfloat_round_minMag:
              case softfloat_round_max:
+             case softfloat_round_odd:
                 uiZ = 0xFF7FFFFF;
                 break;
             }
@@ -818,6 +860,7 @@ static float32_t floatXToF32( const struct floatX *xPtr )
                 break;
              case softfloat_round_minMag:
              case softfloat_round_min:
+             case softfloat_round_odd:
                 uiZ = 0x7F7FFFFF;
                 break;
             }
@@ -848,6 +891,8 @@ static float32_t floatXToF32( const struct floatX *xPtr )
     return uZ.f;
 
 }
+
+#ifdef FLOAT64
 
 static void f64ToFloatX( float64_t a, struct floatX *xPtr )
 {
@@ -939,6 +984,7 @@ static float64_t floatXToF64( const struct floatX *xPtr )
                 break;
              case softfloat_round_minMag:
              case softfloat_round_max:
+             case softfloat_round_odd:
                 uiZ = UINT64_C( 0xFFEFFFFFFFFFFFFF );
                 break;
             }
@@ -951,6 +997,7 @@ static float64_t floatXToF64( const struct floatX *xPtr )
                 break;
              case softfloat_round_minMag:
              case softfloat_round_min:
+             case softfloat_round_odd:
                 uiZ = UINT64_C( 0x7FEFFFFFFFFFFFFF );
                 break;
             }
@@ -981,6 +1028,8 @@ static float64_t floatXToF64( const struct floatX *xPtr )
     return uZ.f;
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -1088,6 +1137,7 @@ static void floatXToExtF80M( const struct floatX *xPtr, extFloat80_t *zPtr )
                 break;
              case softfloat_round_minMag:
              case softfloat_round_max:
+             case softfloat_round_odd:
                 switch ( slow_extF80_roundingPrecision ) {
                  case 32:
                     uiZ0 = UINT64_C( 0xFFFFFF0000000000 );
@@ -1113,6 +1163,7 @@ static void floatXToExtF80M( const struct floatX *xPtr, extFloat80_t *zPtr )
                 break;
              case softfloat_round_minMag:
              case softfloat_round_min:
+             case softfloat_round_odd:
                 switch ( slow_extF80_roundingPrecision ) {
                  case 32:
                     uiZ0 = UINT64_C( 0xFFFFFF0000000000 );
@@ -1262,6 +1313,7 @@ static void floatXToF128M( const struct floatX *xPtr, float128_t *zPtr )
                 break;
              case softfloat_round_minMag:
              case softfloat_round_max:
+             case softfloat_round_odd:
                 uiZPtr->v64 = UINT64_C( 0xFFFEFFFFFFFFFFFF );
                 uiZPtr->v0  = UINT64_C( 0xFFFFFFFFFFFFFFFF );
                 break;
@@ -1276,6 +1328,7 @@ static void floatXToF128M( const struct floatX *xPtr, float128_t *zPtr )
                 break;
              case softfloat_round_minMag:
              case softfloat_round_min:
+             case softfloat_round_odd:
                 uiZPtr->v64 = UINT64_C( 0x7FFEFFFFFFFFFFFF );
                 uiZPtr->v0  = UINT64_C( 0xFFFFFFFFFFFFFFFF );
                 break;
@@ -1302,7 +1355,7 @@ static void floatXToF128M( const struct floatX *xPtr, float128_t *zPtr )
     uiZ64 = (uint_fast64_t) exp<<48;
     if ( x.sign ) uiZ64 |= UINT64_C( 0x8000000000000000 );
     x.sig = shortShiftRightJam128( x.sig, 7 );
-    uiZPtr->v64 = uiZ64 | x.sig.v64 & UINT64_C( 0x0000FFFFFFFFFFFF );
+    uiZPtr->v64 = uiZ64 | (x.sig.v64 & UINT64_C( 0x0000FFFFFFFFFFFF ));
     uiZPtr->v0  = x.sig.v0;
 
 }
@@ -1325,6 +1378,9 @@ void
     struct uint128 sig;
 
     if ( xPtr->isNaN || xPtr->isInf ) return;
+    if ( roundingMode == softfloat_round_odd ) {
+        roundingMode = softfloat_round_minMag;
+    }
     exp = xPtr->exp;
     shiftDist = 112 - exp;
     if ( shiftDist <= 0 ) return;
@@ -2010,6 +2066,8 @@ float32_t slow_ui32_to_f32( uint32_t a )
 
 }
 
+#ifdef FLOAT64
+
 float64_t slow_ui32_to_f64( uint32_t a )
 {
     struct floatX x;
@@ -2018,6 +2076,8 @@ float64_t slow_ui32_to_f64( uint32_t a )
     return floatXToF64( &x );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -2067,6 +2127,8 @@ float32_t slow_ui64_to_f32( uint64_t a )
 
 }
 
+#ifdef FLOAT64
+
 float64_t slow_ui64_to_f64( uint64_t a )
 {
     struct floatX x;
@@ -2075,6 +2137,8 @@ float64_t slow_ui64_to_f64( uint64_t a )
     return floatXToF64( &x );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -2124,6 +2188,8 @@ float32_t slow_i32_to_f32( int32_t a )
 
 }
 
+#ifdef FLOAT64
+
 float64_t slow_i32_to_f64( int32_t a )
 {
     struct floatX x;
@@ -2132,6 +2198,8 @@ float64_t slow_i32_to_f64( int32_t a )
     return floatXToF64( &x );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -2181,6 +2249,8 @@ float32_t slow_i64_to_f32( int64_t a )
 
 }
 
+#ifdef FLOAT64
+
 float64_t slow_i64_to_f64( int64_t a )
 {
     struct floatX x;
@@ -2189,6 +2259,8 @@ float64_t slow_i64_to_f64( int64_t a )
     return floatXToF64( &x );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -2303,6 +2375,8 @@ float32_t slow_f16_to_f32( float16_t a )
 
 }
 
+#ifdef FLOAT64
+
 float64_t slow_f16_to_f64( float16_t a )
 {
     struct floatX x;
@@ -2311,6 +2385,8 @@ float64_t slow_f16_to_f64( float16_t a )
     return floatXToF64( &x );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -2589,6 +2665,8 @@ float16_t slow_f32_to_f16( float32_t a )
 
 #endif
 
+#ifdef FLOAT64
+
 float64_t slow_f32_to_f64( float32_t a )
 {
     struct floatX x;
@@ -2597,6 +2675,8 @@ float64_t slow_f32_to_f64( float32_t a )
     return floatXToF64( &x );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 
@@ -2783,6 +2863,8 @@ bool slow_f32_lt_quiet( float32_t a, float32_t b )
     return floatXLt( &x, &y );
 
 }
+
+#ifdef FLOAT64
 
 uint_fast32_t
  slow_f64_to_ui32( float64_t a, uint_fast8_t roundingMode, bool exact )
@@ -3067,6 +3149,8 @@ bool slow_f64_lt_quiet( float64_t a, float64_t b )
 
 }
 
+#endif
+
 #ifdef EXTFLOAT80
 
 uint_fast32_t
@@ -3175,6 +3259,8 @@ float32_t slow_extF80M_to_f32( const extFloat80_t *aPtr )
 
 }
 
+#ifdef FLOAT64
+
 float64_t slow_extF80M_to_f64( const extFloat80_t *aPtr )
 {
     struct floatX x;
@@ -3183,6 +3269,8 @@ float64_t slow_extF80M_to_f64( const extFloat80_t *aPtr )
     return floatXToF64( &x );
 
 }
+
+#endif
 
 #ifdef FLOAT128
 
@@ -3466,6 +3554,8 @@ float32_t slow_f128M_to_f32( const float128_t *aPtr )
 
 }
 
+#ifdef FLOAT64
+
 float64_t slow_f128M_to_f64( const float128_t *aPtr )
 {
     struct floatX x;
@@ -3474,6 +3564,8 @@ float64_t slow_f128M_to_f64( const float128_t *aPtr )
     return floatXToF64( &x );
 
 }
+
+#endif
 
 #ifdef EXTFLOAT80
 

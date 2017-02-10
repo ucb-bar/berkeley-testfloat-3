@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3b: General Documentation</H1>
+<H1>Berkeley TestFloat Release 3c: General Documentation</H1>
 
 <P>
 John R. Hauser<BR>
-2016 July 22<BR>
+2017 February 10<BR>
 </P>
 
 
@@ -49,7 +49,7 @@ John R. Hauser<BR>
 
 <P>
 Berkeley TestFloat is a small collection of programs for testing that an
-implementation of binary floating-point conforms to the IEEE Standard for 
+implementation of binary floating-point conforms to the IEEE Standard for
 Floating-Point Arithmetic.
 All operations required by the original 1985 version of the IEEE Floating-Point
 Standard can be tested, except for conversions to and from decimal.
@@ -78,11 +78,30 @@ Details about the standard are available elsewhere.
 </P>
 
 <P>
-The current version of TestFloat is <NOBR>Release 3b</NOBR>.
-This release differs from the previous <NOBR>Release 3a</NOBR> mainly in the
-ability to test the <NOBR>16-bit</NOBR> half-precision format.
-Compared to Release 2c and earlier, the set of TestFloat programs as well as
-the programs&rsquo; arguments and behavior changed some with
+The current version of TestFloat is <NOBR>Release 3c</NOBR>.
+This release differs from the previous <NOBR>Release 3b</NOBR> in only minor
+ways.
+<NOBR>Release 3c</NOBR> adds the ability to test a rarely used rounding mode,
+<I>round to odd</I>, also known as <I>jamming</I>.
+It also permits TestFloat to be built for testing only <NOBR>32-bit</NOBR>
+single-precision and no other floating-point formats.
+(This is relevant for very small computers, which may benefit from leaving out
+the code for testing formats they don&rsquo;t support.)
+Previously, TestFloat's minimum set of testable formats was two:
+<NOBR>32-bit</NOBR> single-precision and <NOBR>64-bit</NOBR> double-precision.
+Now the minimum set is just <NOBR>32-bit</NOBR> single-precision
+alone.
+</P>
+
+<P>
+For its part, <NOBR>Release 3b</NOBR> differed from the earlier
+<NOBR>Release 3a</NOBR> mainly in the ability to test the <NOBR>16-bit</NOBR>
+half-precision format.
+</P>
+
+<P>
+Compared to Release 2c and earlier, the set of TestFloat programs, as well as
+the programs&rsquo; arguments and behavior, changed some with
 <NOBR>Release 3</NOBR>.
 For more about the evolution of TestFloat releases, see
 <A HREF="TestFloat-history.html"><NOBR><CODE>TestFloat-history.html</CODE></NOBR></A>.
@@ -114,7 +133,7 @@ bugs can be found through links posted on the TestFloat Web page,
 The TestFloat package was written by me, <NOBR>John R.</NOBR> Hauser.
 <NOBR>Release 3</NOBR> of TestFloat was a completely new implementation
 supplanting earlier releases.
-The project to create <NOBR>Release 3</NOBR> (now <NOBR>through 3b</NOBR>) was
+The project to create <NOBR>Release 3</NOBR> (now <NOBR>through 3c</NOBR>) was
 done in the employ of the University of California, Berkeley, within the
 Department of Electrical Engineering and Computer Sciences, first for the
 Parallel Computing Laboratory (Par Lab) and then for the ASPIRE Lab.
@@ -148,13 +167,13 @@ Oracle, and Samsung.
 </P>
 
 <P>
-The following applies to the whole of TestFloat <NOBR>Release 3b</NOBR> as well
+The following applies to the whole of TestFloat <NOBR>Release 3c</NOBR> as well
 as to each source file individually.
 </P>
 
 <P>
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.
 All rights reserved.
 </P>
 
@@ -211,7 +230,7 @@ For each operation to be tested, the TestFloat programs can generate a large
 number of test cases, made up of simple pattern tests intermixed with weighted
 random inputs.
 The cases generated should be adequate for testing carry chain propagations,
-plus the rounding of addition, subtraction, multiplication, and simple
+and the rounding of addition, subtraction, multiplication, and simple
 operations like conversions.
 TestFloat makes a point of checking all boundary cases of the arithmetic,
 including underflows, overflows, invalid operations, subnormal inputs, zeros
@@ -241,7 +260,8 @@ implementation, that in no way guarantees that the implementation is bug-free.
 
 <P>
 For each operation, TestFloat can test all five rounding modes defined by the
-IEEE Floating-Point Standard.
+IEEE Floating-Point Standard, plus possibly a sixth mode, <I>round to odd</I>
+(depending on the options selected when TestFloat was built).
 TestFloat verifies not only that the numeric results of an operation are
 correct, but also that the proper floating-point exception flags are raised.
 All five exception flags are tested, including the <I>inexact</I> flag.
@@ -368,7 +388,7 @@ Assuming a vertical bar (<CODE>|</CODE>) indicates a pipe between programs, the
 complete process could be written as a single command like so:
 <BLOCKQUOTE>
 <PRE>
-testfloat_gen ... &lt;type&gt; | &lt;program-that-invokes-op&gt; | testfloat_ver ... &lt;function&gt;
+testfloat_gen ... &lt;<I>type</I>&gt; | &lt;<I>program-that-invokes-op</I>&gt; | testfloat_ver ... &lt;<I>function</I>&gt;
 </PRE>
 </BLOCKQUOTE>
 The program in the middle is not supplied by TestFloat but must be created
@@ -386,7 +406,7 @@ With this additional information, the job done by <CODE>testfloat_ver</CODE>
 can be folded into the invoking program to give the following command:
 <BLOCKQUOTE>
 <PRE>
-testfloat_gen ... &lt;function&gt; | &lt;program-that-invokes-op-and-compares-results&gt;
+testfloat_gen ... &lt;<I>function</I>&gt; | &lt;<I>program-that-invokes-op-and-compares-results</I>&gt;
 </PRE>
 </BLOCKQUOTE>
 Again, the program that actually invokes the floating-point operation is not
@@ -524,18 +544,18 @@ explicitly specify the rounding mode and treatment of inexactness.
 Thus, instead of
 <BLOCKQUOTE>
 <PRE>
-&lt;float&gt;_to_&lt;int&gt;
+&lt;<I>float</I>&gt;_to_&lt;<I>int</I>&gt;
 </PRE>
 </BLOCKQUOTE>
 as listed above, operations converting to integer type have names of these
 forms:
 <BLOCKQUOTE>
 <PRE>
-&lt;float&gt;_to_&lt;int&gt;_r_&lt;round&gt;
-&lt;float&gt;_to_&lt;int&gt;_rx_&lt;round&gt;
+&lt;<I>float</I>&gt;_to_&lt;<I>int</I>&gt;_r_&lt;<I>round</I>&gt;
+&lt;<I>float</I>&gt;_to_&lt;<I>int</I>&gt;_rx_&lt;<I>round</I>&gt;
 </PRE>
 </BLOCKQUOTE>
-The <CODE>&lt;round&gt;</CODE> component is one of
+The <CODE>&lt;<I>round</I>&gt;</CODE> component is one of
 &lsquo;<CODE>near_even</CODE>&rsquo;, &lsquo;<CODE>near_maxMag</CODE>&rsquo;,
 &lsquo;<CODE>minMag</CODE>&rsquo;, &lsquo;<CODE>min</CODE>&rsquo;, or
 &lsquo;<CODE>max</CODE>&rsquo;, choosing the rounding mode.
@@ -549,19 +569,36 @@ raise the <I>inexact</I> exception whenever the result is not exact.
 TestFloat assumes that conversions from floating-point to an integer type
 should raise the <I>invalid</I> exception if the input cannot be rounded to an
 integer representable in the result format.
-In such a circumstance, if the result type is an unsigned integer, TestFloat
-expects the result of the operation to be the type&rsquo;s largest integer
-value;
-although, when conversion overflows for a negative input, TestFloat may also
-accept a result of zero.
-If the result type is a signed integer and conversion overflows, TestFloat
-expects the result to be the largest-magnitude integer with the same sign as
-the input.
-Lastly, when a NaN is converted to a signed integer type, TestFloat allows
-either the largest postive or largest-magnitude negative integer to be
-returned.
+In such a circumstance:
+<UL>
+
+<LI>
+<P>
+If the result type is an unsigned integer, TestFloat normally expects the
+result of the operation to be the type&rsquo;s largest integer value.
+In the case that the input is a negative number (not a NaN), a zero result may
+also be accepted.
+</P>
+
+<LI>
+<P>
+If the result type is a signed integer and the input is a number (not a NaN),
+TestFloat expects the result to be the largest-magnitude integer with the same
+sign as the input.
+When a NaN is converted to a signed integer type, TestFloat allows either the
+largest postive or largest-magnitude negative integer to be returned.
+</P>
+
+</UL>
 Conversions to integer types are expected never to raise the <I>overflow</I>
 exception.
+</P>
+
+<P>
+When converting to an integer, if the rounding mode is <CODE>odd</CODE>
+(possible only when the rounding mode is not in the function name), TestFloat
+expects the result to be rounded <EM>not</EM> to an odd integer but rather to
+minimum magnitude, the same as when the rounding mode is <CODE>minMag</CODE>.
 </P>
 
 <H3>6.2. Basic Arithmetic Operations</H3>
@@ -601,7 +638,7 @@ f128_mulAdd
 <P>
 If one of the multiplication operands is infinite and the other is zero,
 TestFloat expects the fused multiply-add operation to raise the <I>invalid</I>
-exception even if the third operand is a NaN.
+exception even if the third operand is a quiet NaN.
 </P>
 
 <H3>6.4. Remainder Operations</H3>
@@ -646,13 +683,13 @@ For <CODE>testfloat</CODE> only, the round-to-integer operations have names of
 these forms:
 <BLOCKQUOTE>
 <PRE>
-&lt;float&gt;_roundToInt_r_&lt;round&gt;
-&lt;float&gt;_roundToInt_x
+&lt;<I>float</I>&gt;_roundToInt_r_&lt;<I>round</I>&gt;
+&lt;<I>float</I>&gt;_roundToInt_x
 </PRE>
 </BLOCKQUOTE>
 For the &lsquo;<CODE>_r_</CODE>&rsquo; versions, the <I>inexact</I> exception
-is never raised, and the <CODE>&lt;round&gt;</CODE> component specifies the
-rounding mode as one of &lsquo;<CODE>near_even</CODE>&rsquo;,
+is never raised, and the <CODE>&lt;<I>round</I>&gt;</CODE> component specifies
+the rounding mode as one of &lsquo;<CODE>near_even</CODE>&rsquo;,
 &lsquo;<CODE>near_maxMag</CODE>&rsquo;, &lsquo;<CODE>minMag</CODE>&rsquo;,
 &lsquo;<CODE>min</CODE>&rsquo;, or &lsquo;<CODE>max</CODE>&rsquo;.
 The usual indication of rounding mode is ignored.
@@ -661,6 +698,13 @@ indication of rounding mode and raise the <I>inexact</I> exception whenever the
 result is not exact.
 This irregular system follows the IEEE Standard&rsquo;s particular
 specification for the round-to-integer operations.
+</P>
+
+<P>
+If the rounding mode is <CODE>odd</CODE> (possible only when the rounding mode
+is not in the function name), TestFloat expects the result to be rounded
+<EM>not</EM> to an odd integer but rather to minimum magnitude, the same as
+when the rounding mode is <CODE>minMag</CODE>.
 </P>
 
 <H3>6.6. Comparison Operations</H3>
@@ -758,12 +802,12 @@ subsequent &ldquo;continuation&rdquo; lines are indented with a tab.
 Each error reported is of the form:
 <BLOCKQUOTE>
 <PRE>
-&lt;inputs&gt;  => &lt;observed-output&gt;  expected: &lt;expected-output&gt;
+&lt;<I>inputs</I>&gt;  => &lt;<I>observed-output</I>&gt;  expected: &lt;<I>expected-output</I>&gt;
 </PRE>
 </BLOCKQUOTE>
-The <CODE>&lt;inputs&gt;</CODE> are the inputs to the operation.
-Each output (observed and expected) is shown as a pair:  the result value
-first, followed by the exception flags.
+The <CODE>&lt;<I>inputs</I>&gt;</CODE> are the inputs to the operation.
+Each output (observed or expected) is shown as a pair:  the result value first,
+followed by the exception flags.
 </P>
 
 <P>
@@ -1094,7 +1138,7 @@ or an unspecified alternative mechanism may be used to signal such cases.
 TestFloat assumes that conversions to integer will raise the <I>invalid</I>
 exception if the source value cannot be rounded to a representable integer.
 In such cases, TestFloat expects the result value to be the largest-magnitude
-positive or negative integer or zero as detailed earlier in
+positive or negative integer or zero, as detailed earlier in
 <NOBR>section 6.1</NOBR>, <I>Conversion Operations</I>.
 The current version of TestFloat provides no means to alter these expectations.
 </P>

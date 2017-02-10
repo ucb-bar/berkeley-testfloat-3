@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3b, a package of programs for
+This C source file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -84,10 +84,12 @@ void
     float32_t (*subjFunction_abz_f32)( float32_t, float32_t );
     bool (*trueFunction_ab_f32_z_bool)( float32_t, float32_t );
     bool (*subjFunction_ab_f32_z_bool)( float32_t, float32_t );
+#ifdef FLOAT64
     float64_t (*trueFunction_abz_f64)( float64_t, float64_t );
     float64_t (*subjFunction_abz_f64)( float64_t, float64_t );
     bool (*trueFunction_ab_f64_z_bool)( float64_t, float64_t );
     bool (*subjFunction_ab_f64_z_bool)( float64_t, float64_t );
+#endif
 #ifdef EXTFLOAT80
     void (*trueFunction_abz_extF80M)(
         const extFloat80_t *, const extFloat80_t *, extFloat80_t * );
@@ -123,9 +125,11 @@ void
      case UI32_TO_F32:
         test_a_ui32_z_f32( slow_ui32_to_f32, ui32_to_f32 );
         break;
+#ifdef FLOAT64
      case UI32_TO_F64:
         test_a_ui32_z_f64( slow_ui32_to_f64, ui32_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case UI32_TO_EXTF80:
         test_a_ui32_z_extF80( slow_ui32_to_extF80M, ui32_to_extF80M );
@@ -144,9 +148,11 @@ void
      case UI64_TO_F32:
         test_a_ui64_z_f32( slow_ui64_to_f32, ui64_to_f32 );
         break;
+#ifdef FLOAT64
      case UI64_TO_F64:
         test_a_ui64_z_f64( slow_ui64_to_f64, ui64_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case UI64_TO_EXTF80:
         test_a_ui64_z_extF80( slow_ui64_to_extF80M, ui64_to_extF80M );
@@ -165,9 +171,11 @@ void
      case I32_TO_F32:
         test_a_i32_z_f32( slow_i32_to_f32, i32_to_f32 );
         break;
+#ifdef FLOAT64
      case I32_TO_F64:
         test_a_i32_z_f64( slow_i32_to_f64, i32_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case I32_TO_EXTF80:
         test_a_i32_z_extF80( slow_i32_to_extF80M, i32_to_extF80M );
@@ -186,9 +194,11 @@ void
      case I64_TO_F32:
         test_a_i64_z_f32( slow_i64_to_f32, i64_to_f32 );
         break;
+#ifdef FLOAT64
      case I64_TO_F64:
         test_a_i64_z_f64( slow_i64_to_f64, i64_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case I64_TO_EXTF80:
         test_a_i64_z_extF80( slow_i64_to_extF80M, i64_to_extF80M );
@@ -237,9 +247,11 @@ void
      case F16_TO_F32:
         test_a_f16_z_f32( slow_f16_to_f32, f16_to_f32 );
         break;
+#ifdef FLOAT64
      case F16_TO_F64:
         test_a_f16_z_f64( slow_f16_to_f64, f16_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case F16_TO_EXTF80:
         test_a_f16_z_extF80( slow_f16_to_extF80M, f16_to_extF80M );
@@ -349,9 +361,11 @@ void
         test_a_f32_z_f16( slow_f32_to_f16, f32_to_f16 );
         break;
 #endif
+#ifdef FLOAT64
      case F32_TO_F64:
         test_a_f32_z_f64( slow_f32_to_f64, f32_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case F32_TO_EXTF80:
         test_a_f32_z_extF80( slow_f32_to_extF80M, f32_to_extF80M );
@@ -423,6 +437,7 @@ void
         break;
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
+#ifdef FLOAT64
      case F64_TO_UI32:
         test_a_f64_z_ui32_rx(
             slow_f64_to_ui32, f64_to_ui32, roundingMode, exact );
@@ -532,6 +547,7 @@ void
         test_ab_f64_z_bool(
             trueFunction_ab_f64_z_bool, subjFunction_ab_f64_z_bool );
         break;
+#endif
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
 #ifdef EXTFLOAT80
@@ -575,9 +591,11 @@ void
      case EXTF80_TO_F32:
         test_a_extF80_z_f32( slow_extF80M_to_f32, extF80M_to_f32 );
         break;
+#ifdef FLOAT64
      case EXTF80_TO_F64:
         test_a_extF80_z_f64( slow_extF80M_to_f64, extF80M_to_f64 );
         break;
+#endif
 #ifdef FLOAT128
      case EXTF80_TO_F128:
         test_a_extF80_z_f128( slow_extF80M_to_f128M, extF80M_to_f128M );
@@ -683,9 +701,11 @@ void
      case F128_TO_F32:
         test_a_f128_z_f32( slow_f128M_to_f32, f128M_to_f32 );
         break;
+#ifdef FLOAT64
      case F128_TO_F64:
         test_a_f128_z_f64( slow_f128M_to_f64, f128M_to_f64 );
         break;
+#endif
 #ifdef EXTFLOAT80
      case F128_TO_EXTF80:
         test_a_f128_z_extF80( slow_f128M_to_extF80M, f128M_to_extF80M );
@@ -913,7 +933,7 @@ int main( int argc, char *argv[] )
 "    -errors <num>    --Stop each function test after <num> errors.\n"
 " *  -errors 20\n"
 "    -errorstop       --Exit after first function with any error.\n"
-"    -forever         --Test one function repeatedly (implies `-level 2').\n"
+"    -forever         --Test one function repeatedly (implies '-level 2').\n"
 #ifdef EXTFLOAT80
 "    -precision32     --For extF80, test only 32-bit rounding precision.\n"
 "    -precision64     --For extF80, test only 64-bit rounding precision.\n"
@@ -925,6 +945,10 @@ int main( int argc, char *argv[] )
 "    -rmax            --Test only rounding to maximum (up).\n"
 "    -rnear_maxMag    --Test only rounding to nearest/maximum magnitude\n"
 "                         (nearest/away).\n"
+#ifdef FLOAT_ROUND_ODD
+"    -rodd            --Test only rounding to odd (jamming).  (For rounding to\n"
+"                         an integer value, 'minMag' rounding is done instead.)\n"
+#endif
 "    -tininessbefore  --Test only underflow tininess detected before rounding.\n"
 "    -tininessafter   --Test only underflow tininess detected after rounding.\n"
 "    -notexact        --Test only non-exact rounding to integer (no inexact\n"
@@ -951,7 +975,9 @@ int main( int argc, char *argv[] )
 "    f16              --Binary 16-bit floating-point (half-precision).\n"
 #endif
 "    f32              --Binary 32-bit floating-point (single-precision).\n"
+#ifdef FLOAT64
 "    f64              --Binary 64-bit floating-point (double-precision).\n"
+#endif
 #ifdef EXTFLOAT80
 "    extF80           --Binary 80-bit extended floating-point.\n"
 #endif
@@ -1022,6 +1048,10 @@ int main( int argc, char *argv[] )
             || ! strcmp( argPtr, "rnearest_maxMag" )
         ) {
             roundingCode = ROUND_NEAR_MAXMAG;
+#ifdef FLOAT_ROUND_ODD
+        } else if ( ! strcmp( argPtr, "rodd" ) ) {
+            roundingCode = ROUND_ODD;
+#endif
         } else if ( ! strcmp( argPtr, "tininessbefore" ) ) {
             tininessCode = TININESS_BEFORE_ROUNDING;
         } else if ( ! strcmp( argPtr, "tininessafter" ) ) {
@@ -1043,7 +1073,7 @@ int main( int argc, char *argv[] )
             while ( strcmp( argPtr, functionInfos[functionCode].namePtr ) ) {
                 ++functionCode;
                 if ( functionCode == NUM_FUNCTIONS ) {
-                    fail( "Invalid argument `%s'", *argv );
+                    fail( "Invalid argument '%s'", *argv );
                 }
             }
             haveFunctionArg = true;
@@ -1068,7 +1098,7 @@ int main( int argc, char *argv[] )
         );
     } else {
         if ( testLoops_forever ) {
-             fail( "Can test only one function with `-forever' option" );
+             fail( "Can test only one function with '-forever' option" );
         }
         if ( numOperands == 1 ) {
             for (
@@ -1106,7 +1136,7 @@ int main( int argc, char *argv[] )
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
  optionError:
-    fail( "`%s' option requires numeric argument", *argv );
+    fail( "'%s' option requires numeric argument", *argv );
 
 }
 

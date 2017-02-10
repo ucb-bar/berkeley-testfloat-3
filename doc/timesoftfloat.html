@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3b: <CODE>timesoftfloat</CODE></H1>
+<H1>Berkeley TestFloat Release 3c: <CODE>timesoftfloat</CODE></H1>
 
 <P>
 John R. Hauser<BR>
-2016 July 22<BR>
+2017 February 10<BR>
 </P>
 
 
@@ -34,8 +34,10 @@ see file
 
 <P>
 Ordinarily, <CODE>timesoftfloat</CODE> will measure a function&rsquo;s speed
-separately for each rounding mode defined by the IEEE Floating-Point Standard,
-one after the other.
+separately for each of the five rounding modes defined by the IEEE
+Floating-Point Standard, one after the other, plus possibly a sixth mode,
+<I>round to odd</I> (depending on the options selected when
+<CODE>timesoftfloat</CODE> was compiled).
 If an operation is not supposed to require rounding, it will by default be
 timed only with the rounding mode set to <CODE>near_even</CODE> (nearest/even).
 In the same way, if an operation is affected by the way in which underflow
@@ -79,13 +81,13 @@ The <CODE>timesoftfloat</CODE> program is executed as a command with this
 syntax:
 <BLOCKQUOTE>
 <PRE>
-timesoftfloat [&lt;option&gt;...] &lt;function&gt;
+timesoftfloat [&lt;<I>option</I>&gt;...] &lt;<I>function</I>&gt;
 </PRE>
 </BLOCKQUOTE>
 Square brackets (<CODE>[ ]</CODE>) denote optional arguments,
-<CODE>&lt;option&gt;</CODE> is a supported option, and
-<CODE>&lt;function&gt;</CODE> is the name of either a testable function or a
-function set.
+<CODE>&lt;<I>option</I>&gt;</CODE> is a supported option, and
+<CODE>&lt;<I>function</I>&gt;</CODE> is the name of either a testable function
+or a function set.
 The available options and function sets are documented below.
 If <CODE>timesoftfloat</CODE> is executed without any arguments, a summary of
 usage is written.
@@ -122,7 +124,7 @@ All these options are ignored for operations not affected by rounding precision
 control.
 </P>
 
-<H3><CODE>-rnear_even, -rnear_maxMag, -rminMag, -rmin, -rmax</CODE></H3>
+<H3><CODE>-rnear_even, -rnear_maxMag, -rminMag, -rmin, -rmax, -rodd</CODE></H3>
 
 <P>
 The <CODE>-rnear_even</CODE> option restricts timing of an operation to only
@@ -131,8 +133,9 @@ Other rounding mode choices are not timed.
 Likewise, <CODE>-rnear_maxMag</CODE> forces rounding to nearest/maximum
 magnitude (nearest-away), <CODE>-rminMag</CODE> forces rounding to minimum
 magnitude (toward zero), <CODE>-rmin</CODE> forces rounding to minimum (down,
-toward negative infinity), and <CODE>-rmax</CODE> forces rounding to maximum
-(up, toward positive infinity).
+toward negative infinity), <CODE>-rmax</CODE> forces rounding to maximum (up,
+toward positive infinity), and <CODE>-rodd</CODE>, if supported, forces
+rounding to odd.
 These options are ignored for operations that are exact and thus do not round.
 </P>
 
@@ -161,9 +164,9 @@ cases for which the <CODE><I>exact</I></CODE> operand is <CODE>true</CODE>.
 <H2>Function Sets</H2>
 
 <P>
-Just as <CODE>timesoftfloat</CODE> can time a function for all five rounding
-modes in sequence, multiple functions can be timed with a single execution of
-<CODE>timesoftfloat</CODE>.
+Just as <CODE>timesoftfloat</CODE> can time a function for all five or six
+rounding modes in sequence, multiple functions can be timed with a single
+execution of <CODE>timesoftfloat</CODE>.
 Three sets are recognized:
 <CODE>-all1</CODE>, <CODE>-all2</CODE>, and <CODE>-all</CODE>.
 The set <CODE>-all1</CODE> is all one-operand operations, <CODE>-all2</CODE> is
@@ -172,7 +175,7 @@ A function set is used in place of a function name in the
 <CODE>timesoftfloat</CODE> command line, such as
 <BLOCKQUOTE>
 <PRE>
-timesoftfloat [&lt;option&gt;...] -all1
+timesoftfloat [&lt;<I>option</I>&gt;...] -all1
 </PRE>
 </BLOCKQUOTE>
 </P>

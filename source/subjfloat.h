@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3b, a package of programs for
+This C header file is part of TestFloat, Release 3c, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016 The Regents of the University of
-California.  All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -58,7 +58,9 @@ uint_fast8_t subjfloat_clearExceptionFlags( void );
 float16_t subj_ui32_to_f16( uint32_t );
 #endif
 float32_t subj_ui32_to_f32( uint32_t );
+#ifdef FLOAT64
 float64_t subj_ui32_to_f64( uint32_t );
+#endif
 #ifdef EXTFLOAT80
 void subj_ui32_to_extF80M( uint32_t, extFloat80_t * );
 #endif
@@ -69,7 +71,9 @@ void subj_ui32_to_f128M( uint32_t, float128_t * );
 float16_t subj_ui64_to_f16( uint64_t );
 #endif
 float32_t subj_ui64_to_f32( uint64_t );
+#ifdef FLOAT64
 float64_t subj_ui64_to_f64( uint64_t );
+#endif
 #ifdef EXTFLOAT80
 void subj_ui64_to_extF80M( uint64_t, extFloat80_t * );
 #endif
@@ -80,7 +84,9 @@ void subj_ui64_to_f128M( uint64_t, float128_t * );
 float16_t subj_i32_to_f16( int32_t );
 #endif
 float32_t subj_i32_to_f32( int32_t );
+#ifdef FLOAT64
 float64_t subj_i32_to_f64( int32_t );
+#endif
 #ifdef EXTFLOAT80
 void subj_i32_to_extF80M( int32_t, extFloat80_t * );
 #endif
@@ -91,7 +97,9 @@ void subj_i32_to_f128M( int32_t, float128_t * );
 float16_t subj_i64_to_f16( int64_t );
 #endif
 float32_t subj_i64_to_f32( int64_t );
+#ifdef FLOAT64
 float64_t subj_i64_to_f64( int64_t );
+#endif
 #ifdef EXTFLOAT80
 void subj_i64_to_extF80M( int64_t, extFloat80_t * );
 #endif
@@ -146,7 +154,9 @@ int_fast64_t subj_f16_to_i64_rx_max( float16_t );
 int_fast64_t subj_f16_to_i64_rx_near_maxMag( float16_t );
 
 float32_t subj_f16_to_f32( float16_t );
+#ifdef FLOAT64
 float64_t subj_f16_to_f64( float16_t );
+#endif
 #ifdef EXTFLOAT80
 void subj_f16_to_extF80M( float16_t, extFloat80_t * );
 #endif
@@ -223,7 +233,9 @@ int_fast64_t subj_f32_to_i64_rx_near_maxMag( float32_t );
 #ifdef FLOAT16
 float16_t subj_f32_to_f16( float32_t );
 #endif
+#ifdef FLOAT64
 float64_t subj_f32_to_f64( float32_t );
+#endif
 #ifdef EXTFLOAT80
 void subj_f32_to_extF80M( float32_t, extFloat80_t * );
 #endif
@@ -253,6 +265,8 @@ bool subj_f32_lt_quiet( float32_t, float32_t );
 
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
+#ifdef FLOAT64
+
 uint_fast32_t subj_f64_to_ui32_r_near_even( float64_t );
 uint_fast32_t subj_f64_to_ui32_r_minMag( float64_t );
 uint_fast32_t subj_f64_to_ui32_r_min( float64_t );
@@ -326,6 +340,8 @@ bool subj_f64_eq_signaling( float64_t, float64_t );
 bool subj_f64_le_quiet( float64_t, float64_t );
 bool subj_f64_lt_quiet( float64_t, float64_t );
 
+#endif
+
 /*----------------------------------------------------------------------------
 *----------------------------------------------------------------------------*/
 #ifdef EXTFLOAT80
@@ -376,7 +392,9 @@ int_fast64_t subj_extF80M_to_i64_rx_near_maxMag( const extFloat80_t * );
 float16_t subj_extF80M_to_f16( const extFloat80_t * );
 #endif
 float32_t subj_extF80M_to_f32( const extFloat80_t * );
+#ifdef FLOAT64
 float64_t subj_extF80M_to_f64( const extFloat80_t * );
+#endif
 #ifdef EXTFLOAT80
 void subj_extF80M_to_f128M( const extFloat80_t *, float128_t * );
 #endif
@@ -464,7 +482,9 @@ int_fast64_t subj_f128M_to_i64_rx_near_maxMag( extFloat80_t * );
 float16_t subj_f128M_to_f16( const float128_t * );
 #endif
 float32_t subj_f128M_to_f32( const float128_t * );
+#ifdef FLOAT64
 float64_t subj_f128M_to_f64( const float128_t * );
+#endif
 #ifdef FLOAT128
 void subj_f128M_to_extF80M( const float128_t *, extFloat80_t * );
 #endif
