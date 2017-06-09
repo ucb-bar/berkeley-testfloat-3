@@ -17,6 +17,7 @@
 #define SUBJ_F32_SUB
 #define SUBJ_F32_MUL
 #define SUBJ_F32_DIV
+#define SUBJ_F32_SQRT
 #define SUBJ_F32_EQ
 #define SUBJ_F32_LE
 #define SUBJ_F32_LT

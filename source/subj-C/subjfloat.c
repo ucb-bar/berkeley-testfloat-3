@@ -212,6 +212,16 @@ float32_t subj_f32_div( float32_t a, float32_t b )
 
 }
 
+float32_t subj_f32_sqrt( float32_t a )
+{
+    union f32_f uA, uZ;
+
+    uA.f32 = a;
+    uZ.f = sqrtf( uA.f );
+    return uZ.f32;
+
+}
+
 bool subj_f32_eq( float32_t a, float32_t b )
 {
     union f32_f uA, uB;
