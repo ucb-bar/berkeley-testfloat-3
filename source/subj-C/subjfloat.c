@@ -212,6 +212,16 @@ float32_t subj_f32_div( float32_t a, float32_t b )
 
 }
 
+float32_t subj_f32_sqrt( float32_t a )
+{
+    union f32_f uA, uZ;
+
+    uA.f32 = a;
+    uZ.f = sqrtf( uA.f );
+    return uZ.f32;
+
+}
+
 bool subj_f32_eq( float32_t a, float32_t b )
 {
     union f32_f uA, uB;
@@ -239,6 +249,18 @@ bool subj_f32_lt( float32_t a, float32_t b )
     uA.f32 = a;
     uB.f32 = b;
     return (uA.f < uB.f);
+
+}
+
+float32_t subj_f32_mulAdd( float32_t a, float32_t b, float32_t c )
+{
+    union f32_f uA, uB, uC, uZ;
+
+    uA.f32 = a;
+    uB.f32 = b;
+    uC.f32 = b=c;
+    uZ.f = fmaf( uA.f, uB.f, uC.f );
+    return uZ.f32;
 
 }
 
@@ -424,6 +446,18 @@ bool subj_f64_lt( float64_t a, float64_t b )
     uA.f64 = a;
     uB.f64 = b;
     return (uA.d < uB.d);
+
+}
+
+float64_t subj_f64_mulAdd( float64_t a, float64_t b, float64_t c )
+{
+    union f64_d uA, uB, uC, uZ;
+
+    uA.f64 = a;
+    uB.f64 = b;
+    uC.f64 = c;
+    uZ.d = fma( uA.d, uB.d, uC.d );
+    return uZ.f64;
 
 }
 
