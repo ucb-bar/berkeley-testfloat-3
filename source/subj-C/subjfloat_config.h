@@ -22,6 +22,8 @@
 #define SUBJ_F32_LE
 #define SUBJ_F32_LT
 
+#define SUBJ_F32_MULADD
+
 #ifdef FLOAT64
 
 #define SUBJ_UI32_TO_F64
@@ -44,6 +46,8 @@
 #define SUBJ_F64_EQ
 #define SUBJ_F64_LE
 #define SUBJ_F64_LT
+
+#define SUBJ_F64_MULADD
 
 #endif
 
