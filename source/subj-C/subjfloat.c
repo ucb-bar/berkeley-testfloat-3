@@ -1,7 +1,7 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3c, a package of programs for
+This C source file is part of TestFloat, Release 3d, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
@@ -201,6 +201,24 @@ float32_t subj_f32_mul( float32_t a, float32_t b )
 
 }
 
+#ifdef __STDC_VERSION__
+#if 199901L <= __STDC_VERSION__
+
+float32_t subj_f32_mulAdd( float32_t a, float32_t b, float32_t c )
+{
+    union f32_f uA, uB, uC, uZ;
+
+    uA.f32 = a;
+    uB.f32 = b;
+    uC.f32 = c;
+    uZ.f = fmaf( uA.f, uB.f, uC.f );
+    return uZ.f32;
+
+}
+
+#endif
+#endif
+
 float32_t subj_f32_div( float32_t a, float32_t b )
 {
     union f32_f uA, uB, uZ;
@@ -211,6 +229,22 @@ float32_t subj_f32_div( float32_t a, float32_t b )
     return uZ.f32;
 
 }
+
+#ifdef __STDC_VERSION__
+#if 199901L <= __STDC_VERSION__
+
+float32_t subj_f32_sqrt( float32_t a )
+{
+    union f32_f uA, uZ;
+
+    uA.f32 = a;
+    uZ.f = sqrtf( uA.f );
+    return uZ.f32;
+
+}
+
+#endif
+#endif
 
 bool subj_f32_eq( float32_t a, float32_t b )
 {
@@ -375,6 +409,24 @@ float64_t subj_f64_mul( float64_t a, float64_t b )
     return uZ.f64;
 
 }
+
+#ifdef __STDC_VERSION__
+#if 199901L <= __STDC_VERSION__
+
+float64_t subj_f64_mulAdd( float64_t a, float64_t b, float64_t c )
+{
+    union f64_d uA, uB, uC, uZ;
+
+    uA.f64 = a;
+    uB.f64 = b;
+    uC.f64 = c;
+    uZ.d = fma( uA.d, uB.d, uC.d );
+    return uZ.f64;
+
+}
+
+#endif
+#endif
 
 float64_t subj_f64_div( float64_t a, float64_t b )
 {
@@ -732,6 +784,30 @@ void
 
 }
 
+#ifdef __STDC_VERSION__
+#if 199901L <= __STDC_VERSION__
+
+void
+ subj_f128M_mulAdd(
+     const float128_t *aPtr,
+     const float128_t *bPtr,
+     const float128_t *cPtr,
+     float128_t *zPtr
+ )
+{
+
+    *((long double *) zPtr) =
+        fmal(
+            *((const long double *) aPtr),
+            *((const long double *) bPtr),
+            *((const long double *) cPtr)
+        );
+
+}
+
+#endif
+#endif
+
 void
  subj_f128M_div(
      const float128_t *aPtr, const float128_t *bPtr, float128_t *zPtr )
@@ -741,6 +817,19 @@ void
         *((const long double *) aPtr) / *((const long double *) bPtr);
 
 }
+
+#ifdef __STDC_VERSION__
+#if 199901L <= __STDC_VERSION__
+
+void subj_f128M_sqrt( const float128_t *aPtr, float128_t *zPtr )
+{
+
+    *((long double *) zPtr) = sqrtl( *((const long double *) aPtr) );
+
+}
+
+#endif
+#endif
 
 bool subj_f128M_eq( const float128_t *aPtr, const float128_t *bPtr )
 {

@@ -16,7 +16,17 @@
 #define SUBJ_F32_ADD
 #define SUBJ_F32_SUB
 #define SUBJ_F32_MUL
+#ifdef __STDC_VERSION__
+#if 199901L <= __STDC_VERSION__
+#define SUBJ_F32_MULADD
+#endif
+#endif
 #define SUBJ_F32_DIV
+#ifdef __STDC_VERSION__
+#if 199901L <= __STDC_VERSION__
+#define SUBJ_F32_SQRT
+#endif
+#endif
 #define SUBJ_F32_EQ
 #define SUBJ_F32_LE
 #define SUBJ_F32_LT
@@ -38,6 +48,11 @@
 #define SUBJ_F64_ADD
 #define SUBJ_F64_SUB
 #define SUBJ_F64_MUL
+#ifdef __STDC_VERSION__
+#if 199901L <= __STDC_VERSION__
+#define SUBJ_F64_MULADD
+#endif
+#endif
 #define SUBJ_F64_DIV
 #define SUBJ_F64_SQRT
 #define SUBJ_F64_EQ
@@ -99,7 +114,17 @@
 #define SUBJ_F128_ADD
 #define SUBJ_F128_SUB
 #define SUBJ_F128_MUL
+#ifdef __STDC_VERSION__
+#if 199901L <= __STDC_VERSION__
+#define SUBJ_F128_MULADD
+#endif
+#endif
 #define SUBJ_F128_DIV
+#ifdef __STDC_VERSION__
+#if 199901L <= __STDC_VERSION__
+#define SUBJ_F128_SQRT
+#endif
+#endif
 #define SUBJ_F128_EQ
 #define SUBJ_F128_LE
 #define SUBJ_F128_LT

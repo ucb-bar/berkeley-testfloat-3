@@ -1,7 +1,7 @@
 
 #=============================================================================
 #
-# This Makefile is part of TestFloat, Release 3c, a package of programs for
+# This Makefile is part of TestFloat, Release 3d, a package of programs for
 # testing the correctness of floating-point arithmetic complying with the IEEE
 # Standard for Floating-Point, by John R. Hauser.
 #
@@ -55,10 +55,10 @@ DELETE = rm -f
 C_INCLUDES = \
   -I. -I$(SUBJ_SOURCE_DIR) -I$(SOURCE_DIR) -I$(SOFTFLOAT_INCLUDE_DIR)
 COMPILE_C = \
-  x86_64-w64-mingw32-gcc -c -Werror-implicit-function-declaration \
+  x86_64-w64-mingw32-gcc -std=c99 -c -Werror-implicit-function-declaration \
     $(TESTFLOAT_OPTS) $(C_INCLUDES) -O2 -o $@
 COMPILE_SLOWFLOAT_C = \
-  x86_64-w64-mingw32-gcc -c -Werror-implicit-function-declaration \
+  x86_64-w64-mingw32-gcc -std=c99 -c -Werror-implicit-function-declaration \
     $(TESTFLOAT_OPTS) $(C_INCLUDES) -O3 -o $@
 MAKELIB = x86_64-w64-mingw32-ar crs $@
 LINK = x86_64-w64-mingw32-gcc -o $@
