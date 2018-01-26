@@ -37,7 +37,7 @@
 
 SOURCE_DIR ?= ../../source
 SOFTFLOAT_DIR ?= ../../../berkeley-softfloat-3
-PLATFORM ?= Linux-x86_64-GCC
+PLATFORM ?= Linux-ARM-VFPv2-GCC
 
 SUBJ_SOURCE_DIR = $(SOURCE_DIR)/subj-C
 SOFTFLOAT_INCLUDE_DIR = $(SOFTFLOAT_DIR)/source/include
@@ -47,18 +47,16 @@ SOFTFLOAT_H = \
   $(SOFTFLOAT_INCLUDE_DIR)/softfloat.h
 SOFTFLOAT_LIB = $(SOFTFLOAT_DIR)/build/$(PLATFORM)/softfloat$(LIB)
 
-TESTFLOAT_OPTS ?= \
-  -DFLOAT16 -DFLOAT64 -DEXTFLOAT80 -DFLOAT128 -DFLOAT_ROUND_ODD \
-  -DLONG_DOUBLE_IS_EXTFLOAT80
+TESTFLOAT_OPTS ?= -DFLOAT16 -DFLOAT64 -DEXTFLOAT80 -DFLOAT128 -DFLOAT_ROUND_ODD
 
 DELETE = rm -f
 C_INCLUDES = \
   -I. -I$(SUBJ_SOURCE_DIR) -I$(SOURCE_DIR) -I$(SOFTFLOAT_INCLUDE_DIR)
 COMPILE_C = \
-  gcc -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
+  gcc -std=c99 -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
     $(C_INCLUDES) -O2 -o $@
 COMPILE_SLOWFLOAT_C = \
-  gcc -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
+  gcc -std=c99 -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
     $(C_INCLUDES) -O3 -o $@
 MAKELIB = ar crs $@
 LINK = gcc -o $@

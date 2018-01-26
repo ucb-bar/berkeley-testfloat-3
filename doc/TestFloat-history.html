@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>History of Berkeley TestFloat, to Release 3d</H1>
+<H1>History of Berkeley TestFloat, to Release 3e</H1>
 
 <P>
 John R. Hauser<BR>
-2017 August 18<BR>
+2018 January 20<BR>
 </P>
 
 
@@ -23,13 +23,41 @@ corresponding release of SoftFloat.
 </P>
 
 
+<H3>Release 3e (2018 January)</H3>
+
+<UL>
+
+<LI>
+Fixed a problem with the all-in-one <CODE>testfloat</CODE> program whereby
+function set <CODE>-all1</CODE> incorrectly also tested the three-operand fused
+multiply-add operations.
+
+<LI>
+Modified the expected behavior of rounding mode <CODE>odd</CODE> (jamming) when
+rounding to an integer value (either conversion to an integer format or a
+&lsquo;<CODE>roundToInt</CODE>&rsquo; function).
+Previously, for those cases only, rounding mode <CODE>odd</CODE> was expected
+to act the same as rounding to minimum magnitude.
+Now, when rounding to an integer value, the nearest odd integer is expected,
+consistent with the round-to-odd result of other operations.
+
+<LI>
+Added options <CODE>-checkInvInts</CODE> and <CODE>-checkAll</CODE> to programs
+<CODE>testfloat_ver</CODE> and <CODE>testfloat</CODE>.
+
+<LI>
+Improved the checking of integer results of invalid operations.
+
+</UL>
+
+
 <H3>Release 3d (2017 August)</H3>
 
 <UL>
 
 <LI>
 When the all-in-one <CODE>testfloat</CODE> program is compiled to test the C
-language's arithmetic, added the ability to test library functions
+language&rsquo;s arithmetic, added the ability to test library functions
 <CODE>sqrtf</CODE>, <CODE>sqrtl</CODE>, <CODE>fmaf</CODE>, <CODE>fma</CODE>,
 and <CODE>fmal</CODE>, which were added to the <NOBR>C Standard</NOBR> in 1999.
 

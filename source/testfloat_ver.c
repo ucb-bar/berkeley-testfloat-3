@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3d, a package of programs for
+This C source file is part of TestFloat, Release 3e, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018 The Regents of the
 University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -123,7 +123,9 @@ int main( int argc, char *argv[] )
 "    -help            --Write this message and exit.\n"
 "    -errors <num>    --Stop after <num> errors.\n"
 " *  -errors 20\n"
-"    -checkNaNs       --Check for bitwise correctness of NaN results.\n"
+"    -checkNaNs       --Check for specific NaN results.\n"
+"    -checkInvInts    --Check for specific invalid integer results.\n"
+"    -checkAll        --Same as both '-checkNaNs' and '-checkInvInts'.\n"
 #ifdef EXTFLOAT80
 "    -precision32     --For extF80, rounding precision is 32 bits.\n"
 "    -precision64     --For extF80, rounding precision is 64 bits.\n"
@@ -186,6 +188,16 @@ int main( int argc, char *argv[] )
             ! strcmp( argPtr, "checkNaNs" ) || ! strcmp( argPtr, "checknans" )
         ) {
             verCases_checkNaNs = true;
+        } else if (
+               ! strcmp( argPtr, "checkInvInts" )
+            || ! strcmp( argPtr, "checkinvints" )
+        ) {
+            verCases_checkInvInts = true;
+        } else if (
+            ! strcmp( argPtr, "checkAll" ) || ! strcmp( argPtr, "checkall" )
+        ) {
+            verCases_checkNaNs = true;
+            verCases_checkInvInts = true;
 #ifdef EXTFLOAT80
         } else if ( ! strcmp( argPtr, "precision32" ) ) {
             extF80_roundingPrecision = 32;

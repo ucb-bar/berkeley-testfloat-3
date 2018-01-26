@@ -1,7 +1,7 @@
 
 /*============================================================================
 
-This C header template is part of TestFloat, Release 3d, a package of programs
+This C header template is part of TestFloat, Release 3e, a package of programs
 for testing the correctness of floating-point arithmetic complying with the
 IEEE Standard for Floating-Point, by John R. Hauser.
 

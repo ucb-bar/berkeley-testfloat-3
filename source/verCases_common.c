@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3d, a package of programs for
+This C source file is part of TestFloat, Release 3e, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2017 The Regents of the University of
+Copyright 2011, 2012, 2013, 2014, 2017, 2018 The Regents of the University of
 California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,7 @@ int verCases_tininessCode = 0;
 bool verCases_usesExact = false;
 bool verCases_exact;
 bool verCases_checkNaNs = false;
+bool verCases_checkInvInts = false;
 uint_fast32_t verCases_maxErrorCount = 0;
 bool verCases_errorStop = false;
 

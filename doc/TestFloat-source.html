@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3d: Source Documentation</H1>
+<H1>Berkeley TestFloat Release 3e: Source Documentation</H1>
 
 <P>
 John R. Hauser<BR>
-2017 August 18<BR>
+2018 January 20<BR>
 </P>
 
 
@@ -66,7 +66,7 @@ TestFloat has been successfully compiled with the GNU C Compiler
 <P>
 <NOBR>Release 3</NOBR> of TestFloat was a complete rewrite relative to
 <NOBR>Release 2c</NOBR> or earlier.
-The current version of TestFloat is <NOBR>Release 3d</NOBR>.
+The current version of TestFloat is <NOBR>Release 3e</NOBR>.
 </P>
 
 <P>
@@ -120,7 +120,7 @@ and <CODE>&lt;stdint.h&gt;</CODE></I>.
 The TestFloat package was written by me, <NOBR>John R.</NOBR> Hauser.
 <NOBR>Release 3</NOBR> of TestFloat was a completely new implementation
 supplanting earlier releases.
-The project to create <NOBR>Release 3</NOBR> (now <NOBR>through 3d</NOBR>) was
+The project to create <NOBR>Release 3</NOBR> (now <NOBR>through 3e</NOBR>) was
 done in the employ of the University of California, Berkeley, within the
 Department of Electrical Engineering and Computer Sciences, first for the
 Parallel Computing Laboratory (Par Lab) and then for the ASPIRE Lab.
@@ -154,12 +154,12 @@ Oracle, and Samsung.
 </P>
 
 <P>
-The following applies to the whole of TestFloat <NOBR>Release 3d</NOBR> as well
+The following applies to the whole of TestFloat <NOBR>Release 3e</NOBR> as well
 as to each source file individually.
 </P>
 
 <P>
-Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018 The Regents of the
 University of California.
 All rights reserved.
 </P>
@@ -224,6 +224,7 @@ build
     Linux-386-GCC
     Linux-386-SSE2-GCC
     Linux-x86_64-GCC
+    Linux-ARM-VFPv2-GCC
     Win32-MinGW
     Win32-SSE2-MinGW
     Win64-MinGW-w64
@@ -263,19 +264,19 @@ are intended to follow a naming system of
 For the example targets,
 <NOBR><CODE>&lt;<I>execution-environment</I>&gt;</CODE></NOBR> is
 <NOBR><CODE>Linux-386</CODE></NOBR>, <NOBR><CODE>Linux-386-SSE2</CODE></NOBR>,
-<NOBR><CODE>Linux-x86_64</CODE></NOBR>, <CODE>Win32</CODE>,
+<NOBR><CODE>Linux-x86_64</CODE></NOBR>,
+<NOBR><CODE>Linux-ARM-VFPv2</CODE></NOBR>, <CODE>Win32</CODE>,
 <NOBR><CODE>Win32-SSE2</CODE></NOBR>, or <CODE>Win64</CODE>, and
 <NOBR><CODE>&lt;<I>compiler</I>&gt;</CODE></NOBR> is <CODE>GCC</CODE>,
 <CODE>MinGW</CODE>, or <NOBR><CODE>MinGW-w64</CODE></NOBR>.
 </P>
 
 <P>
-At the current time, all of the supplied target directories are merely examples
-that may or may not be correct for compiling on any particular system.
+All of the supplied target directories are merely examples that may or may not
+be correct for compiling on any particular system.
 There are currently no plans to include and maintain in the TestFloat package
 the build files needed for a great many users&rsquo; compilation environments,
-which after all can span a broad range of operating systems, compilers, and
-other tools.
+which can span a huge range of operating systems, compilers, and other tools.
 </P>
 
 <P>

@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3d, a package of programs for
+This C header file is part of TestFloat, Release 3e, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018 The Regents of the
 University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ extern uint_fast8_t verCases_roundingPrecision;
 extern int verCases_roundingCode;
 extern int verCases_tininessCode;
 extern bool verCases_usesExact, verCases_exact;
-extern bool verCases_checkNaNs;
+extern bool verCases_checkNaNs, verCases_checkInvInts;
 extern uint_fast32_t verCases_maxErrorCount;
 extern bool verCases_errorStop;
 

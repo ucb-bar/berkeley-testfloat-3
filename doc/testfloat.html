@@ -7,11 +7,11 @@
 
 <BODY>
 
-<H1>Berkeley TestFloat Release 3d: <CODE>testfloat</CODE></H1>
+<H1>Berkeley TestFloat Release 3e: <CODE>testfloat</CODE></H1>
 
 <P>
 John R. Hauser<BR>
-2017 August 18<BR>
+2018 January 20<BR>
 </P>
 
 
@@ -191,6 +191,23 @@ In order for this option to be sensible, <CODE>testfloat</CODE> must have been
 compiled so that its internal reference implementation of floating-point
 (Berkeley SoftFloat) generates the proper NaN results for the system being
 tested.
+</P>
+
+<H3><CODE>-checkInvInts</CODE></H3>
+
+<P>
+The <CODE>-checkInvInts</CODE> option causes <CODE>testfloat</CODE> to verify
+the bitwise correctness of integer results of invalid operations.
+In order for this option to be sensible, <CODE>testfloat</CODE> must have been
+compiled so that its internal reference implementation of floating-point
+(Berkeley SoftFloat) generates the proper integer results for the system being
+tested.
+</P>
+
+<H3><CODE>-checkAll</CODE></H3>
+
+<P>
+Enables both <CODE>-checkNaNs</CODE> and <CODE>-checkInvInts</CODE>.
 </P>
 
 <H3><CODE>-precision32, -precision64, -precision80</CODE></H3>

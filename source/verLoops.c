@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3d, a package of programs for
+This C source file is part of TestFloat, Release 3e, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018 The Regents of the
 University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -1193,14 +1193,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0xFFFFFFFF)
-                || (subjZ != 0xFFFFFFFF)
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0xFFFFFFFF) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -1244,14 +1241,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
-                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF )) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -1295,14 +1289,12 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! f16_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -1346,15 +1338,13 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1)
+                        && (! f16_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -1395,14 +1385,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0xFFFFFFFF)
-                || (subjZ != 0xFFFFFFFF)
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0xFFFFFFFF) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -1443,14 +1430,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
-                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF )) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -1491,14 +1475,12 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! f16_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -1539,15 +1521,13 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f16_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1)
+                        && (! f16_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2040,14 +2020,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f32_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0xFFFFFFFF)
-                || (subjZ != 0xFFFFFFFF)
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0xFFFFFFFF) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2091,14 +2068,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f32_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
-                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF )) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2142,14 +2116,12 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f32_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! f32_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2193,15 +2165,13 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f32_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1)
+                        && (! f32_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2242,14 +2212,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f32_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0xFFFFFFFF)
-                || (subjZ != 0xFFFFFFFF)
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0xFFFFFFFF) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2290,14 +2257,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f32_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
-                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF )) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2338,14 +2302,12 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f32_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! f32_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2386,15 +2348,13 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f32_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1)
+                        && (! f32_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2891,14 +2851,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f64_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0xFFFFFFFF)
-                || (subjZ != 0xFFFFFFFF)
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0xFFFFFFFF) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2942,14 +2899,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f64_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
-                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF )) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -2993,14 +2947,12 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f64_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! f64_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3044,15 +2996,13 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f64_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1)
+                        && (! f64_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3093,14 +3043,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f64_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0xFFFFFFFF)
-                || (subjZ != 0xFFFFFFFF)
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0xFFFFFFFF) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3141,14 +3088,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f64_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
-                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF )) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3189,14 +3133,12 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f64_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! f64_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3237,15 +3179,13 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f64_isSignalingNaN( a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1)
+                        && (! f64_isNaN( a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3740,14 +3680,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && extF80M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0xFFFFFFFF)
-                || (subjZ != 0xFFFFFFFF)
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0xFFFFFFFF) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3791,14 +3728,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && extF80M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
-                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF )) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3842,14 +3776,12 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && extF80M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! extF80M_isNaN( &a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3893,15 +3825,13 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && extF80M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                    && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1)
+                        && (! extF80M_isNaN( &a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3942,14 +3872,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && extF80M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0xFFFFFFFF)
-                || (subjZ != 0xFFFFFFFF)
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0xFFFFFFFF) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -3990,14 +3917,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && extF80M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
-                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF )) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -4038,14 +3962,12 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && extF80M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! extF80M_isNaN( &a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -4086,15 +4008,13 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && extF80M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1)
+                        && (! extF80M_isNaN( &a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -4548,14 +4468,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f128M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0xFFFFFFFF)
-                || (subjZ != 0xFFFFFFFF)
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0xFFFFFFFF) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -4599,14 +4516,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f128M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
-                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF )) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -4650,14 +4564,12 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f128M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! f128M_isNaN( &a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -4701,15 +4613,13 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f128M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1)
+                        && (! f128M_isNaN( &a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -4750,14 +4660,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f128M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0xFFFFFFFF)
-                || (subjZ != 0xFFFFFFFF)
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0xFFFFFFFF) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -4798,14 +4705,11 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f128M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
-                || (subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF ))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != UINT64_C( 0xFFFFFFFFFFFFFFFF )) && (subjZ != 0))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -4846,14 +4750,12 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f128M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! f128M_isNaN( &a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
@@ -4894,15 +4796,13 @@ void
             count = 10000;
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
-            if ( ! verCases_checkNaNs && f128M_isSignalingNaN( &a ) ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
             if (
-                   (trueZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
-                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != INT64_C( 0x7FFFFFFFFFFFFFFF ))
+                        && (subjZ != -INT64_C( 0x7FFFFFFFFFFFFFFF ) - 1)
+                        && (! f128M_isNaN( &a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );

@@ -1,11 +1,11 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3d, a package of programs for
+This C source file is part of TestFloat, Release 3e, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017 The Regents of the
+Copyright 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018 The Regents of the
 University of California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -1440,6 +1440,7 @@ int main( int argc, char *argv[] )
     const char *functionNamePtr;
     unsigned long ui;
     long i;
+    int functionMatchAttrib;
 
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
@@ -1478,7 +1479,9 @@ int main( int argc, char *argv[] )
 " *  -errors 20\n"
 "    -errorstop       --Exit after first function with any error.\n"
 "    -forever         --Test one function repeatedly (implies '-level 2').\n"
-"    -checkNaNs       --Check for bitwise correctness of NaN results.\n"
+"    -checkNaNs       --Check for specific NaN results.\n"
+"    -checkInvInts    --Check for specific invalid integer results.\n"
+"    -checkAll        --Same as both '-checkNaNs' and '-checkInvInts'.\n"
 #ifdef EXTFLOAT80
 "    -precision32     --For extF80, test only 32-bit rounding precision.\n"
 "    -precision64     --For extF80, test only 64-bit rounding precision.\n"
@@ -1579,6 +1582,16 @@ int main( int argc, char *argv[] )
             ! strcmp( argPtr, "checkNaNs" ) || ! strcmp( argPtr, "checknans" )
         ) {
             verCases_checkNaNs = true;
+        } else if (
+               ! strcmp( argPtr, "checkInvInts" )
+            || ! strcmp( argPtr, "checkinvints" )
+        ) {
+            verCases_checkInvInts = true;
+        } else if (
+            ! strcmp( argPtr, "checkAll" ) || ! strcmp( argPtr, "checkall" )
+        ) {
+            verCases_checkNaNs = true;
+            verCases_checkInvInts = true;
 #ifdef EXTFLOAT80
         } else if ( ! strcmp( argPtr, "precision32" ) ) {
             roundingPrecision = 32;
@@ -1673,48 +1686,23 @@ int main( int argc, char *argv[] )
         if ( testLoops_forever ) {
             fail( "Can test only one function with '-forever' option" );
         }
-        if ( numOperands == 1 ) {
-            standardFunctionInfoPtr = standardFunctionInfos;
-            subjFunctionPtrPtr = subjfloat_functions;
-            while ( standardFunctionInfoPtr->namePtr ) {
-                subjFunctionPtr = *subjFunctionPtrPtr;
-                if (
-                    subjFunctionPtr
-                        && ! (functionInfos
-                                  [standardFunctionInfoPtr->functionCode]
-                                  .attribs
-                                  & FUNC_ARG_BINARY)
-                ) {
-                    testFunction(
-                        standardFunctionInfoPtr,
-                        roundingPrecision,
-                        roundingCode
-                    );
-                }
-                ++standardFunctionInfoPtr;
-                ++subjFunctionPtrPtr;
+        functionMatchAttrib =
+            (numOperands == 1) ? FUNC_ARG_UNARY : FUNC_ARG_BINARY;
+        standardFunctionInfoPtr = standardFunctionInfos;
+        subjFunctionPtrPtr = subjfloat_functions;
+        while ( standardFunctionInfoPtr->namePtr ) {
+            subjFunctionPtr = *subjFunctionPtrPtr;
+            if (
+                subjFunctionPtr
+                    && (functionInfos[standardFunctionInfoPtr->functionCode]
+                            .attribs
+                            & functionMatchAttrib)
+            ) {
+                testFunction(
+                    standardFunctionInfoPtr, roundingPrecision, roundingCode );
             }
-        } else {
-            standardFunctionInfoPtr = standardFunctionInfos;
-            subjFunctionPtrPtr = subjfloat_functions;
-            while ( standardFunctionInfoPtr->namePtr ) {
-                subjFunctionPtr = *subjFunctionPtrPtr;
-                if (
-                    subjFunctionPtr
-                        && (functionInfos
-                                [standardFunctionInfoPtr->functionCode]
-                                .attribs
-                                & FUNC_ARG_BINARY)
-                ) {
-                    testFunction(
-                        standardFunctionInfoPtr,
-                        roundingPrecision,
-                        roundingCode
-                    );
-                }
-                ++standardFunctionInfoPtr;
-                ++subjFunctionPtrPtr;
-            }
+            ++standardFunctionInfoPtr;
+            ++subjFunctionPtrPtr;
         }
     }
     verCases_exitWithStatus();

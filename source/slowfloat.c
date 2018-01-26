@@ -1,7 +1,7 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3d, a package of programs for
+This C source file is part of TestFloat, Release 3e, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
@@ -94,7 +94,7 @@ void
             if ( roundBits < UINT64_C( 0x100000000000 ) ) goto noIncrement;
             if (
                 (roundBits == UINT64_C( 0x100000000000 ))
-                    && ! (sigX64 & UINT64_C( 0x200000000000 ))
+                    && !(sigX64 & UINT64_C( 0x200000000000 ))
             ) {
                 goto noIncrement;
             }
@@ -102,7 +102,7 @@ void
          case softfloat_round_minMag:
             goto noIncrement;
          case softfloat_round_min:
-            if ( ! xPtr->sign ) goto noIncrement;
+            if ( !xPtr->sign ) goto noIncrement;
             break;
          case softfloat_round_max:
             if ( xPtr->sign ) goto noIncrement;
@@ -147,7 +147,7 @@ void
             if ( roundBits < 0x80000000 ) goto noIncrement;
             if (
                 (roundBits == 0x80000000)
-                    && ! (sigX64 & UINT64_C( 0x100000000 ))
+                    && !(sigX64 & UINT64_C( 0x100000000 ))
             ) {
                 goto noIncrement;
             }
@@ -155,7 +155,7 @@ void
          case softfloat_round_minMag:
             goto noIncrement;
          case softfloat_round_min:
-            if ( ! xPtr->sign ) goto noIncrement;
+            if ( !xPtr->sign ) goto noIncrement;
             break;
          case softfloat_round_max:
             if ( xPtr->sign ) goto noIncrement;
@@ -198,12 +198,12 @@ void
         switch ( roundingMode ) {
          case softfloat_round_near_even:
             if ( roundBits < 4 ) goto noIncrement;
-            if ( (roundBits == 4) && ! (sigX64 & 8) ) goto noIncrement;
+            if ( (roundBits == 4) && !(sigX64 & 8) ) goto noIncrement;
             break;
          case softfloat_round_minMag:
             goto noIncrement;
          case softfloat_round_min:
-            if ( ! xPtr->sign ) goto noIncrement;
+            if ( !xPtr->sign ) goto noIncrement;
             break;
          case softfloat_round_max:
             if ( xPtr->sign ) goto noIncrement;
@@ -247,7 +247,7 @@ void
             if ( roundBits < UINT64_C( 0x0080000000000000 ) ) goto noIncrement;
             if (
                 (roundBits == UINT64_C( 0x0080000000000000 ))
-                    && ! (sigX0 & UINT64_C( 0x0100000000000000 ))
+                    && !(sigX0 & UINT64_C( 0x0100000000000000 ))
             ) {
                 goto noIncrement;
             }
@@ -255,7 +255,7 @@ void
          case softfloat_round_minMag:
             goto noIncrement;
          case softfloat_round_min:
-            if ( ! xPtr->sign ) goto noIncrement;
+            if ( !xPtr->sign ) goto noIncrement;
             break;
          case softfloat_round_max:
             if ( xPtr->sign ) goto noIncrement;
@@ -270,7 +270,7 @@ void
 #endif
         }
         sigX0 += UINT64_C( 0x100000000000000 );
-        sigX64 = xPtr->sig.v64 + ! sigX0;
+        sigX64 = xPtr->sig.v64 + !sigX0;
         if ( sigX64 == UINT64_C( 0x0100000000000000 ) ) {
             ++xPtr->exp;
             sigX64 = UINT64_C( 0x0080000000000000 );
@@ -300,12 +300,12 @@ void
         switch ( roundingMode ) {
          case softfloat_round_near_even:
             if ( roundBits < 0x40 ) goto noIncrement;
-            if ( (roundBits == 0x40) && ! (sigX0 & 0x80) ) goto noIncrement;
+            if ( (roundBits == 0x40) && !(sigX0 & 0x80) ) goto noIncrement;
             break;
          case softfloat_round_minMag:
             goto noIncrement;
          case softfloat_round_min:
-            if ( ! xPtr->sign ) goto noIncrement;
+            if ( !xPtr->sign ) goto noIncrement;
             break;
          case softfloat_round_max:
             if ( xPtr->sign ) goto noIncrement;
@@ -320,7 +320,7 @@ void
 #endif
         }
         sigX0 += 0x80;
-        sigX64 = xPtr->sig.v64 + ! sigX0;
+        sigX64 = xPtr->sig.v64 + !sigX0;
         if ( sigX64 == UINT64_C( 0x0100000000000000 ) ) {
             ++xPtr->exp;
             sigX64 = UINT64_C( 0x0080000000000000 );
@@ -373,9 +373,6 @@ uint_fast32_t
         return (xPtr->isInf && xPtr->sign) ? 0 : 0xFFFFFFFF;
     }
     if ( xPtr->isZero ) return 0;
-    if ( roundingMode == softfloat_round_odd ) {
-        roundingMode = softfloat_round_minMag;
-    }
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
     shiftDist = 52 - x.exp;
@@ -442,9 +439,6 @@ uint_fast64_t
             (xPtr->isInf && xPtr->sign) ? 0 : UINT64_C( 0xFFFFFFFFFFFFFFFF );
     }
     if ( xPtr->isZero ) return 0;
-    if ( roundingMode == softfloat_round_odd ) {
-        roundingMode = softfloat_round_minMag;
-    }
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
     shiftDist = 112 - x.exp;
@@ -512,9 +506,6 @@ int_fast32_t
         return (xPtr->isInf && xPtr->sign) ? -0x7FFFFFFF - 1 : 0x7FFFFFFF;
     }
     if ( xPtr->isZero ) return 0;
-    if ( roundingMode == softfloat_round_odd ) {
-        roundingMode = softfloat_round_minMag;
-    }
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
     shiftDist = 52 - x.exp;
@@ -588,9 +579,6 @@ int_fast64_t
                 : INT64_C( 0x7FFFFFFFFFFFFFFF );
     }
     if ( xPtr->isZero ) return 0;
-    if ( roundingMode == softfloat_round_odd ) {
-        roundingMode = softfloat_round_minMag;
-    }
     savedExceptionFlags = slowfloat_exceptionFlags;
     x = *xPtr;
     shiftDist = 112 - x.exp;
@@ -644,8 +632,8 @@ static void f16ToFloatX( float16_t a, struct floatX *xPtr )
         } else {
             xPtr->isInf = true;
         }
-    } else if ( ! exp ) {
-        if ( ! sig64 ) {
+    } else if ( !exp ) {
+        if ( !sig64 ) {
             xPtr->isZero = true;
         } else {
             exp = 1 - 0xF;
@@ -780,8 +768,8 @@ static void f32ToFloatX( float32_t a, struct floatX *xPtr )
         } else {
             xPtr->isInf = true;
         }
-    } else if ( ! exp ) {
-        if ( ! sig64 ) {
+    } else if ( !exp ) {
+        if ( !sig64 ) {
             xPtr->isZero = true;
         } else {
             exp = 1 - 0x7F;
@@ -915,8 +903,8 @@ static void f64ToFloatX( float64_t a, struct floatX *xPtr )
         } else {
             xPtr->isInf = true;
         }
-    } else if ( ! exp ) {
-        if ( ! sig64 ) {
+    } else if ( !exp ) {
+        if ( !sig64 ) {
             xPtr->isZero = true;
         } else {
             exp = 1 - 0x3FF;
@@ -1056,10 +1044,10 @@ static void extF80MToFloatX( const extFloat80_t *aPtr, struct floatX *xPtr )
             xPtr->isInf = true;
         }
     } else {
-        if ( ! exp ) ++exp;
+        if ( !exp ) ++exp;
         exp -= 0x3FFF;
-        if ( ! (sig.v0 & UINT64_C( 0x8000000000000000 )) ) {
-            if ( ! sig.v0 ) {
+        if ( !(sig.v0 & UINT64_C( 0x8000000000000000 )) ) {
+            if ( !sig.v0 ) {
                 xPtr->isZero = true;
             } else {
                 do {
@@ -1241,8 +1229,8 @@ static void f128MToFloatX( const float128_t *aPtr, struct floatX *xPtr )
         } else {
             xPtr->isInf = true;
         }
-    } else if ( ! exp ) {
-        if ( ! sig.v64 && ! sig.v0 ) {
+    } else if ( !exp ) {
+        if ( !sig.v64 && !sig.v0 ) {
             xPtr->isZero = true;
         } else {
             exp = 1 - 0x3FFF;
@@ -1378,16 +1366,13 @@ void
     struct uint128 sig;
 
     if ( xPtr->isNaN || xPtr->isInf ) return;
-    if ( roundingMode == softfloat_round_odd ) {
-        roundingMode = softfloat_round_minMag;
-    }
     exp = xPtr->exp;
     shiftDist = 112 - exp;
     if ( shiftDist <= 0 ) return;
     if ( 119 < shiftDist ) {
         xPtr->exp = 112;
         xPtr->sig.v64 = 0;
-        xPtr->sig.v0 = ! xPtr->isZero;
+        xPtr->sig.v0 = !xPtr->isZero;
     } else {
         sig = xPtr->sig;
         while ( 0 < shiftDist ) {
@@ -1399,7 +1384,7 @@ void
         xPtr->sig = sig;
     }
     roundFloatXTo113( false, xPtr, roundingMode, exact );
-    if ( ! xPtr->sig.v64 && ! xPtr->sig.v0 ) xPtr->isZero = true;
+    if ( !xPtr->sig.v64 && !xPtr->sig.v0 ) xPtr->isZero = true;
 
 }
 
@@ -1466,7 +1451,7 @@ static void floatXAdd( struct floatX *xPtr, const struct floatX *yPtr )
         xPtr->sig = add128( xPtr->sig, sigY );
     }
     if ( xPtr->sig.v64 & UINT64_C( 0x8000000000000000 ) ) {
-        xPtr->sign = ! xPtr->sign;
+        xPtr->sign = !xPtr->sign;
         xPtr->sig = neg128( xPtr->sig );
     }
     return;
@@ -1488,7 +1473,7 @@ static void floatXMul( struct floatX *xPtr, const struct floatX *yPtr )
         xPtr->sign = yPtr->sign;
         return;
     }
-    if ( yPtr->sign ) xPtr->sign = ! xPtr->sign;
+    if ( yPtr->sign ) xPtr->sign = !xPtr->sign;
     if ( xPtr->isInf ) {
         if ( yPtr->isZero ) floatXInvalid( xPtr );
         return;
@@ -1538,7 +1523,7 @@ static void floatXDiv( struct floatX *xPtr, const struct floatX *yPtr )
         xPtr->sign = yPtr->sign;
         return;
     }
-    if ( yPtr->sign ) xPtr->sign = ! xPtr->sign;
+    if ( yPtr->sign ) xPtr->sign = !xPtr->sign;
     if ( xPtr->isInf ) {
         if ( yPtr->isInf ) floatXInvalid( xPtr );
         return;
@@ -1615,18 +1600,18 @@ static void floatXRem( struct floatX *xPtr, const struct floatX *yPtr )
     savedSigX = xPtr->sig;
     xPtr->sig = neg128( add128( xPtr->sig, negSigY ) );
     if ( lt128( xPtr->sig, savedSigX ) ) {
-        xPtr->sign = ! xPtr->sign;
+        xPtr->sign = !xPtr->sign;
     } else if ( lt128( savedSigX, xPtr->sig ) ) {
         goto restoreSavedSigX;
     } else {
         if ( lastQuotientBit ) {
-            xPtr->sign = ! xPtr->sign;
+            xPtr->sign = !xPtr->sign;
         } else {
  restoreSavedSigX:
             xPtr->sig = savedSigX;
         }
     }
-    if ( ! xPtr->sig.v64 && ! xPtr->sig.v0 ) xPtr->isZero = true;
+    if ( !xPtr->sig.v64 && !xPtr->sig.v0 ) xPtr->isZero = true;
 
 }
 
@@ -1642,7 +1627,7 @@ static void floatXSqrt( struct floatX *xPtr )
         return;
     }
     if ( xPtr->isInf ) return;
-    if ( ! (xPtr->exp & 1) ) xPtr->sig = shortShiftRightJam128( xPtr->sig, 1 );
+    if ( !(xPtr->exp & 1) ) xPtr->sig = shortShiftRightJam128( xPtr->sig, 1 );
     xPtr->exp >>= 1;
     sig.v64 = 0;
     sig.v0  = 0;
@@ -1877,10 +1862,10 @@ static void floatX256ToF128M( const struct floatX256 *xPtr, float128_t *zPtr )
     x.isInf  = xPtr->isInf;
     x.isZero = xPtr->isZero;
     x.sign   = xPtr->sign;
-    if ( ! (x.isNaN | x.isInf | x.isZero) ) {
+    if ( !(x.isNaN | x.isInf | x.isZero) ) {
         expZ = xPtr->exp;
         sig = xPtr->sig;
-        while ( ! sig.v192 ) {
+        while ( !sig.v192 ) {
             expZ -= 64;
             sig.v192 = sig.v128;
             sig.v128 = sig.v64;
@@ -1977,7 +1962,7 @@ void floatX256Add( struct floatX256 *xPtr, const struct floatX256 *yPtr )
         add256M( &xPtr->sig, &sigY );
     }
     if ( xPtr->sig.v192 & UINT64_C( 0x8000000000000000 ) ) {
-        xPtr->sign = ! xPtr->sign;
+        xPtr->sign = !xPtr->sign;
         neg256M( &xPtr->sig );
     }
     return;
@@ -2000,7 +1985,7 @@ void floatX256Mul( struct floatX256 *xPtr, const struct floatX256 *yPtr )
         xPtr->sign = yPtr->sign;
         return;
     }
-    if ( yPtr->sign ) xPtr->sign = ! xPtr->sign;
+    if ( yPtr->sign ) xPtr->sign = !xPtr->sign;
     if ( xPtr->isInf ) {
         if ( yPtr->isZero ) floatX256Invalid( xPtr );
         return;
@@ -2442,7 +2427,7 @@ float16_t slow_f16_sub( float16_t a, float16_t b )
 
     f16ToFloatX( a, &x );
     f16ToFloatX( b, &y );
-    y.sign = ! y.sign;
+    y.sign = !y.sign;
     floatXAdd( &x, &y );
     return floatXToF16( &x );
 
@@ -2732,7 +2717,7 @@ float32_t slow_f32_sub( float32_t a, float32_t b )
 
     f32ToFloatX( a, &x );
     f32ToFloatX( b, &y );
-    y.sign = ! y.sign;
+    y.sign = !y.sign;
     floatXAdd( &x, &y );
     return floatXToF32( &x );
 
@@ -3018,7 +3003,7 @@ float64_t slow_f64_sub( float64_t a, float64_t b )
 
     f64ToFloatX( a, &x );
     f64ToFloatX( b, &y );
-    y.sign = ! y.sign;
+    y.sign = !y.sign;
     floatXAdd( &x, &y );
     return floatXToF64( &x );
 
@@ -3322,7 +3307,7 @@ void
 
     extF80MToFloatX( aPtr, &x );
     extF80MToFloatX( bPtr, &y );
-    y.sign = ! y.sign;
+    y.sign = !y.sign;
     floatXAdd( &x, &y );
     floatXToExtF80M( &x, zPtr );
 
@@ -3617,7 +3602,7 @@ void
 
     f128MToFloatX( aPtr, &x );
     f128MToFloatX( bPtr, &y );
-    y.sign = ! y.sign;
+    y.sign = !y.sign;
     floatXAdd( &x, &y );
     floatXToF128M( &x, zPtr );
 

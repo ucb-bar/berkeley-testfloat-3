@@ -1,9 +1,9 @@
 
-Package Overview for Berkeley TestFloat Release 3d
+Package Overview for Berkeley TestFloat Release 3e
 ==================================================
 
 John R. Hauser<br>
-2017 August 18
+2018 January 20
 
 
 Berkeley TestFloat is a small collection of programs for testing that an

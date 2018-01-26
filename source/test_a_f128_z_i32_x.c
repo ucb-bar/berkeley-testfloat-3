@@ -1,12 +1,12 @@
 
 /*============================================================================
 
-This C source file is part of TestFloat, Release 3d, a package of programs for
+This C source file is part of TestFloat, Release 3e, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014 The Regents of the University of California.
-All rights reserved.
+Copyright 2011, 2012, 2013, 2014, 2018 The Regents of the University of
+California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -81,16 +81,11 @@ void
         }
         if ( (trueZ != subjZ) || (trueFlags != subjFlags) ) {
             if (
-                ! verCases_checkNaNs
-                    && f128M_isSignalingNaN( &genCases_f128_a )
-            ) {
-                trueFlags |= softfloat_flag_invalid;
-            }
-            if (
-                   (trueZ != 0x7FFFFFFF)
-                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1))
+                   verCases_checkInvInts
                 || (trueFlags != softfloat_flag_invalid)
                 || (subjFlags != softfloat_flag_invalid)
+                || ((subjZ != 0x7FFFFFFF) && (subjZ != -0x7FFFFFFF - 1)
+                        && (! f128M_isNaN( &genCases_f128_a ) || (subjZ != 0)))
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
