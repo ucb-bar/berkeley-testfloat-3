@@ -137,6 +137,20 @@ void writeHex_f16( float16_t a, char sepChar )
 
 #endif
 
+void writeHex_bf16( bfloat16_t a, char sepChar )
+{
+    union { uint16_t ui; bfloat16_t f; } uA;
+    uint_fast16_t uiA;
+
+    uA.f = a;
+    uiA = uA.ui;
+    fputc( uiA & 0x8000 ? '-' : '+', stdout );
+    writeHex_ui8( uiA>>7 & 0xFF, 0 );
+    fputc( '.', stdout );
+    writeHex_ui8( uiA & 0x7F, sepChar );
+
+}
+
 void writeHex_f32( float32_t a, char sepChar )
 {
     union { uint32_t ui; float32_t f; } uA;

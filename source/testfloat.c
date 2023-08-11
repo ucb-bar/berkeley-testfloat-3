@@ -706,6 +706,10 @@ void
             f16_to_f32, (funcType_a_f16_z_f32 *) subjFunctionPtr );
         break;
 #endif
+     case BF16_TO_F32:
+        test_a_bf16_z_f32(
+            bf16_to_f32, (funcType_a_bf16_z_f32 *) subjFunctionPtr );
+        break;
 #ifdef FLOAT64
 #ifdef SUBJ_F16_TO_F64
      case F16_TO_F64:

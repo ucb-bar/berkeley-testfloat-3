@@ -254,7 +254,7 @@ static bfloat16_t bf16NextQInP1( struct sequence *sequencePtr )
 
 }
 
-static bloat16_t bf16NextQOutP1( struct sequence *sequencePtr )
+static bfloat16_t bf16NextQOutP1( struct sequence *sequencePtr )
 {
     int expNum, sigNum;
     union ui16_bf16 uZ;
@@ -326,7 +326,7 @@ static bfloat16_t bf16NextQOutP2( struct sequence *sequencePtr )
 
 }
 
-static bfoat16_t bf16RandomQOutP3( void )
+static bfloat16_t bf16RandomQOutP3( void )
 {
     union ui16_bf16 uZ;
 
@@ -377,7 +377,7 @@ static bfloat16_t bf16RandomQInfP3( void )
     uZ.ui =
           (((uint_fast32_t) random_ui16()
                 & bf16QInfWeightMasks[weightMaskNum])
-               + f32QInfWeightOffsets[weightMaskNum])
+               + bf16QInfWeightOffsets[weightMaskNum])
         | ((bf16P2[randomN_ui8( bf16NumP2 )] + bf16P2[randomN_ui8( bf16NumP2 )])
                & 0x007F);
     return uZ.f;
