@@ -5,7 +5,7 @@ This C source file is part of TestFloat, Release 3e, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
-Copyright 2011, 2012, 2013, 2014, 2015, 2017 The Regents of the University of
+Copyright 2011, 2012, 2013, 2014, 2015 The Regents of the University of
 California.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -43,56 +43,55 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "writeCase.h"
 #include "testLoops.h"
 
-#pragma STDC FENV_ACCESS ON
-
 #ifdef BFLOAT16
 
+#pragma STDC FENV_ACCESS ON
+
 void
- test_a_bf16_z_f32(
-     float32_t trueFunction( bfloat16_t ), float32_t subjFunction( bfloat16_t ) )
+ test_a_f32_z_bf16(
+     bfloat16_t trueFunction( float32_t ), bfloat16_t subjFunction( float32_t ) )
 {
-    printf(__func__);
     int count;
-    float32_t trueZ;
+    bfloat16_t trueZ;
     uint_fast8_t trueFlags;
-    float32_t subjZ;
+    bfloat16_t subjZ;
     uint_fast8_t subjFlags;
 
-    genCases_bf16_a_init();
+    genCases_f32_a_init();
     genCases_writeTestsTotal( testLoops_forever );
     verCases_errorCount = 0;
     verCases_tenThousandsCount = 0;
     count = 10000;
     while ( ! genCases_done || testLoops_forever ) {
-        genCases_bf16_a_next();
+        genCases_f32_a_next();
         *testLoops_trueFlagsPtr = 0;
-        trueZ = trueFunction( genCases_bf16_a );
+        trueZ = trueFunction( genCases_f32_a );
         trueFlags = *testLoops_trueFlagsPtr;
         testLoops_subjFlagsFunction();
-        subjZ = subjFunction( genCases_bf16_a );
+        subjZ = subjFunction( genCases_f32_a );
         subjFlags = testLoops_subjFlagsFunction();
         --count;
         if ( ! count ) {
             verCases_perTenThousand();
             count = 10000;
         }
-        if ( ! f32_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
+        if ( ! bf16_same( trueZ, subjZ ) || (trueFlags != subjFlags) ) {
             if (
-                ! verCases_checkNaNs && bf16_isSignalingNaN( genCases_bf16_a )
+                ! verCases_checkNaNs && f32_isSignalingNaN( genCases_f32_a )
             ) {
                 trueFlags |= softfloat_flag_invalid;
             }
             if (
                    verCases_checkNaNs
-                || ! f32_isNaN( trueZ )
-                || ! f32_isNaN( subjZ )
-                || f32_isSignalingNaN( subjZ )
+                || ! bf16_isNaN( trueZ )
+                || ! bf16_isNaN( subjZ )
+                || bf16_isSignalingNaN( subjZ )
                 || (trueFlags != subjFlags)
             ) {
                 ++verCases_errorCount;
                 verCases_writeErrorFound( 10000 - count );
-                writeCase_a_bf16( genCases_bf16_a );
-                writeCase_z_f32( trueZ, trueFlags, subjZ, subjFlags );
+                writeCase_a_f32( genCases_f32_a, "  " );
+                writeCase_z_bf16( trueZ, trueFlags, subjZ, subjFlags );
                 if ( verCases_errorCount == verCases_maxErrorCount ) break;
             }
         }
@@ -102,3 +101,4 @@ void
 }
 
 #endif // BFLOAT16
+

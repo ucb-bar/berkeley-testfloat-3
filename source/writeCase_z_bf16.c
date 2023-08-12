@@ -38,16 +38,30 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdint.h>
 #include <stdio.h>
 #include "platform.h"
+#include "softfloat.h"
 #include "writeHex.h"
 #include "writeCase.h"
 
+#ifdef BFLOAT16
 
-void writeCase_a_bf16( bfloat16_t a )
+void
+ writeCase_z_bf16(
+     bfloat16_t trueZ,
+     uint_fast8_t trueFlags,
+     bfloat16_t subjZ,
+     uint_fast8_t subjFlags
+ )
 {
 
-    writeHex_bf16( a, 0 );
-    fputs( "  ", stdout );
+    fputs( "=> ", stdout );
+    writeHex_bf16( subjZ, ' ' );
+    writeHex_softfloat_flags( subjFlags, 0 );
+    fputs( "  expected ", stdout );
+    writeHex_bf16( trueZ, ' ' );
+    writeHex_softfloat_flags( trueFlags, '\n' );
+    fflush( stdout );
 
 }
 
+#endif // BFLOAT16
 
