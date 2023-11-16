@@ -53,7 +53,7 @@ enum {
     bf16NumQIn  = 22,
     bf16NumQOut = 50,
     bf16NumP1   =  4,
-    bf16NumP2   = 88
+    bf16NumP2   = 25
 };
 static const uint16_t bf16QIn[bf16NumQIn] = {
     0x0000,    /* positive, subnormal       */
@@ -163,7 +163,6 @@ static const uint16_t bf16P2[bf16NumP2] = {
     0x000F,
     0x0007,
     0x0003,
-    0x0001,
 };
 
 static const uint_fast64_t bf16NumQInP1 = bf16NumQIn * bf16NumP1;
