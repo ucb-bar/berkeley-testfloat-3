@@ -40,7 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /*----------------------------------------------------------------------------
 | Warning:  This list must match the contents of "functionInfos.c".
 *----------------------------------------------------------------------------*/
-enum {
+typedef enum {
     /*------------------------------------------------------------------------
     *------------------------------------------------------------------------*/
 #ifdef FLOAT16
@@ -277,9 +277,9 @@ enum {
     F128_LT_QUIET,
 #endif
     NUM_FUNCTIONS
-};
+} function_t;
 
-enum {
+typedef enum {
     ROUND_NEAR_EVEN = 1,
     ROUND_MINMAG,
     ROUND_MIN,
@@ -289,7 +289,7 @@ enum {
     ROUND_ODD,
 #endif
     NUM_ROUNDINGMODES
-};
+} roundingMode_t;
 enum {
     TININESS_BEFORE_ROUNDING = 1,
     TININESS_AFTER_ROUNDING,
