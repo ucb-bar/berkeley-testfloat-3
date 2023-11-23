@@ -277,7 +277,7 @@ typedef enum {
     F128_LT_QUIET,
 #endif
     NUM_FUNCTIONS
-} function_t;
+} testfloat_function_t;
 
 typedef enum {
     ROUND_NEAR_EVEN = 1,
