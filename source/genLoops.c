@@ -57,6 +57,7 @@ uint_fast8_t *genLoops_trueFlagsPtr;
 #ifdef FLOAT16
 union ui16_f16 { uint16_t ui; float16_t f; };
 #endif
+union ui16_bf16 { uint16_t ui; bfloat16_t f; };
 union ui32_f32 { uint32_t ui; float32_t f; };
 #ifdef FLOAT64
 union ui64_f64 { uint64_t ui; float64_t f; };
@@ -1382,6 +1383,48 @@ void gen_ab_f16_z_bool( bool trueFunction( float16_t, float16_t ) )
 }
 
 #endif
+
+#ifdef BFLOAT16
+void gen_a_bf16_z_f32( float32_t trueFunction( bfloat16_t ) )
+{
+    union ui16_bf16 uA;
+    union ui32_f32 uTrueZ;
+    uint_fast8_t trueFlags;
+
+    genCases_bf16_a_init();
+    checkEnoughCases();
+    while ( ! genLoops_stop && (! genCases_done || genLoops_forever) ) {
+        genCases_bf16_a_next();
+        uA.f = genCases_bf16_a;
+        writeHex_ui16( uA.ui, ' ' );
+        *genLoops_trueFlagsPtr = 0;
+        uTrueZ.f = trueFunction( genCases_bf16_a );
+        trueFlags = *genLoops_trueFlagsPtr;
+        if ( writeGenOutputs_ui32( uTrueZ.ui, trueFlags ) ) break;
+    }
+
+}
+
+void gen_a_f32_z_bf16( bfloat16_t trueFunction( float32_t ) )
+{
+    union ui32_f32 uA;
+    union ui16_bf16 uTrueZ;
+    uint_fast8_t trueFlags;
+
+    genCases_f32_a_init();
+    checkEnoughCases();
+    while ( ! genLoops_stop && (! genCases_done || genLoops_forever) ) {
+        genCases_f32_a_next();
+        uA.f = genCases_f32_a;
+        writeHex_ui32( uA.ui, ' ' );
+        *genLoops_trueFlagsPtr = 0;
+        uTrueZ.f = trueFunction( genCases_f32_a );
+        trueFlags = *genLoops_trueFlagsPtr;
+        if ( writeGenOutputs_ui16( uTrueZ.ui, trueFlags ) ) break;
+    }
+
+}
+#endif // BFLOAT16
 
 void
  gen_a_f32_z_ui32_rx(

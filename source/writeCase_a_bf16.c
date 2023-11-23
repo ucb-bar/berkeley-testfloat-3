@@ -1,7 +1,7 @@
 
 /*============================================================================
 
-This C header file is part of TestFloat, Release 3e, a package of programs for
+This C source file is part of TestFloat, Release 3e, a package of programs for
 testing the correctness of floating-point arithmetic complying with the IEEE
 Standard for Floating-Point, by John R. Hauser.
 
@@ -35,28 +35,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =============================================================================*/
 
-#include <stdbool.h>
 #include <stdint.h>
-#include "softfloat.h"
+#include <stdio.h>
+#include "platform.h"
+#include "writeHex.h"
+#include "writeCase.h"
 
-void writeHex_bool( bool, char );
-void writeHex_ui8( uint_fast8_t, char );
-void writeHex_ui16( uint_fast16_t, char );
-void writeHex_ui32( uint_fast32_t, char );
-void writeHex_ui64( uint_fast64_t, char );
-#ifdef FLOAT16
-void writeHex_f16( float16_t, char );
-#endif
-void writeHex_bf16( bfloat16_t, char );
-void writeHex_f32( float32_t, char );
-#ifdef FLOAT64
-void writeHex_f64( float64_t, char );
-#endif
-#ifdef EXTFLOAT80
-void writeHex_extF80M( const extFloat80_t *, char );
-#endif
-#ifdef FLOAT128
-void writeHex_f128M( const float128_t *, char );
-#endif
-void writeHex_softfloat_flags( uint_fast8_t, char );
+
+void writeCase_a_bf16( bfloat16_t a )
+{
+
+    writeHex_bf16( a, 0 );
+    fputs( "  ", stdout );
+
+}
+
 

@@ -135,6 +135,11 @@ typedef float16_t funcType_abcz_f16( float16_t, float16_t, float16_t );
 typedef bool funcType_ab_f16_z_bool( float16_t, float16_t );
 #endif
 
+#ifdef BFLOAT16
+typedef float32_t funcType_a_bf16_z_f32( bfloat16_t );
+typedef bfloat16_t funcType_a_f32_z_bf16( float32_t );
+#endif
+
 typedef uint_fast32_t funcType_a_f32_z_ui32( float32_t );
 typedef uint_fast64_t funcType_a_f32_z_ui64( float32_t );
 typedef int_fast32_t funcType_a_f32_z_i32( float32_t );
@@ -810,6 +815,20 @@ void
         );
         break;
 #endif
+        /*--------------------------------------------------------------------
+        *--------------------------------------------------------------------*/
+#ifdef BFLOAT16
+     case BF16_TO_F32:
+        printf("generating bf16_to_f32\n");
+        test_a_bf16_z_f32(
+            bf16_to_f32, (funcType_a_bf16_z_f32 *) subjFunctionPtr );
+        break;
+     case F32_TO_BF16:
+        printf("generating f32_to_bf16\n");
+        test_a_f32_z_bf16(
+            f32_to_bf16, (funcType_a_f32_z_bf16 *) subjFunctionPtr );
+        break;
+#endif // BFLOAT16
         /*--------------------------------------------------------------------
         *--------------------------------------------------------------------*/
      case F32_TO_UI32:
