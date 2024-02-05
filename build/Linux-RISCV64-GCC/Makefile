@@ -58,10 +58,10 @@ DELETE = rm -f
 C_INCLUDES = \
   -I. -I$(SUBJ_SOURCE_DIR) -I$(SOURCE_DIR) -I$(SOFTFLOAT_INCLUDE_DIR)
 COMPILE_C = \
-  $(CC) -march=$(MARCH) -mabi=$(MABI) -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
+  $(CC) -march=$(MARCH) -mabi=$(MABI) -c -frounding-math -fsignaling-nans -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
     $(C_INCLUDES) -O0 -o $@
 COMPILE_SLOWFLOAT_C = \
-  $(CC) -march=$(MARCH) -mabi=$(MABI) -c -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
+  $(CC) -march=$(MARCH) -mabi=$(MABI) -c -frounding-math -fsignaling-nans -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
     $(C_INCLUDES) -O0 -o $@
 MAKELIB = ar crs $@
 LINK = $(CC) -march=$(MARCH) -mabi=$(MABI) -o $@
