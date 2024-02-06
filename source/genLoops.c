@@ -57,7 +57,9 @@ uint_fast8_t *genLoops_trueFlagsPtr;
 #ifdef FLOAT16
 union ui16_f16 { uint16_t ui; float16_t f; };
 #endif
+#ifdef BFLOAT16
 union ui16_bf16 { uint16_t ui; bfloat16_t f; };
+#endif
 union ui32_f32 { uint32_t ui; float32_t f; };
 #ifdef FLOAT64
 union ui64_f64 { uint64_t ui; float64_t f; };

@@ -41,6 +41,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "writeHex.h"
 #include "writeCase.h"
 
+#ifdef BFLOAT16
 
 void writeCase_a_bf16( bfloat16_t a )
 {
@@ -50,4 +51,4 @@ void writeCase_a_bf16( bfloat16_t a )
 
 }
 
-
+# endif

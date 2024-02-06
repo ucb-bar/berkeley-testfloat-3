@@ -47,7 +47,9 @@ void writeHex_ui64( uint_fast64_t, char );
 #ifdef FLOAT16
 void writeHex_f16( float16_t, char );
 #endif
+#ifdef BFLOAT16
 void writeHex_bf16( bfloat16_t, char );
+#endif
 void writeHex_f32( float32_t, char );
 #ifdef FLOAT64
 void writeHex_f64( float64_t, char );

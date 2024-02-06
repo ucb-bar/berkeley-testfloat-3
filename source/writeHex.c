@@ -137,6 +137,7 @@ void writeHex_f16( float16_t a, char sepChar )
 
 #endif
 
+#ifdef BFLOAT16
 void writeHex_bf16( bfloat16_t a, char sepChar )
 {
     union { uint16_t ui; bfloat16_t f; } uA;
@@ -150,6 +151,7 @@ void writeHex_bf16( bfloat16_t a, char sepChar )
     writeHex_ui8( uiA & 0x7F, sepChar );
 
 }
+#endif
 
 void writeHex_f32( float32_t a, char sepChar )
 {
