@@ -37,6 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include "platform.h"
 #include "random.h"
 #include "softfloat.h"
@@ -352,6 +353,8 @@ static bfloat16_t bf16Random( void )
         return bf16RandomQInfP3();
      case 7:
         return bf16RandomQInfPInf();
+     default:
+        abort();
     }
 
 }
