@@ -60,6 +60,24 @@ bool f16_isNaN( float16_t a )
 
 #endif
 
+#ifdef BFLOAT16
+bool bf16_same( bfloat16_t a, bfloat16_t b )
+{
+    union { uint16_t ui; bfloat16_t f; } uA, uB;
+    uA.f = a;
+    uB.f = b;
+    return (uA.ui == uB.ui);
+}
+
+bool bf16_isNaN( bfloat16_t a )
+{
+    union { uint16_t ui; bfloat16_t f; } uA;
+    uA.f = a;
+    return 0x7F80 < (uA.ui & 0x7FFF);
+}
+
+#endif
+
 bool f32_same( float32_t a, float32_t b )
 {
     union { uint32_t ui; float32_t f; } uA, uB;

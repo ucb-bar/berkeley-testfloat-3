@@ -37,10 +37,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include "platform.h"
 #include "random.h"
 #include "softfloat.h"
 #include "genCases.h"
+
+#ifdef BFLOAT16
 
 struct sequence {
     int expNum, term1Num, term2Num;
@@ -350,6 +353,8 @@ static bfloat16_t bf16Random( void )
         return bf16RandomQInfP3();
      case 7:
         return bf16RandomQInfPInf();
+     default:
+        abort();
     }
 
 }
@@ -600,3 +605,4 @@ void genCases_bf16_abc_next( void )
 
 }
 
+#endif

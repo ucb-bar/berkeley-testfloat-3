@@ -37,6 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include "platform.h"
 #include "random.h"
 #include "softfloat.h"
@@ -554,6 +555,8 @@ static float64_t f64Random( void )
         return f64RandomQInfP3();
      case 7:
         return f64RandomQInfPInf();
+     default:
+        abort();
     }
 
 }

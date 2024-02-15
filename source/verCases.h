@@ -187,6 +187,10 @@ INLINE bool f128M_isNaN( const float128_t *aPtr )
 bool f16_same( float16_t, float16_t );
 bool f16_isNaN( float16_t );
 #endif
+#ifdef BFLOAT16
+bool bf16_same( bfloat16_t, bfloat16_t );
+bool bf16_isNaN( bfloat16_t );
+#endif
 bool f32_same( float32_t, float32_t );
 bool f32_isNaN( float32_t );
 #ifdef FLOAT64

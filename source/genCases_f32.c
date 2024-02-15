@@ -37,6 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include "platform.h"
 #include "random.h"
 #include "softfloat.h"
@@ -412,6 +413,8 @@ static float32_t f32Random( void )
         return f32RandomQInfP3();
      case 7:
         return f32RandomQInfPInf();
+     default:
+        abort();
     }
 
 }
