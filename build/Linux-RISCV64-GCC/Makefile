@@ -38,7 +38,7 @@
 SOURCE_DIR ?= ../../source
 SOFTFLOAT_DIR ?= ../../../berkeley-softfloat-3
 PLATFORM ?= Linux-RISCV64-GCC
-CC = riscv64-unknown-linux-gnu-gcc
+CC ?= riscv64-unknown-linux-gnu-gcc
 MARCH ?= rv64g_zfh_zfhmin_zfbfmin0p8
 MABI ?= lp64d
 
@@ -63,7 +63,8 @@ COMPILE_SLOWFLOAT_C = \
   $(CC) -march=$(MARCH) -mabi=$(MABI) -c -frounding-math -fsignaling-nans -Werror-implicit-function-declaration $(TESTFLOAT_OPTS) \
     $(C_INCLUDES) -O0 -o $@
 MAKELIB = ar crs $@
-LINK = $(CC) -march=$(MARCH) -mabi=$(MABI) -o $@
+LINK_FLAGS =
+LINK = $(CC) -march=$(MARCH) -mabi=$(MABI) $(LINK_FLAGS) -o $@
 OTHER_LIBS = -lm
 
 OBJ = .o
