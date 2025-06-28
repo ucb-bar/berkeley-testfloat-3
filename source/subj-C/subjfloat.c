@@ -854,3 +854,136 @@ bool subj_f128M_lt( const float128_t *aPtr, const float128_t *bPtr )
 
 #endif
 
+#if defined(FLOAT16) && defined(FLT16_MIN)
+
+union f16_h { float16_t f16; _Float16 h; };
+
+float16_t subj_f16_add( float16_t a, float16_t b )
+{
+    union f16_h uA, uB, uZ;
+
+    uA.f16 = a;
+    uB.f16 = b;
+    uZ.h = uA.h + uB.h;
+    return uZ.f16;
+
+}
+
+float16_t subj_f16_sub( float16_t a, float16_t b )
+{
+    union f16_h uA, uB, uZ;
+
+    uA.f16 = a;
+    uB.f16 = b;
+    uZ.h = uA.h - uB.h;
+    return uZ.f16;
+
+}
+
+float16_t subj_f16_mul( float16_t a, float16_t b )
+{
+    union f16_h uA, uB, uZ;
+
+    uA.f16 = a;
+    uB.f16 = b;
+    uZ.h = uA.h * uB.h;
+    return uZ.f16;
+
+}
+
+float16_t subj_f16_div( float16_t a, float16_t b )
+{
+    union f16_h uA, uB, uZ;
+
+    uA.f16 = a;
+    uB.f16 = b;
+    uZ.h = uA.h / uB.h;
+    return uZ.f16;
+
+}
+
+float32_t subj_f16_to_f32( float16_t a )
+{
+    union f16_h uA;
+    union f32_f uZ;
+
+    uA.f16 = a;
+    uZ.f = uA.h;
+    return uZ.f32;
+
+}   
+
+float16_t subj_f32_to_f16( float32_t a )
+{
+    union f32_f uA;
+    union f16_h uZ;
+
+    uA.f32 = a;
+    uZ.h = uA.f;
+    return uZ.f16;
+
+}   
+
+float16_t subj_f64_to_f16( float64_t a )
+{
+    union f64_d uA;
+    union f16_h uZ;
+
+    uA.f64 = a;
+    uZ.h = uA.d;
+    return uZ.f16;
+
+}   
+
+float64_t subj_f16_to_f64( float16_t a )
+{
+    union f16_h uA;
+    union f64_d uZ;
+
+    uA.f16 = a;
+    uZ.d = uA.h;
+    return uZ.f64;
+
+}
+
+uint_fast32_t subj_f16_to_ui32_rx_minMag( float16_t a )
+{
+    union f16_h uA;
+
+    uA.f16 = a;
+    return (uint32_t) uA.h;
+
+}
+
+bool subj_f16_eq( float16_t a, float16_t b )
+{
+    union f16_h uA, uB;
+
+    uA.f16 = a;
+    uB.f16 = b;
+    return (uA.h == uB.h);
+
+}
+
+bool subj_f16_le( float16_t a, float16_t b )
+{
+    union f16_h uA, uB;
+
+    uA.f16 = a;
+    uB.f16 = b;
+    return (uA.h <= uB.h);
+
+}
+
+bool subj_f16_lt( float16_t a, float16_t b )
+{
+    union f16_h uA, uB;
+
+    uA.f16 = a;
+    uB.f16 = b;
+    return (uA.h < uB.h);
+
+}
+
+#endif // defined(FLOAT16) && defined(FLT16_MIN)
+
