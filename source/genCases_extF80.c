@@ -46,6 +46,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 struct sequence {
     int expNum, term1Num, term2Num;
+    int jBitNum;
     bool done;
 };
 
@@ -414,8 +415,24 @@ static const uint64_t extF80P2[extF80NumP2] = {
     UINT64_C( 0x0000000000000003 )
 };
 
-static const uint_fast32_t extF80NumQInP1 = extF80NumQIn * extF80NumP1;
-static const uint_fast32_t extF80NumQOutP1 = extF80NumQOut * extF80NumP1;
+/*----------------------------------------------------------------------------
+| When jBitNum is 0, produce canonical encodings: J=1 for non-zero exponent.
+| When jBitNum is 1, produce non-canonical encodings: J=0 for non-zero
+| exponent (unnormals/pseudo-NaNs), J=1 for zero exponent (pseudo-denormals).
+*----------------------------------------------------------------------------*/
+static uint_fast64_t
+ extF80ApplyJBit( uint_fast16_t uiZ64, uint_fast64_t uiZ0, int jBitNum )
+{
+    if ( jBitNum == 0 ) {
+        if ( uiZ64 & 0x7FFF ) uiZ0 |= UINT64_C( 0x8000000000000000 );
+    } else {
+        if ( ! (uiZ64 & 0x7FFF) ) uiZ0 |= UINT64_C( 0x8000000000000000 );
+    }
+    return uiZ0;
+}
+
+static const uint_fast32_t extF80NumQInP1  = 2 * extF80NumQIn  * extF80NumP1;
+static const uint_fast32_t extF80NumQOutP1 = 2 * extF80NumQOut * extF80NumP1;
 
 static void extF80NextQInP1( struct sequence *sequencePtr, extFloat80_t *zPtr )
 {
@@ -429,7 +446,7 @@ static void extF80NextQInP1( struct sequence *sequencePtr, extFloat80_t *zPtr )
     sigNum = sequencePtr->term1Num;
     uiZ64 = extF80QIn[expNum];
     uiZ0  = extF80P1[sigNum];
-    if ( uiZ64 & 0x7FFF ) uiZ0 |= UINT64_C( 0x8000000000000000 );
+    uiZ0 = extF80ApplyJBit( uiZ64, uiZ0, sequencePtr->jBitNum );
     zSPtr->signExp = uiZ64;
     zSPtr->signif  = uiZ0;
     ++sigNum;
@@ -438,7 +455,11 @@ static void extF80NextQInP1( struct sequence *sequencePtr, extFloat80_t *zPtr )
         ++expNum;
         if ( extF80NumQIn <= expNum ) {
             expNum = 0;
-            sequencePtr->done = true;
+            ++sequencePtr->jBitNum;
+            if ( 2 <= sequencePtr->jBitNum ) {
+                sequencePtr->jBitNum = 0;
+                sequencePtr->done = true;
+            }
         }
         sequencePtr->expNum = expNum;
     }
@@ -459,7 +480,7 @@ static
     sigNum = sequencePtr->term1Num;
     uiZ64 = extF80QOut[expNum];
     uiZ0  = extF80P1[sigNum];
-    if ( uiZ64 & 0x7FFF ) uiZ0 |= UINT64_C( 0x8000000000000000 );
+    uiZ0 = extF80ApplyJBit( uiZ64, uiZ0, sequencePtr->jBitNum );
     zSPtr->signExp = uiZ64;
     zSPtr->signif  = uiZ0;
     ++sigNum;
@@ -468,7 +489,11 @@ static
         ++expNum;
         if ( extF80NumQOut <= expNum ) {
             expNum = 0;
-            sequencePtr->done = true;
+            ++sequencePtr->jBitNum;
+            if ( 2 <= sequencePtr->jBitNum ) {
+                sequencePtr->jBitNum = 0;
+                sequencePtr->done = true;
+            }
         }
         sequencePtr->expNum = expNum;
     }
@@ -476,8 +501,8 @@ static
 
 }
 
-static const uint_fast32_t extF80NumQInP2 = extF80NumQIn * extF80NumP2;
-static const uint_fast32_t extF80NumQOutP2 = extF80NumQOut * extF80NumP2;
+static const uint_fast32_t extF80NumQInP2  = 2 * extF80NumQIn  * extF80NumP2;
+static const uint_fast32_t extF80NumQOutP2 = 2 * extF80NumQOut * extF80NumP2;
 
 static void extF80NextQInP2( struct sequence *sequencePtr, extFloat80_t *zPtr )
 {
@@ -491,7 +516,7 @@ static void extF80NextQInP2( struct sequence *sequencePtr, extFloat80_t *zPtr )
     sigNum = sequencePtr->term1Num;
     uiZ64 = extF80QIn[expNum];
     uiZ0  = extF80P2[sigNum];
-    if ( uiZ64 & 0x7FFF ) uiZ0 |= UINT64_C( 0x8000000000000000 );
+    uiZ0 = extF80ApplyJBit( uiZ64, uiZ0, sequencePtr->jBitNum );
     zSPtr->signExp = uiZ64;
     zSPtr->signif  = uiZ0;
     ++sigNum;
@@ -500,7 +525,11 @@ static void extF80NextQInP2( struct sequence *sequencePtr, extFloat80_t *zPtr )
         ++expNum;
         if ( extF80NumQIn <= expNum ) {
             expNum = 0;
-            sequencePtr->done = true;
+            ++sequencePtr->jBitNum;
+            if ( 2 <= sequencePtr->jBitNum ) {
+                sequencePtr->jBitNum = 0;
+                sequencePtr->done = true;
+            }
         }
         sequencePtr->expNum = expNum;
     }
@@ -521,7 +550,7 @@ static
     sigNum = sequencePtr->term1Num;
     uiZ64 = extF80QOut[expNum];
     uiZ0  = extF80P2[sigNum];
-    if ( uiZ64 & 0x7FFF ) uiZ0 |= UINT64_C( 0x8000000000000000 );
+    uiZ0 = extF80ApplyJBit( uiZ64, uiZ0, sequencePtr->jBitNum );
     zSPtr->signExp = uiZ64;
     zSPtr->signif  = uiZ0;
     ++sigNum;
@@ -530,7 +559,11 @@ static
         ++expNum;
         if ( extF80NumQOut <= expNum ) {
             expNum = 0;
-            sequencePtr->done = true;
+            ++sequencePtr->jBitNum;
+            if ( 2 <= sequencePtr->jBitNum ) {
+                sequencePtr->jBitNum = 0;
+                sequencePtr->done = true;
+            }
         }
         sequencePtr->expNum = expNum;
     }
@@ -547,10 +580,8 @@ static void extF80RandomQOutP3( extFloat80_t *zPtr )
     zSPtr = (struct extFloat80M *) zPtr;
     uiZ64 = extF80QOut[randomN_ui8( extF80NumQOut )];
     uiZ0 =
-        (extF80P2[randomN_ui8( extF80NumP2 )]
-             + extF80P2[randomN_ui8( extF80NumP2 )])
-            & UINT64_C( 0x7FFFFFFFFFFFFFFF );
-    if ( uiZ64 & 0x7FFF ) uiZ0 |= UINT64_C( 0x8000000000000000 );
+        extF80P2[randomN_ui8( extF80NumP2 )]
+            + extF80P2[randomN_ui8( extF80NumP2 )];
     zSPtr->signExp = uiZ64;
     zSPtr->signif  = uiZ0;
 
@@ -564,8 +595,7 @@ static void extF80RandomQOutPInf( extFloat80_t *zPtr )
 
     zSPtr = (struct extFloat80M *) zPtr;
     uiZ64 = extF80QOut[randomN_ui8( extF80NumQOut )];
-    uiZ0 = random_ui64() & UINT64_C( 0x7FFFFFFFFFFFFFFF );
-    if ( uiZ64 & 0x7FFF ) uiZ0 |= UINT64_C( 0x8000000000000000 );
+    uiZ0 = random_ui64();
     zSPtr->signExp = uiZ64;
     zSPtr->signif  = uiZ0;
 
@@ -618,10 +648,8 @@ static void extF80RandomQInfP3( extFloat80_t *zPtr )
         (random_ui16() & extF80QInfWeightMasks[weightMaskNum])
             + extF80QInfWeightOffsets[weightMaskNum];
     uiZ0 =
-        (extF80P2[randomN_ui8( extF80NumP2 )]
-             + extF80P2[randomN_ui8( extF80NumP2 )])
-            & UINT64_C( 0x7FFFFFFFFFFFFFFF );
-    if ( uiZ64 & 0x7FFF ) uiZ0 |= UINT64_C( 0x8000000000000000 );
+        extF80P2[randomN_ui8( extF80NumP2 )]
+            + extF80P2[randomN_ui8( extF80NumP2 )];
     zSPtr->signExp = uiZ64;
     zSPtr->signif  = uiZ0;
 
@@ -639,8 +667,7 @@ static void extF80RandomQInfPInf( extFloat80_t *zPtr )
     uiZ64 =
         (random_ui16() & extF80QInfWeightMasks[weightMaskNum])
             + extF80QInfWeightOffsets[weightMaskNum];
-    uiZ0 = random_ui64() & UINT64_C( 0x7FFFFFFFFFFFFFFF );
-    if ( uiZ64 & 0x7FFF ) uiZ0 |= UINT64_C( 0x8000000000000000 );
+    uiZ0 = random_ui64();
     zSPtr->signExp = uiZ64;
     zSPtr->signif  = uiZ0;
 
@@ -682,6 +709,7 @@ void genCases_extF80_a_init( void )
     sequenceA.expNum = 0;
     sequenceA.term1Num = 0;
     sequenceA.term2Num = 0;
+    sequenceA.jBitNum = 0;
     sequenceA.done = false;
     subcase = 0;
     genCases_total =
@@ -727,10 +755,12 @@ void genCases_extF80_ab_init( void )
     sequenceA.expNum = 0;
     sequenceA.term1Num = 0;
     sequenceA.term2Num = 0;
+    sequenceA.jBitNum = 0;
     sequenceA.done = false;
     sequenceB.expNum = 0;
     sequenceB.term1Num = 0;
     sequenceB.term2Num = 0;
+    sequenceB.jBitNum = 0;
     sequenceB.done = false;
     subcase = 0;
     if ( genCases_level == 1 ) {
@@ -803,14 +833,17 @@ void genCases_extF80_abc_init( void )
     sequenceA.expNum = 0;
     sequenceA.term1Num = 0;
     sequenceA.term2Num = 0;
+    sequenceA.jBitNum = 0;
     sequenceA.done = false;
     sequenceB.expNum = 0;
     sequenceB.term1Num = 0;
     sequenceB.term2Num = 0;
+    sequenceB.jBitNum = 0;
     sequenceB.done = false;
     sequenceC.expNum = 0;
     sequenceC.term1Num = 0;
     sequenceC.term2Num = 0;
+    sequenceC.jBitNum = 0;
     sequenceC.done = false;
     subcase = 0;
     if ( genCases_level == 1 ) {
